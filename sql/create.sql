@@ -58,18 +58,18 @@ CREATE TABLE medalha(
   imagem TEXT UNIQUE NOT NULL
 );
 
-CREATE TABLE notificacao(
-  id SERIAL PRIMARY KEY,
-  texto TEXT NOT NULL,
-  data TIMESTAMP WITH TIME ZONE NOT NULL CONSTRAINT data_notificao_ck CHECK (data <= now()),
-  interacao INTEGER REFERENCES interacao_utilizador(id) ON UPDATE CASCADE
-);
-
 CREATE TABLE interacao_utilizador(
   id SERIAL PRIMARY KEY,
   texto TEXT UNIQUE NOT NULL,
   data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CONSTRAINT data_interacao_ck CHECK (data_publicacao <= now()),
   autor INTEGER REFERENCES utilizador_ativo(id) ON UPDATE CASCADE
+);
+
+CREATE TABLE notificacao(
+  id SERIAL PRIMARY KEY,
+  texto TEXT NOT NULL,
+  data TIMESTAMP WITH TIME ZONE NOT NULL CONSTRAINT data_notificao_ck CHECK (data <= now()),
+  interacao INTEGER REFERENCES interacao_utilizador(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE historico_interacao(
