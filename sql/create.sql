@@ -12,7 +12,6 @@ DROP TABLE IF EXISTS resposta CASCADE;
 DROP TABLE IF EXISTS comentario CASCADE;
 DROP TABLE IF EXISTS questao CASCADE;
 DROP TABLE IF EXISTS utilizador_ativo_notificacao CASCADE;
-DROP TABLE IF EXISTS utilizador_ativo_interacao_utilizador CASCADE;
 DROP TABLE IF EXISTS utilizador_ativo_medalha CASCADE;
 DROP TABLE IF EXISTS questao_seguida CASCADE;
 DROP TABLE IF EXISTS questao_avaliada CASCADE;
@@ -62,13 +61,15 @@ CREATE TABLE medalha(
 CREATE TABLE notificacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
-  data TIMESTAMP WITH TIME ZONE NOT NULL CONSTRAINT data_notificao_ck CHECK (data <= now())
+  data TIMESTAMP WITH TIME ZONE NOT NULL CONSTRAINT data_notificao_ck CHECK (data <= now()),
+  interacao INTEGER REFERENCES interacao_utilizador(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE interacao_utilizador(
   id SERIAL PRIMARY KEY,
   texto TEXT UNIQUE NOT NULL,
-  data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CONSTRAINT data_interacao_ck CHECK (data_publicacao <= now())
+  data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CONSTRAINT data_interacao_ck CHECK (data_publicacao <= now()),
+  autor INTEGER REFERENCES utilizador_ativo(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE historico_interacao(
@@ -99,12 +100,6 @@ CREATE TABLE utilizador_ativo_notificacao(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE,
   id_notificacao INTEGER NOT NULL REFERENCES notificacao(id) ON UPDATE CASCADE,
   PRIMARY KEY (id_utilizador, id_notificacao)
-);
-
-CREATE TABLE utilizador_ativo_interacao_utilizador(
-  id_interacao INTEGER NOT NULL REFERENCES interacao_utilizador(id) ON UPDATE CASCADE,
-  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE,
-  PRIMARY KEY (id_utilizador, id_interacao)
 );
 
 CREATE TABLE utilizador_ativo_medalha(
