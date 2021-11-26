@@ -90,7 +90,7 @@ CREATE TABLE comentario(
   id_interacao INTEGER UNIQUE NOT NULL REFERENCES interacao_utilizador(id) ON UPDATE CASCADE
 );
 
-CREATE TABLE questao(
+CREATE TABLE questao (
   id SERIAL PRIMARY KEY,
   id_interacao INTEGER UNIQUE NOT NULL REFERENCES interacao_utilizador(id) ON UPDATE CASCADE,
   titulo TEXT NOT NULL
