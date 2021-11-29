@@ -109,7 +109,7 @@ CREATE TABLE historico_interacao(
 CREATE TABLE utilizador_ativo_notificacao(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE,
   id_notificacao INTEGER NOT NULL REFERENCES notificacao(id) ON UPDATE CASCADE,
-  dataLida TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
+  data_lida TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
   PRIMARY KEY (id_utilizador, id_notificacao)
 );
 
@@ -157,6 +157,9 @@ CREATE TABLE questao_etiqueta(
 DROP INDEX IF EXISTS pesquisa_questao;
 DROP INDEX IF EXISTS auto_interacao_comentario;
 
+/*
+  TRIGGER QUE IMPEDE O AUTOR DE UMA RESPOSTA DE INTERAGIR COM A MESMA
+*/
 
 CREATE OR REPLACE FUNCTION auto_interacao_resposta() RETURNS TRIGGER AS
 $BODY$
@@ -226,3 +229,7 @@ CREATE TRIGGER pesquisa_questao
     EXECUTE PROCEDURE atualiza_tsvector_conteudo_questao();
 
 CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
+
+/*
+  TRIGGER QUE NOTIFICA TODOS OS UTILIZADORES QUANDO UMA NOTIFICAÇÃO É CRIADA
+*/
