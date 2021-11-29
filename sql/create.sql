@@ -148,15 +148,36 @@ CREATE TABLE questao_etiqueta(
   PRIMARY KEY (id_questao, id_etiqueta)
 );
 
+
 /*
 
-  TRIGGERS START HERE
+  VISTAS COMECAM AQUI
 
 */
 
-DROP INDEX IF EXISTS pesquisa_questao;
+DROP MATERIALIZED VIEW IF EXISTS gosto_questoes;
+DROP MATERIALIZED VIEW IF EXISTS gosto_respostas;
+
+CREATE MATERIALIZED VIEW gosto_questoes AS
+  SELECT id_questao, COUNT(*) AS n_gosto
+  FROM questao_avaliada
+  GROUP BY id_questao;
+
+CREATE MATERIALIZED VIEW gosto_respostas AS
+  SELECT id_resposta, COUNT(*) AS n_gosto
+  FROM resposta_avaliada
+  GROUP BY id_resposta;
+
+/*
+
+  TRIGGERS COMECAM AQUI
+
+*/
+
 DROP TRIGGER IF EXISTS auto_interacao_comentario ON comentario;
 DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
+DROP TRIGGER IF EXISTS atualiza_vista_gosto_questoes ON questao_avaliada;
+DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta_avaliada;
 
 /*
   TRIGGER QUE IMPEDE O AUTOR DE UMA RESPOSTA DE INTERAGIR COM A MESMA
@@ -229,8 +250,6 @@ CREATE TRIGGER pesquisa_questao
     FOR EACH ROW
     EXECUTE PROCEDURE atualiza_tsvector_conteudo_questao();
 
-CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
-
 /*
   TRIGGER QUE NOTIFICA TODOS OS UTILIZADORES QUANDO UMA NOTIFICAÇÃO É CRIADA
 */
@@ -249,3 +268,48 @@ CREATE TRIGGER notifica_utilizador
     FOR EACH ROW
     WHEN (NEW.id_questao IS NOT NULL)
     EXECUTE PROCEDURE atualiza_lista_notificacoes();
+
+/*
+  TRIGGER PARA ATUALIZAR VIEW MATERIALIZADA DOS LIKES EM QUESTOES
+*/
+
+CREATE OR REPLACE FUNCTION atualiza_vista_gosto_questoes() RETURNS TRIGGER AS $$
+BEGIN
+  REFRESH MATERIALIZED VIEW gosto_questoes;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER atualiza_vista_gosto_questoes
+  AFTER INSERT ON questao_avaliada
+  FOR EACH STATEMENT
+  EXECUTE PROCEDURE atualiza_vista_gosto_questoes();
+
+/*
+  TRIGGER PARA ATUALIZAR VIEW MATERIALIZADA DOS LIKES EM RESPOSTAS
+*/
+
+CREATE OR REPLACE FUNCTION atualiza_vista_gosto_respostas() RETURNS TRIGGER AS $$
+BEGIN
+  REFRESH MATERIALIZED VIEW gosto_respostas;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER atualiza_vista_gosto_respostas
+  AFTER INSERT ON resposta_avaliada
+  FOR EACH STATEMENT
+  EXECUTE PROCEDURE atualiza_vista_gosto_respostas();
+
+/*
+
+  Indices comecam aqui
+
+*/
+
+DROP INDEX IF EXISTS pesquisa_questao;
+DROP INDEX IF EXISTS numero_gosto_questoes;
+DROP INDEX IF EXISTS numero_gosto_respostas;
+
+CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
+CREATE INDEX numero_gosto_questao ON gosto_questoes USING BTREE (n_gosto);
+CREATE INDEX numero_gosto_resposta ON gosto_respostas USING BTREE (n_gosto);
+
