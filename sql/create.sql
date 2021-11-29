@@ -155,7 +155,8 @@ CREATE TABLE questao_etiqueta(
 */
 
 DROP INDEX IF EXISTS pesquisa_questao;
-DROP INDEX IF EXISTS auto_interacao_comentario;
+DROP TRIGGER IF EXISTS auto_interacao_comentario ON comentario;
+DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
 
 /*
   TRIGGER QUE IMPEDE O AUTOR DE UMA RESPOSTA DE INTERAGIR COM A MESMA
@@ -177,7 +178,7 @@ CREATE TRIGGER auto_interacao_resposta
   EXECUTE PROCEDURE auto_interacao_resposta();
 
 
-CREATE FUNCTION auto_interacao_comentario() RETURNS TRIGGER AS
+CREATE OR REPLACE FUNCTION auto_interacao_comentario() RETURNS TRIGGER AS
 $BODY$
 BEGIN
   IF EXISTS(SELECT * FROM questao WHERE NEW.id_questao = id_questao AND NEW.autor = autor) THEN
@@ -212,7 +213,7 @@ BEGIN
         );
     END IF;
     IF TG_OP = 'UPDATE' THEN
-        IF (NEW.titulo <> OLD.titulo OR NEW.titulo <> NEW.texto) THEN
+        IF (NEW.titulo <> OLD.titulo OR NEW.texto <> OLD.texto) THEN
             NEW.tsvectors = (
                 setweight(to_tsvector('portuguese', NEW.titulo), 'A'),
                 setweight(to_tsvector('portuguese', NEW.texto), 'B')
@@ -233,3 +234,18 @@ CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
 /*
   TRIGGER QUE NOTIFICA TODOS OS UTILIZADORES QUANDO UMA NOTIFICAÇÃO É CRIADA
 */
+
+CREATE OR REPLACE FUNCTION atualiza_lista_notificacoes() RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO utilizador_ativo_notificacao (id_utilizador, id_notificacao)
+  SELECT questao_seguida.id_utilizador, NEW.id_questao
+  FROM questao_seguida
+  WHERE questao_seguida.id_questao = NEW.id_questao;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER notifica_utilizador
+    AFTER INSERT ON notificacao
+    FOR EACH ROW
+    WHEN (NEW.id_questao IS NOT NULL)
+    EXECUTE PROCEDURE atualiza_lista_notificacoes();
