@@ -178,6 +178,10 @@ DROP TRIGGER IF EXISTS auto_interacao_comentario ON comentario;
 DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_questoes ON questao_avaliada;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta_avaliada;
+DROP TRIGGER IF EXISTS verifica_data_resposta ON resposta;
+DROP TRIGGER IF EXISTS verifica_data_comentario_resposta ON comentario;
+DROP TRIGGER IF EXISTS verifica_data_comentario_questao ON comentario;
+
 
 /*
   TRIGGER QUE IMPEDE O AUTOR DE UMA RESPOSTA DE INTERAGIR COM A MESMA
@@ -260,6 +264,8 @@ BEGIN
   SELECT questao_seguida.id_utilizador, NEW.id_questao
   FROM questao_seguida
   WHERE questao_seguida.id_questao = NEW.id_questao;
+
+  RETURN NEW;
 END $$
 LANGUAGE plpgsql;
 
@@ -276,6 +282,7 @@ CREATE TRIGGER notifica_utilizador
 CREATE OR REPLACE FUNCTION atualiza_vista_gosto_questoes() RETURNS TRIGGER AS $$
 BEGIN
   REFRESH MATERIALIZED VIEW gosto_questoes;
+  RETURN NULL;
 END $$
 LANGUAGE plpgsql;
 
@@ -291,6 +298,7 @@ CREATE TRIGGER atualiza_vista_gosto_questoes
 CREATE OR REPLACE FUNCTION atualiza_vista_gosto_respostas() RETURNS TRIGGER AS $$
 BEGIN
   REFRESH MATERIALIZED VIEW gosto_respostas;
+  RETURN NULL;
 END $$
 LANGUAGE plpgsql;
 
@@ -298,6 +306,86 @@ CREATE TRIGGER atualiza_vista_gosto_respostas
   AFTER INSERT ON resposta_avaliada
   FOR EACH STATEMENT
   EXECUTE PROCEDURE atualiza_vista_gosto_respostas();
+
+/*
+  TRIGGER PARA VERIFICAR SE A RESPOSTA É MAIS RECENTE QUE A PERGUNTA
+*/
+
+CREATE OR REPLACE FUNCTION verifica_data_resposta() RETURNS TRIGGER AS $$
+DECLARE
+  data_questao TIMESTAMP;
+BEGIN
+  SELECT data_publicacao INTO data_questao
+  FROM questao
+  WHERE NEW.id_questao = questao.id;
+
+  IF data_questao > NEW.data_publicacao THEN
+    RAISE EXCEPTION 'erro_data_reposta -> %', NEW.data_publicacao
+      USING HINT = "Data de publicacao da resposta mais antiga que a da pergunta";
+    RETURN NULL;
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER verifica_data_resposta
+  BEFORE INSERT ON resposta
+  FOR EACH ROW
+  EXECUTE PROCEDURE verifica_data_resposta();
+
+/*
+  TRIGGER PARA VERIFICAR SE O COMENTARIO É MAIS RECENTE QUE A RESPOSTA
+*/
+
+CREATE OR REPLACE FUNCTION verifica_data_comentario_resposta() RETURNS TRIGGER AS $$
+DECLARE
+  data_resposta TIMESTAMP;
+BEGIN
+  SELECT data_publicacao INTO data_resposta
+  FROM resposta
+  WHERE NEW.id_resposta = resposta.id;
+
+  IF data_questao > NEW.data_publicacao THEN
+    RAISE EXCEPTION 'erro_data_reposta -> %', NEW.data_publicacao
+      USING HINT = "Data de publicacao do comentario mais antigo que o da resposta";
+    RETURN NULL;
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER verifica_data_comentario_resposta
+  BEFORE INSERT ON comentario
+  FOR EACH ROW
+  WHEN (NEW.id_resposta IS NOT NULL)
+  EXECUTE PROCEDURE verifica_data_comentario_resposta();
+
+/*
+  TRIGGER PARA VERIFICAR SE O COMENTARIO É MAIS RECENTE QUE A QUESTAO
+*/
+
+CREATE OR REPLACE FUNCTION verifica_data_comentario_questao() RETURNS TRIGGER AS $$
+DECLARE
+  data_questao TIMESTAMP;
+BEGIN
+  SELECT data_publicacao INTO data_questao
+  FROM questao
+  WHERE NEW.id_questao = questao.id;
+
+  IF data_questao > NEW.data_publicacao THEN
+    RAISE EXCEPTION 'erro_data_reposta -> %', NEW.data_publicacao
+      USING HINT = "Data de publicacao do comentario mais antigo que o da questao";
+    RETURN NULL;
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER verifica_data_comentario_questao
+  BEFORE INSERT ON comentario
+  FOR EACH ROW
+  WHEN (NEW.id_questao IS NOT NULL)
+  EXECUTE PROCEDURE verifica_data_comentario_questao();
 
 /*
 
@@ -312,4 +400,3 @@ DROP INDEX IF EXISTS numero_gosto_respostas;
 CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
 CREATE INDEX numero_gosto_questao ON gosto_questoes USING BTREE (n_gosto);
 CREATE INDEX numero_gosto_resposta ON gosto_respostas USING BTREE (n_gosto);
-
