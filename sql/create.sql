@@ -233,14 +233,14 @@ CREATE OR REPLACE FUNCTION atualiza_tsvector_conteudo_questao() RETURNS TRIGGER 
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.tsvectors = (
-            setweight(to_tsvector('portuguese', NEW.titulo), 'A'),
+            setweight(to_tsvector('portuguese', NEW.titulo), 'A') || 
             setweight(to_tsvector('portuguese', NEW.texto), 'B')
         );
     END IF;
     IF TG_OP = 'UPDATE' THEN
         IF (NEW.titulo <> OLD.titulo OR NEW.texto <> OLD.texto) THEN
             NEW.tsvectors = (
-                setweight(to_tsvector('portuguese', NEW.titulo), 'A'),
+                setweight(to_tsvector('portuguese', NEW.titulo), 'A') ||
                 setweight(to_tsvector('portuguese', NEW.texto), 'B')
             );
         END IF;
