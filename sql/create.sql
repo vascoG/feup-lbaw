@@ -174,6 +174,7 @@ CREATE MATERIALIZED VIEW gosto_respostas AS
 
 */
 
+DROP TRIGGER IF EXISTS auto_interacao_resposta ON resposta;
 DROP TRIGGER IF EXISTS auto_interacao_comentario ON comentario;
 DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_questoes ON questao_avaliada;
@@ -181,6 +182,7 @@ DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta_avaliada;
 DROP TRIGGER IF EXISTS verifica_data_resposta ON resposta;
 DROP TRIGGER IF EXISTS verifica_data_comentario_resposta ON comentario;
 DROP TRIGGER IF EXISTS verifica_data_comentario_questao ON comentario;
+DROP TRIGGER IF EXISTS apenas_um_tipo_historico ON historico_interacao;
 
 
 /*
@@ -190,9 +192,11 @@ DROP TRIGGER IF EXISTS verifica_data_comentario_questao ON comentario;
 CREATE OR REPLACE FUNCTION auto_interacao_resposta() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-  IF EXISTS(SELECT * FROM questao WHERE NEW.id_questao = id_questao AND NEW.autor = autor) THEN
-  RAISE EXCEPTION 'O utilizador não pode responder à própria questão!';
+  IF EXISTS(SELECT * FROM questao WHERE NEW.id_questao = id AND NEW.autor = autor) THEN
+    RAISE EXCEPTION 'O utilizador não pode responder à própria questão!';
+    RETURN NULL;
   END IF;
+  RETURN NEW;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -206,12 +210,15 @@ CREATE TRIGGER auto_interacao_resposta
 CREATE OR REPLACE FUNCTION auto_interacao_comentario() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-  IF EXISTS(SELECT * FROM questao WHERE NEW.id_questao = id_questao AND NEW.autor = autor) THEN
-  RAISE EXCEPTION 'O utilizador não pode comentar à própria questão!';
+  IF EXISTS(SELECT * FROM questao WHERE NEW.id_questao = id AND NEW.autor = autor) THEN
+    RAISE EXCEPTION 'O utilizador não pode comentar a própria questão!';
+    RETURN NULL;
   END IF;
-  IF EXISTS(SELECT * FROM resposta WHERE NEW.id_resposta = id_resposta AND NEW.autor = autor) THEN
-  RAISE EXCEPTION 'O utilizador não pode comentar à própria responder!';
+  IF EXISTS(SELECT * FROM resposta WHERE NEW.id_resposta = id AND NEW.autor = autor) THEN
+    RAISE EXCEPTION 'O utilizador não pode comentar a própria resposta!';
+    RETURN NULL;
   END IF;
+  RETURN NEW;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -386,6 +393,21 @@ CREATE TRIGGER verifica_data_comentario_questao
   FOR EACH ROW
   WHEN (NEW.id_questao IS NOT NULL)
   EXECUTE PROCEDURE verifica_data_comentario_questao();
+
+CREATE OR REPLACE FUNCTION apenas_um_tipo_historico() RETURNS TRIGGER AS $$
+BEGIN
+  IF (NEW.id_questao IS NOT NULL AND (NEW.id_resposta IS NOT NULL OR NEW.id_comentario IS NOT NULL)) OR (NEW.id_resposta IS NOT NULL AND (NEW.id_questao IS NOT NULL OR NEW.id_comentario IS NOT NULL)) OR (NEW.id_comentario IS NOT NULL AND (NEW.id_questao IS NOT NULL OR NEW.id_resposta IS NOT NULL)) THEN
+    RAISE EXCEPTION 'Erro input historico'
+      USING HINT = "Histórico de input possui multiplas referências";
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER apenas_um_tipo_historico
+  BEFORE INSERT ON historico_interacao
+  FOR EACH ROW
+  EXECUTE PROCEDURE apenas_um_tipo_historico();
 
 /*
 
