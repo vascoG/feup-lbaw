@@ -44,4 +44,3 @@ INSERT INTO questao_avaliada(id_utilizador,id_questao)
 VALUES (generate_series(1,1000),random()*999+1);
 INSERT INTO resposta_avaliada(id_utilizador,id_resposta)
 VALUES (generate_series(1,1000),random()*999+1);
-

@@ -52,7 +52,8 @@ CREATE TABLE utilizador_banido(
 
 CREATE TABLE apelo_desbloqueio(
   id SERIAL PRIMARY KEY,
-  motivo TEXT NOT NULL
+  motivo TEXT NOT NULL,
+  id_utilizador INTEGER NOT NULL REFERENCES utilizador_banido(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE medalha(
@@ -208,6 +209,7 @@ DROP TRIGGER IF EXISTS valor_questao_atualiza ON questao;
 DROP TRIGGER IF EXISTS valor_resposta_atualiza ON resposta;
 DROP TRIGGER IF EXISTS valor_comentario_atualiza ON comentario;
 DROP TRIGGER IF EXISTS atualiza_historicos ON historico_interacao;
+DROP TRIGGER IF EXISTS verifica_nr_apelos ON apelo_desbloqueio;
 
 /*
   TRIGGER QUE IMPEDE O AUTOR DE UMA RESPOSTA DE INTERAGIR COM A MESMA
@@ -512,7 +514,7 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER valor_comentario_atualiza
   BEFORE UPDATE ON comentario
-  FOR EACH ROW
+  FOR EACH STATEMENT
   EXECUTE PROCEDURE valor_comentario_atualiza();
 
 CREATE OR REPLACE FUNCTION atualiza_historicos() RETURNS TRIGGER AS $$
@@ -527,6 +529,27 @@ CREATE TRIGGER atualiza_historicos
   AFTER INSERT OR UPDATE ON historico_interacao
   FOR EACH ROW
   EXECUTE PROCEDURE atualiza_historicos();
+
+CREATE OR REPLACE FUNCTION verifica_nr_apelos() RETURNS TRIGGER AS $$
+DECLARE
+  nr_apelo INTEGER;
+BEGIN
+  SELECT count(*) INTO nr_apelo
+  FROM apelo_desbloqueio
+  WHERE id_utilizador = NEW.id_utilizador
+  GROUP BY id_utilizador;
+  IF nr_apelo + 1 > 3 THEN
+    RAISE EXCEPTION 'Mais apelos que permitido';
+    RETURN NULL;
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER verifica_nr_apelos
+  BEFORE INSERT ON apelo_desbloqueio
+  FOR EACH ROW
+  EXECUTE PROCEDURE verifica_nr_apelos();
 
 /*
 
