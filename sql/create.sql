@@ -42,12 +42,12 @@ CREATE TABLE utilizador(
 
 CREATE TABLE utilizador_ativo(
   id SERIAL PRIMARY KEY,
-  id_utilizador INTEGER UNIQUE NOT NULL REFERENCES utilizador(id) ON UPDATE CASCADE
+  id_utilizador INTEGER UNIQUE NOT NULL REFERENCES utilizador(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE utilizador_banido(
   id SERIAL PRIMARY KEY,
-  id_utilizador INTEGER UNIQUE NOT NULL REFERENCES utilizador(id) ON UPDATE CASCADE
+  id_utilizador INTEGER UNIQUE NOT NULL REFERENCES utilizador(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE apelo_desbloqueio(
@@ -65,7 +65,7 @@ CREATE TABLE questao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
   data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
-  autor INTEGER REFERENCES utilizador_ativo(id),
+  autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
   titulo TEXT NOT NULL
 );
 
@@ -73,7 +73,7 @@ CREATE TABLE resposta(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
   data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
-  autor INTEGER REFERENCES utilizador_ativo(id),
+  autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
   id_questao INTEGER NOT NULL REFERENCES questao(id),
   resposta_aceite BOOLEAN NOT NULL
 );
@@ -82,7 +82,7 @@ CREATE TABLE comentario(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
   data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
-  autor INTEGER REFERENCES utilizador_ativo(id),
+  autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
   id_questao INTEGER REFERENCES questao(id),
   id_resposta INTEGER REFERENCES resposta(id)
 );
@@ -103,11 +103,11 @@ CREATE TABLE historico_interacao(
   id_questao INTEGER REFERENCES questao(id),
   id_comentario INTEGER REFERENCES comentario(id),
   id_resposta INTEGER REFERENCES resposta(id)
-  );
+);
 
 
 CREATE TABLE utilizador_ativo_notificacao(
-  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE,
+  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
   id_notificacao INTEGER NOT NULL REFERENCES notificacao(id) ON UPDATE CASCADE,
   data_lida TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
   PRIMARY KEY (id_utilizador, id_notificacao)
@@ -115,25 +115,25 @@ CREATE TABLE utilizador_ativo_notificacao(
 
 CREATE TABLE utilizador_ativo_medalha(
   id_medalha INTEGER NOT NULL REFERENCES medalha(id) ON UPDATE CASCADE,
-  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE,
+  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_utilizador, id_medalha)
 );
 
 CREATE TABLE questao_seguida(
-  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE,
+  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
   id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE,
   PRIMARY KEY (id_utilizador, id_questao)
 );
 
 CREATE TABLE questao_avaliada(
-  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE,
-  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE,
+  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_utilizador, id_questao)
 );
 
 CREATE TABLE resposta_avaliada(
-  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE,
-  id_resposta INTEGER NOT NULL REFERENCES resposta(id) ON UPDATE CASCADE,
+  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  id_resposta INTEGER NOT NULL REFERENCES resposta(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_utilizador, id_resposta)
 );
 
@@ -157,6 +157,9 @@ CREATE TABLE questao_etiqueta(
 
 DROP MATERIALIZED VIEW IF EXISTS gosto_questoes;
 DROP MATERIALIZED VIEW IF EXISTS gosto_respostas;
+DROP MATERIALIZED VIEW IF EXISTS historico_questao;
+DROP MATERIALIZED VIEW IF EXISTS historico_resposta;
+DROP MATERIALIZED VIEW IF EXISTS historico_comentario;
 
 CREATE MATERIALIZED VIEW gosto_questoes AS
   SELECT id_questao, COUNT(*) AS n_gosto
@@ -167,6 +170,21 @@ CREATE MATERIALIZED VIEW gosto_respostas AS
   SELECT id_resposta, COUNT(*) AS n_gosto
   FROM resposta_avaliada
   GROUP BY id_resposta;
+
+CREATE MATERIALIZED VIEW historico_questao AS
+  SELECT id, texto, data, id_questao
+  FROM historico_interacao
+  WHERE id_questao IS NOT NULL;
+
+CREATE MATERIALIZED VIEW historico_resposta AS
+  SELECT id, texto, data, id_resposta
+  FROM historico_interacao
+  WHERE id_resposta IS NOT NULL;
+
+CREATE MATERIALIZED VIEW historico_comentario AS
+  SELECT id, texto, data, id_comentario
+  FROM historico_interacao
+  WHERE id_comentario IS NOT NULL;
 
 /*
 
@@ -183,7 +201,13 @@ DROP TRIGGER IF EXISTS verifica_data_comentario_resposta ON comentario;
 DROP TRIGGER IF EXISTS verifica_data_comentario_questao ON comentario;
 DROP TRIGGER IF EXISTS apenas_um_tipo_interacao ON historico_interacao;
 DROP TRIGGER IF EXISTS apenas_um_tipo_interacao ON notificacao;
-
+DROP TRIGGER IF EXISTS valor_autor_insere ON questao;
+DROP TRIGGER IF EXISTS valor_autor_insere ON notificacao;
+DROP TRIGGER IF EXISTS valor_autor_insere ON comentario;
+DROP TRIGGER IF EXISTS valor_questao_atualiza ON questao;
+DROP TRIGGER IF EXISTS valor_resposta_atualiza ON resposta;
+DROP TRIGGER IF EXISTS valor_comentario_atualiza ON comentario;
+DROP TRIGGER IF EXISTS atualiza_historicos ON historico_interacao;
 
 /*
   TRIGGER QUE IMPEDE O AUTOR DE UMA RESPOSTA DE INTERAGIR COM A MESMA
@@ -412,8 +436,97 @@ CREATE TRIGGER apenas_um_tipo_interacao
   FOR EACH ROW
   EXECUTE PROCEDURE apenas_um_tipo_interacao();
 
-CREATE OR REPLACE FUNCTION
+CREATE OR REPLACE FUNCTION valor_autor_insere() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.autor IS NULL THEN
+    RAISE EXCEPTION 'Interacao possuí autor nulo!';
+    RETURN NULL; 
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
 
+CREATE TRIGGER valor_autor_insere
+  BEFORE INSERT ON questao
+  FOR EACH ROW
+  EXECUTE PROCEDURE valor_autor_insere();
+
+CREATE TRIGGER valor_autor_insere
+  BEFORE INSERT ON resposta
+  FOR EACH ROW
+  EXECUTE PROCEDURE valor_autor_insere();
+
+CREATE TRIGGER valor_autor_insere
+  BEFORE INSERT ON comentario
+  FOR EACH ROW
+  EXECUTE PROCEDURE valor_autor_insere();
+
+CREATE OR REPLACE FUNCTION valor_questao_atualiza() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.autor IS NULL THEN
+    IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.titulo = OLD.titulo THEN
+      RETURN NEW;
+    END IF;
+    RAISE EXCEPTION 'Alteracao em questao sem autor identificado';
+    RETURN NULL;
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER valor_questao_atualiza
+  BEFORE UPDATE ON questao
+  FOR EACH ROW
+  EXECUTE PROCEDURE valor_questao_atualiza();
+
+CREATE OR REPLACE FUNCTION valor_resposta_atualiza() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.autor IS NULL THEN
+    IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.id_questao = OLD.id_questao AND NEW.resposta_aceite = OLD.resposta_aceite THEN
+      RETURN NEW;
+    END IF;
+    RAISE EXCEPTION 'Alteracao em resposta sem autor identificado';
+    RETURN NULL;
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER valor_resposta_atualiza
+  BEFORE UPDATE ON resposta
+  FOR EACH ROW
+  EXECUTE PROCEDURE valor_resposta_atualiza();
+
+CREATE OR REPLACE FUNCTION valor_comentario_atualiza() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.autor IS NULL THEN
+    IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.id_questao IS NOT DISTINCT FROM OLD.id_questao AND NEW.id_resposta IS NOT DISTINCT FROM OLD.id_resposta THEN
+      RETURN NEW;
+    END IF;
+    RAISE EXCEPTION 'Alteracao em comentario sem autor identificado';
+    RETURN NULL;
+  END IF;
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER valor_comentario_atualiza
+  BEFORE UPDATE ON comentario
+  FOR EACH ROW
+  EXECUTE PROCEDURE valor_comentario_atualiza();
+
+CREATE OR REPLACE FUNCTION atualiza_historicos() RETURNS TRIGGER AS $$
+BEGIN
+  REFRESH MATERIALIZED VIEW historico_questao;
+  REFRESH MATERIALIZED VIEW historico_resposta;
+  REFRESH MATERIALIZED VIEW historico_comentario;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER atualiza_historicos
+  AFTER INSERT OR UPDATE ON historico_interacao
+  FOR EACH ROW
+  EXECUTE PROCEDURE atualiza_historicos();
 
 /*
 
@@ -424,7 +537,20 @@ CREATE OR REPLACE FUNCTION
 DROP INDEX IF EXISTS pesquisa_questao;
 DROP INDEX IF EXISTS numero_gosto_questoes;
 DROP INDEX IF EXISTS numero_gosto_respostas;
+DROP INDEX IF EXISTS data_publicacao_questao;
+DROP INDEX IF EXISTS agrupa_historico_questao;
+DROP INDEX IF EXISTS agrupa_historico_resposta;
+DROP INDEX IF EXISTS agrupa_historico_comentario;
 
 CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
 CREATE INDEX numero_gosto_questao ON gosto_questoes USING BTREE (n_gosto);
 CREATE INDEX numero_gosto_resposta ON gosto_respostas USING BTREE (n_gosto);
+CREATE INDEX data_publicacao_questao ON questao USING BTREE (data_publicacao);
+CREATE INDEX agrupa_historico_questao ON historico_questao USING BTREE(id_questao);
+CLUSTER historico_questao USING agrupa_historico_questao;
+
+CREATE INDEX agrupa_historico_resposta ON historico_resposta USING BTREE(id_resposta);
+CLUSTER historico_resposta USING agrupa_historico_resposta;
+
+CREATE INDEX agrupa_historico_comentario ON historico_comentario USING BTREE(id_comentario);
+CLUSTER historico_comentario USING agrupa_historico_comentario;
