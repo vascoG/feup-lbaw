@@ -174,7 +174,6 @@ CREATE MATERIALIZED VIEW gosto_respostas AS
 
 */
 
-DROP TRIGGER IF EXISTS auto_interacao_resposta ON resposta;
 DROP TRIGGER IF EXISTS auto_interacao_comentario ON comentario;
 DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_questoes ON questao_avaliada;
@@ -182,7 +181,6 @@ DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta_avaliada;
 DROP TRIGGER IF EXISTS verifica_data_resposta ON resposta;
 DROP TRIGGER IF EXISTS verifica_data_comentario_resposta ON comentario;
 DROP TRIGGER IF EXISTS verifica_data_comentario_questao ON comentario;
-DROP TRIGGER IF EXISTS apenas_um_tipo_historico ON historico_interacao;
 
 
 /*
@@ -193,8 +191,7 @@ CREATE OR REPLACE FUNCTION auto_interacao_resposta() RETURNS TRIGGER AS
 $BODY$
 BEGIN
   IF EXISTS(SELECT * FROM questao WHERE NEW.id_questao = id AND NEW.autor = autor) THEN
-    RAISE EXCEPTION 'O utilizador não pode responder à própria questão!';
-    RETURN NULL;
+  RAISE EXCEPTION 'O utilizador não pode responder à própria questão!';
   END IF;
   RETURN NEW;
 END
@@ -211,12 +208,10 @@ CREATE OR REPLACE FUNCTION auto_interacao_comentario() RETURNS TRIGGER AS
 $BODY$
 BEGIN
   IF EXISTS(SELECT * FROM questao WHERE NEW.id_questao = id AND NEW.autor = autor) THEN
-    RAISE EXCEPTION 'O utilizador não pode comentar a própria questão!';
-    RETURN NULL;
+  RAISE EXCEPTION 'O utilizador não pode comentar a própria questão!';
   END IF;
   IF EXISTS(SELECT * FROM resposta WHERE NEW.id_resposta = id AND NEW.autor = autor) THEN
-    RAISE EXCEPTION 'O utilizador não pode comentar a própria resposta!';
-    RETURN NULL;
+  RAISE EXCEPTION 'O utilizador não pode comentar a própria resposta!';
   END IF;
   RETURN NEW;
 END
@@ -240,7 +235,7 @@ CREATE OR REPLACE FUNCTION atualiza_tsvector_conteudo_questao() RETURNS TRIGGER 
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.tsvectors = (
-            setweight(to_tsvector('portuguese', NEW.titulo), 'A') || 
+            setweight(to_tsvector('portuguese', NEW.titulo), 'A') ||
             setweight(to_tsvector('portuguese', NEW.texto), 'B')
         );
     END IF;
@@ -268,7 +263,7 @@ CREATE TRIGGER pesquisa_questao
 CREATE OR REPLACE FUNCTION atualiza_lista_notificacoes() RETURNS TRIGGER AS $$
 BEGIN
   INSERT INTO utilizador_ativo_notificacao (id_utilizador, id_notificacao)
-  SELECT questao_seguida.id_utilizador, NEW.id_questao
+  SELECT questao_seguida.id_utilizador, NEW.id
   FROM questao_seguida
   WHERE questao_seguida.id_questao = NEW.id_questao;
 
@@ -352,7 +347,7 @@ BEGIN
   FROM resposta
   WHERE NEW.id_resposta = resposta.id;
 
-  IF data_questao > NEW.data_publicacao THEN
+  IF data_resposta > NEW.data_publicacao THEN
     RAISE EXCEPTION 'erro_data_reposta -> %', NEW.data_publicacao
       USING HINT = "Data de publicacao do comentario mais antigo que o da resposta";
     RETURN NULL;
@@ -394,6 +389,8 @@ CREATE TRIGGER verifica_data_comentario_questao
   WHEN (NEW.id_questao IS NOT NULL)
   EXECUTE PROCEDURE verifica_data_comentario_questao();
 
+
+
 CREATE OR REPLACE FUNCTION apenas_um_tipo_historico() RETURNS TRIGGER AS $$
 BEGIN
   IF (NEW.id_questao IS NOT NULL AND (NEW.id_resposta IS NOT NULL OR NEW.id_comentario IS NOT NULL)) OR (NEW.id_resposta IS NOT NULL AND (NEW.id_questao IS NOT NULL OR NEW.id_comentario IS NOT NULL)) OR (NEW.id_comentario IS NOT NULL AND (NEW.id_questao IS NOT NULL OR NEW.id_resposta IS NOT NULL)) THEN
@@ -408,6 +405,7 @@ CREATE TRIGGER apenas_um_tipo_historico
   BEFORE INSERT ON historico_interacao
   FOR EACH ROW
   EXECUTE PROCEDURE apenas_um_tipo_historico();
+
 
 /*
 
