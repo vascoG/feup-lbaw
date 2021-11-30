@@ -173,7 +173,7 @@ CREATE MATERIALIZED VIEW gosto_respostas AS
   TRIGGERS COMECAM AQUI
 
 */
-
+DROP TRIGGER IF EXISTS auto_interacao_resposta ON resposta;
 DROP TRIGGER IF EXISTS auto_interacao_comentario ON comentario;
 DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_questoes ON questao_avaliada;
@@ -181,6 +181,7 @@ DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta_avaliada;
 DROP TRIGGER IF EXISTS verifica_data_resposta ON resposta;
 DROP TRIGGER IF EXISTS verifica_data_comentario_resposta ON comentario;
 DROP TRIGGER IF EXISTS verifica_data_comentario_questao ON comentario;
+DROP TRIGGER IF EXISTS apenas_um_tipo_historico ON historico_interacao;
 
 
 /*
