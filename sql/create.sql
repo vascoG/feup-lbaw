@@ -182,7 +182,8 @@ DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta_avaliada;
 DROP TRIGGER IF EXISTS verifica_data_resposta ON resposta;
 DROP TRIGGER IF EXISTS verifica_data_comentario_resposta ON comentario;
 DROP TRIGGER IF EXISTS verifica_data_comentario_questao ON comentario;
-DROP TRIGGER IF EXISTS apenas_um_tipo_historico ON historico_interacao;
+DROP TRIGGER IF EXISTS apenas_um_tipo_interacao ON historico_interacao;
+DROP TRIGGER IF EXISTS apenas_um_tipo_interacao ON notificacao;
 
 
 /*
@@ -394,13 +395,13 @@ CREATE TRIGGER verifica_data_comentario_questao
   WHEN (NEW.id_questao IS NOT NULL)
   EXECUTE PROCEDURE verifica_data_comentario_questao();
 
-CREATE OR REPLACE FUNCTION apenas_um_tipo_historico() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION apenas_um_tipo_interacao() RETURNS TRIGGER AS $$
 BEGIN
   IF (NEW.id_questao IS NOT NULL AND NEW.id_resposta IS NULL AND NEW.id_comentario IS NULL) OR (NEW.id_resposta IS NOT NULL AND NEW.id_questao IS NULL AND NEW.id_comentario IS NULL) OR (NEW.id_comentario IS NOT NULL AND NEW.id_questao IS NULL AND NEW.id_resposta IS NULL) THEN
     RETURN NEW;
   END IF;
-  RAISE EXCEPTION 'Erro input historico'
-    USING HINT = "Histórico de input possui multiplas referências";
+  RAISE EXCEPTION 'Erro input interacao'
+    USING HINT = "Interacao possui multiplas referências";
   RETURN NULL; 
 END $$
 LANGUAGE plpgsql;
@@ -408,7 +409,14 @@ LANGUAGE plpgsql;
 CREATE TRIGGER apenas_um_tipo_historico
   BEFORE INSERT ON historico_interacao
   FOR EACH ROW
-  EXECUTE PROCEDURE apenas_um_tipo_historico();
+  EXECUTE PROCEDURE apenas_um_tipo_interacao();
+
+CREATE TRIGGER apenas_um_tipo_interacao
+  BEFORE INSERT ON notificacao
+  FOR EACH ROW
+  EXECUTE PROCEDURE apenas_um_tipo_interacao();
+
+CREATE OR REPLACE FUNCTION
 
 /*
 
