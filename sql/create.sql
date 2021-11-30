@@ -396,11 +396,12 @@ CREATE TRIGGER verifica_data_comentario_questao
 
 CREATE OR REPLACE FUNCTION apenas_um_tipo_historico() RETURNS TRIGGER AS $$
 BEGIN
-  IF (NEW.id_questao IS NOT NULL AND (NEW.id_resposta IS NOT NULL OR NEW.id_comentario IS NOT NULL)) OR (NEW.id_resposta IS NOT NULL AND (NEW.id_questao IS NOT NULL OR NEW.id_comentario IS NOT NULL)) OR (NEW.id_comentario IS NOT NULL AND (NEW.id_questao IS NOT NULL OR NEW.id_resposta IS NOT NULL)) THEN
-    RAISE EXCEPTION 'Erro input historico'
-      USING HINT = "Histórico de input possui multiplas referências";
+  IF (NEW.id_questao IS NOT NULL AND NEW.id_resposta IS NULL AND NEW.id_comentario IS NULL) OR (NEW.id_resposta IS NOT NULL AND NEW.id_questao IS NULL AND NEW.id_comentario IS NULL) OR (NEW.id_comentario IS NOT NULL AND NEW.id_questao IS NULL AND NEW.id_resposta IS NULL) THEN
+    RETURN NEW;
   END IF;
-  RETURN NEW;
+  RAISE EXCEPTION 'Erro input historico'
+    USING HINT = "Histórico de input possui multiplas referências";
+  RETURN NULL; 
 END $$
 LANGUAGE plpgsql;
 
