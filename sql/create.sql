@@ -391,13 +391,7 @@ CREATE TRIGGER verifica_data_comentario_questao
   WHEN (NEW.id_questao IS NOT NULL)
   EXECUTE PROCEDURE verifica_data_comentario_questao();
 
-<<<<<<< HEAD
 CREATE OR REPLACE FUNCTION apenas_um_tipo_interacao() RETURNS TRIGGER AS $$
-=======
-
-
-CREATE OR REPLACE FUNCTION apenas_um_tipo_historico() RETURNS TRIGGER AS $$
->>>>>>> 9fb5ca857a91b4a3de675457b78e55ff85361ccb
 BEGIN
   IF (NEW.id_questao IS NOT NULL AND NEW.id_resposta IS NULL AND NEW.id_comentario IS NULL) OR (NEW.id_resposta IS NOT NULL AND NEW.id_questao IS NULL AND NEW.id_comentario IS NULL) OR (NEW.id_comentario IS NOT NULL AND NEW.id_questao IS NULL AND NEW.id_resposta IS NULL) THEN
     RETURN NEW;
