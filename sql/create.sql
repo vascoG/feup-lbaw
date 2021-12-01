@@ -37,7 +37,7 @@ CREATE TABLE utilizador(
   nome_utilizador TEXT UNIQUE NOT NULL,
   nome TEXT NOT NULL,
   e_mail TEXT NOT NULL UNIQUE,
-  data_nascimento DATE CHECK (data_nascimento < now()),
+  data_nascimento DATE NOT NULL CHECK (data_nascimento < now()),
   id_palavra_passe INTEGER UNIQUE NOT NULL REFERENCES palavra_passe(id) ON UPDATE CASCADE,
   moderador BOOLEAN NOT NULL,
   administrador BOOLEAN NOT NULL
