@@ -1,3 +1,5 @@
+SET search_path TO lbaw2191;
+
 INSERT INTO palavra_passe(id,palavra_passe,palavra_passe_salt)
 VALUES (generate_series(1,1010),md5(random()::text),md5(random()::text));
 INSERT INTO utilizador(id,nome_utilizador,nome,id_palavra_passe,moderador,administrador)

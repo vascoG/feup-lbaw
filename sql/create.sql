@@ -194,6 +194,7 @@ CREATE MATERIALIZED VIEW historico_comentario AS
 */
 DROP TRIGGER IF EXISTS auto_interacao_resposta ON resposta;
 DROP TRIGGER IF EXISTS auto_interacao_comentario ON comentario;
+DROP TRIGGER IF EXISTS pesquisa_questao ON questao;
 DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_questoes ON questao_avaliada;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta_avaliada;
@@ -210,6 +211,8 @@ DROP TRIGGER IF EXISTS valor_resposta_atualiza ON resposta;
 DROP TRIGGER IF EXISTS valor_comentario_atualiza ON comentario;
 DROP TRIGGER IF EXISTS atualiza_historicos ON historico_interacao;
 DROP TRIGGER IF EXISTS verifica_nr_apelos ON apelo_desbloqueio;
+DROP TRIGGER IF EXISTS pesquisa_etiqueta ON etiqueta;
+DROP TRIGGER IF EXISTS adiciona_autor_seguir ON questao;
 
 /*
   TRIGGER QUE IMPEDE O AUTOR DE UMA RESPOSTA DE INTERAGIR COM A MESMA
@@ -561,12 +564,51 @@ CREATE TRIGGER verifica_nr_apelos
   EXECUTE PROCEDURE verifica_nr_apelos();
 
 /*
+  Permite a pesquisa por etiqueta em questões
+*/
+
+ALTER TABLE etiqueta
+ADD COLUMN IF NOT EXISTS tsvectors TSVECTOR;
+
+CREATE OR REPLACE FUNCTION atualiza_tsvector_etiqueta() RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        NEW.tsvectors = to_tsvector('portuguese', NEW.nome);
+    END IF;
+    IF TG_OP = 'UPDATE' THEN
+        IF (NEW.nome <> OLD.nome) THEN
+            NEW.tsvectors = to_tsvector('portuguese', NEW.nome)
+        END IF;
+    END IF;
+    RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER pesquisa_etiqueta
+    BEFORE INSERT OR UPDATE ON etiqueta
+    FOR EACH ROW
+    EXECUTE PROCEDURE atualiza_tsvector_etiqueta();
+
+CREATE OR REPLACE FUNCTION adiciona_autor_seguir() RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO questao_seguida (id_utilizador, id_questao) VALUES (NEW.autor, NEW.id);
+    RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER adiciona_autor_seguir
+  AFTER INSERT ON questao
+  FOR EACH ROW
+  EXECUTE PROCEDURE adiciona_autor_seguir();
+
+/*
 
   Indices comecam aqui
 
 */
 
 DROP INDEX IF EXISTS pesquisa_questao;
+DROP INDEX IF EXISTS pesquisa_etiqueta;
 DROP INDEX IF EXISTS numero_gosto_questoes;
 DROP INDEX IF EXISTS numero_gosto_respostas;
 DROP INDEX IF EXISTS data_publicacao_questao;
@@ -575,6 +617,7 @@ DROP INDEX IF EXISTS agrupa_historico_resposta;
 DROP INDEX IF EXISTS agrupa_historico_comentario;
 
 CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
+CREATE INDEX pesquisa_etiqueta ON etiqueta USING GIN (tsvectors);
 CREATE INDEX numero_gosto_questao ON gosto_questoes USING BTREE (n_gosto);
 CREATE INDEX numero_gosto_resposta ON gosto_respostas USING BTREE (n_gosto);
 CREATE INDEX data_publicacao_questao ON questao USING BTREE (data_publicacao);
