@@ -591,7 +591,7 @@ CREATE TRIGGER resposta_historico
   FOR EACH ROW
   EXECUTE PROCEDURE resposta_historico();
 
-  CREATE OR REPLACE FUNCTION questao_historico() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION questao_historico() RETURNS TRIGGER AS $$
 BEGIN
   INSERT INTO historico_interacao(texto,id_questao) VALUES (OLD.texto,OLD.id) ;
 
