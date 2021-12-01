@@ -35,6 +35,8 @@ CREATE TABLE utilizador(
   imagem_perfil TEXT,
   nome_utilizador TEXT UNIQUE NOT NULL,
   nome TEXT NOT NULL,
+  e_mail TEXT NOT NULL UNIQUE,
+  data_nascimento TIMESTAMP WITHOUT TIME ZONE,
   id_palavra_passe INTEGER UNIQUE NOT NULL REFERENCES palavra_passe(id) ON UPDATE CASCADE,
   moderador BOOLEAN NOT NULL,
   administrador BOOLEAN NOT NULL
