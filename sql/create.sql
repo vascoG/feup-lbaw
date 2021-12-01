@@ -212,7 +212,6 @@ DROP TRIGGER IF EXISTS valor_comentario_atualiza ON comentario;
 DROP TRIGGER IF EXISTS atualiza_historicos ON historico_interacao;
 DROP TRIGGER IF EXISTS verifica_nr_apelos ON apelo_desbloqueio;
 DROP TRIGGER IF EXISTS pesquisa_etiqueta ON etiqueta;
-DROP TRIGGER IF EXISTS adiciona_autor_seguir ON questao;
 
 /*
   TRIGGER QUE IMPEDE O AUTOR DE UMA RESPOSTA DE INTERAGIR COM A MESMA
@@ -577,7 +576,7 @@ BEGIN
     END IF;
     IF TG_OP = 'UPDATE' THEN
         IF (NEW.nome <> OLD.nome) THEN
-            NEW.tsvectors = to_tsvector('portuguese', NEW.nome)
+            NEW.tsvectors = to_tsvector('portuguese', NEW.nome);
         END IF;
     END IF;
     RETURN NEW;
@@ -588,18 +587,6 @@ CREATE TRIGGER pesquisa_etiqueta
     BEFORE INSERT OR UPDATE ON etiqueta
     FOR EACH ROW
     EXECUTE PROCEDURE atualiza_tsvector_etiqueta();
-
-CREATE OR REPLACE FUNCTION adiciona_autor_seguir() RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO questao_seguida (id_utilizador, id_questao) VALUES (NEW.autor, NEW.id);
-    RETURN NEW;
-END $$
-LANGUAGE plpgsql;
-
-CREATE TRIGGER adiciona_autor_seguir
-  AFTER INSERT ON questao
-  FOR EACH ROW
-  EXECUTE PROCEDURE adiciona_autor_seguir();
 
 /*
 
