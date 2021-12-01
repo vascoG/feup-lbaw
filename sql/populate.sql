@@ -48,21 +48,9 @@ INSERT INTO resposta_avaliada(id_utilizador,id_resposta)
 VALUES (generate_series(1,1000),random()*999+1);
 INSERT INTO utilizador_ativo_etiqueta(id_utilizador,id_etiqueta)
 VALUES (generate_series(1,1000),random()*9+1);
-UPDATE resposta
-SET texto = '11111111'
-WHERE id = 1;
-UPDATE resposta
-SET texto = '22222222'
-WHERE id = 1;
-UPDATE questao
-SET texto = '11111111'
-WHERE id = 1;
-UPDATE questao
-SET texto = '22222222'
-WHERE id = 1;
-UPDATE comentario
-SET texto = '11111111'
-WHERE id = 1;
-UPDATE comentario
-SET texto = '22222222'
-WHERE id = 1;
+INSERT INTO historico_interacao(id,texto,id_resposta)
+VALUES (generate_series(1,100),md5(random()::text),random()*999+1);
+INSERT INTO historico_interacao(id,texto,id_questao)
+VALUES (generate_series(101,200),md5(random()::text),random()*999+1);
+INSERT INTO historico_interacao(id,texto,id_comentario)
+VALUES (generate_series(201,300),md5(random()::text),random()*999+1);
