@@ -3,7 +3,7 @@ SET search_path TO lbaw2191;
 INSERT INTO palavra_passe(id,palavra_passe,palavra_passe_salt)
 VALUES (generate_series(1,1010),md5(random()::text),md5(random()::text));
 INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,id_palavra_passe,moderador,administrador)
-VALUES (generate_series(1,1000),md5(random()::text),md5(random()::text),md5(random()::text),generate_series('1972-01-01'::date,now()::date, '1 day'::interval),generate_series(1,1000),FALSE,FALSE);
+VALUES (generate_series(1,1000),md5(random()::text),md5(random()::text),md5(random()::text), (timestamp '1972-01-01 00:00:00' + random() * (now() - timestamp '1972-01-01 00:00:00')) :: DATE, generate_series(1,1000),FALSE,FALSE);
 INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,id_palavra_passe,moderador,administrador)
 VALUES
 (1001,'vasco8','Vasco Gomes','vascogomes@gmail.pt','2001-02-15',1001,FALSE,TRUE),
