@@ -220,6 +220,10 @@ DROP TRIGGER IF EXISTS valor_comentario_atualiza ON comentario;
 DROP TRIGGER IF EXISTS atualiza_historicos ON historico_interacao;
 DROP TRIGGER IF EXISTS verifica_nr_apelos ON apelo_desbloqueio;
 DROP TRIGGER IF EXISTS pesquisa_etiqueta ON etiqueta;
+DROP TRIGGER IF EXISTS resposta_historico on resposta;
+DROP TRIGGER IF EXISTS questao_historico on questao;
+DROP TRIGGER IF EXISTS comentario_historico on comentario;
+
 
 /*
   TRIGGER QUE IMPEDE O AUTOR DE UMA RESPOSTA DE INTERAGIR COM A MESMA
@@ -488,7 +492,7 @@ CREATE TRIGGER valor_autor_insere
 CREATE OR REPLACE FUNCTION valor_questao_atualiza() RETURNS TRIGGER AS $$
 BEGIN
   IF OLD.autor IS NULL THEN
-    RAISE EXCEPTION 'Alteracao em comentario sem autor identificado';
+    RAISE EXCEPTION 'Alteracao em questao sem autor identificado';
   END IF;
   IF NEW.autor IS NULL THEN
     IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.titulo = OLD.titulo THEN
@@ -513,7 +517,7 @@ CREATE TRIGGER valor_questao_atualiza
 CREATE OR REPLACE FUNCTION valor_resposta_atualiza() RETURNS TRIGGER AS $$
 BEGIN
   IF OLD.autor IS NULL THEN
-    RAISE EXCEPTION 'Alteracao em comentario sem autor identificado';
+    RAISE EXCEPTION 'Alteracao em resposta sem autor identificado';
   END IF;
   IF NEW.autor IS NULL THEN
     IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.id_questao = OLD.id_questao AND NEW.resposta_aceite = OLD.resposta_aceite THEN
@@ -553,7 +557,7 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER valor_comentario_atualiza
   BEFORE UPDATE ON comentario
-  FOR EACH STATEMENT
+  FOR EACH ROW
   EXECUTE PROCEDURE valor_comentario_atualiza();
 
 /*
@@ -565,6 +569,7 @@ BEGIN
   REFRESH MATERIALIZED VIEW historico_questao;
   REFRESH MATERIALIZED VIEW historico_resposta;
   REFRESH MATERIALIZED VIEW historico_comentario;
+  RETURN NULL;
 END $$
 LANGUAGE plpgsql;
 
@@ -572,6 +577,45 @@ CREATE TRIGGER atualiza_historicos
   AFTER INSERT OR UPDATE ON historico_interacao
   FOR EACH STATEMENT
   EXECUTE PROCEDURE atualiza_historicos();
+
+CREATE OR REPLACE FUNCTION resposta_historico() RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO historico_interacao(texto,id_resposta) VALUES (OLD.texto,OLD.id) ;
+
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER resposta_historico
+  AFTER UPDATE ON resposta
+  FOR EACH ROW
+  EXECUTE PROCEDURE resposta_historico();
+
+  CREATE OR REPLACE FUNCTION questao_historico() RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO historico_interacao(texto,id_questao) VALUES (OLD.texto,OLD.id) ;
+
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER questao_historico
+  AFTER UPDATE ON questao
+  FOR EACH ROW
+  EXECUTE PROCEDURE questao_historico();
+
+CREATE OR REPLACE FUNCTION comentario_historico() RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO historico_interacao(texto,id_comentario) VALUES (OLD.texto,OLD.id) ;
+
+  RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER comentario_historico
+  AFTER UPDATE ON comentario
+  FOR EACH ROW
+  EXECUTE PROCEDURE comentario_historico(); 
 
 /*
   TRIGGER QUE VERIFICA SE O NÚMERO DE APELOS PARA CADA UTILIZADOR ESTÁ ENTRE 0 E 3
