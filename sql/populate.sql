@@ -18,8 +18,8 @@ INSERT INTO utilizador_ativo(id,id_utilizador)
 VALUES (generate_series(1,1010),generate_series(1,1010));
 INSERT INTO utilizador_banido(id,id_utilizador)
 VALUES (generate_series(1,10),generate_series(1,10));
-INSERT INTO apelo_desbloqueio(id,motivo)
-VALUES (generate_series(1,10),md5(random()::text));
+INSERT INTO apelo_desbloqueio(id,motivo,id_utilizador)
+VALUES (generate_series(1,10),md5(random()::text),generate_series(1,10));
 INSERT INTO medalha(id,nome,imagem)
 VALUES (generate_series(1,10),md5(random()::text),md5(random()::text));
 INSERT INTO  utilizador_ativo_medalha(id_medalha,id_utilizador)
