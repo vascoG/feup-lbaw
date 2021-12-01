@@ -94,7 +94,7 @@ CREATE TABLE comentario(
 CREATE TABLE notificacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
-  data TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data <= now()),
+  data_emissao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_emissao <= now()),
   id_questao INTEGER REFERENCES questao(id),
   id_comentario INTEGER REFERENCES comentario(id),
   id_resposta INTEGER REFERENCES resposta(id)
@@ -103,7 +103,7 @@ CREATE TABLE notificacao(
 CREATE TABLE historico_interacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
-  data TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data <= now()),
+  data_edicao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_edicao <= now()),
   id_questao INTEGER REFERENCES questao(id),
   id_comentario INTEGER REFERENCES comentario(id),
   id_resposta INTEGER REFERENCES resposta(id)
@@ -181,17 +181,17 @@ CREATE MATERIALIZED VIEW gosto_respostas AS
   GROUP BY id_resposta;
 
 CREATE MATERIALIZED VIEW historico_questao AS
-  SELECT id, texto, data, id_questao
+  SELECT id, texto, data_edicao, id_questao
   FROM historico_interacao
   WHERE id_questao IS NOT NULL;
 
 CREATE MATERIALIZED VIEW historico_resposta AS
-  SELECT id, texto, data, id_resposta
+  SELECT id, texto, data_edicao, id_resposta
   FROM historico_interacao
   WHERE id_resposta IS NOT NULL;
 
 CREATE MATERIALIZED VIEW historico_comentario AS
-  SELECT id, texto, data, id_comentario
+  SELECT id, texto, data_edicao, id_comentario
   FROM historico_interacao
   WHERE id_comentario IS NOT NULL;
 
