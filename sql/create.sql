@@ -154,7 +154,7 @@ CREATE TABLE questao_etiqueta(
 
 CREATE TABLE utilizador_ativo_etiqueta(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE ON DELETE CASCADE
+  id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_utilizador, id_etiqueta)
 );
 
