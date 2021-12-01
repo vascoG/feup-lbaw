@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS resposta_avaliada CASCADE;
 DROP TABLE IF EXISTS etiqueta CASCADE;
 DROP TABLE IF EXISTS questao_etiqueta CASCADE;
 DROP TABLE IF EXISTS palavra_passe CASCADE;
+DROP TABLE IF EXISTS utilizador_ativo_etiqueta CASCADE;
 
 
 CREATE TABLE palavra_passe(
@@ -36,7 +37,7 @@ CREATE TABLE utilizador(
   nome_utilizador TEXT UNIQUE NOT NULL,
   nome TEXT NOT NULL,
   e_mail TEXT NOT NULL UNIQUE,
-  data_nascimento TIMESTAMP WITHOUT TIME ZONE,
+  data_nascimento DATE CHECK (data_nascimento < now()),
   id_palavra_passe INTEGER UNIQUE NOT NULL REFERENCES palavra_passe(id) ON UPDATE CASCADE,
   moderador BOOLEAN NOT NULL,
   administrador BOOLEAN NOT NULL
@@ -151,6 +152,11 @@ CREATE TABLE questao_etiqueta(
   PRIMARY KEY (id_questao, id_etiqueta)
 );
 
+CREATE TABLE utilizador_ativo_etiqueta(
+  id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE ON DELETE CASCADE
+  PRIMARY KEY (id_utilizador, id_etiqueta)
+);
 
 /*
 
