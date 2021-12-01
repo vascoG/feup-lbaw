@@ -68,7 +68,7 @@ CREATE TABLE medalha(
 CREATE TABLE questao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
-  data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
+  data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_publicacao <= now()),
   autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
   titulo TEXT NOT NULL
 );
@@ -76,7 +76,7 @@ CREATE TABLE questao(
 CREATE TABLE resposta(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
-  data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
+  data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_publicacao <= now()),
   autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
   id_questao INTEGER NOT NULL REFERENCES questao(id),
   resposta_aceite BOOLEAN NOT NULL
@@ -85,7 +85,7 @@ CREATE TABLE resposta(
 CREATE TABLE comentario(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
-  data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
+  data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_publicacao <= now()),
   autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
   id_questao INTEGER REFERENCES questao(id),
   id_resposta INTEGER REFERENCES resposta(id)
@@ -94,7 +94,7 @@ CREATE TABLE comentario(
 CREATE TABLE notificacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
-  data TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
+  data TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data <= now()),
   id_questao INTEGER REFERENCES questao(id),
   id_comentario INTEGER REFERENCES comentario(id),
   id_resposta INTEGER REFERENCES resposta(id)
@@ -103,7 +103,7 @@ CREATE TABLE notificacao(
 CREATE TABLE historico_interacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
-  data TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
+  data TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data <= now()),
   id_questao INTEGER REFERENCES questao(id),
   id_comentario INTEGER REFERENCES comentario(id),
   id_resposta INTEGER REFERENCES resposta(id)
@@ -113,7 +113,7 @@ CREATE TABLE historico_interacao(
 CREATE TABLE utilizador_ativo_notificacao(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
   id_notificacao INTEGER NOT NULL REFERENCES notificacao(id) ON UPDATE CASCADE,
-  data_lida TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
+  data_lida TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_lida <= now()),
   PRIMARY KEY (id_utilizador, id_notificacao)
 );
 
