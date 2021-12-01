@@ -465,7 +465,7 @@ CREATE TRIGGER valor_autor_insere
 
 CREATE OR REPLACE FUNCTION valor_questao_atualiza() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.autor IS NULL THEN
+  IF NEW.autor IS NULL OR OLD.autor IS NULL THEN
     IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.titulo = OLD.titulo THEN
       RETURN NEW;
     END IF;
@@ -483,7 +483,7 @@ CREATE TRIGGER valor_questao_atualiza
 
 CREATE OR REPLACE FUNCTION valor_resposta_atualiza() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.autor IS NULL THEN
+  IF NEW.autor IS NULL OR OLD.autor IS NULL THEN
     IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.id_questao = OLD.id_questao AND NEW.resposta_aceite = OLD.resposta_aceite THEN
       RETURN NEW;
     END IF;
@@ -501,7 +501,7 @@ CREATE TRIGGER valor_resposta_atualiza
 
 CREATE OR REPLACE FUNCTION valor_comentario_atualiza() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.autor IS NULL THEN
+  IF NEW.autor IS NULL OR OLD.autor IS NULL THEN
     IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.id_questao IS NOT DISTINCT FROM OLD.id_questao AND NEW.id_resposta IS NOT DISTINCT FROM OLD.id_resposta THEN
       RETURN NEW;
     END IF;
@@ -527,7 +527,7 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER atualiza_historicos
   AFTER INSERT OR UPDATE ON historico_interacao
-  FOR EACH ROW
+  FOR EACH STATEMENT
   EXECUTE PROCEDURE atualiza_historicos();
 
 CREATE OR REPLACE FUNCTION verifica_nr_apelos() RETURNS TRIGGER AS $$
@@ -569,6 +569,7 @@ CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
 CREATE INDEX numero_gosto_questao ON gosto_questoes USING BTREE (n_gosto);
 CREATE INDEX numero_gosto_resposta ON gosto_respostas USING BTREE (n_gosto);
 CREATE INDEX data_publicacao_questao ON questao USING BTREE (data_publicacao);
+CREATE INDEX apelo_utilizador_banido ON apelo_desbloqueio USING HASH (id_utilizador);
 CREATE INDEX agrupa_historico_questao ON historico_questao USING BTREE(id_questao);
 CLUSTER historico_questao USING agrupa_historico_questao;
 
