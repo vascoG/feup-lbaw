@@ -427,6 +427,10 @@ CREATE TRIGGER verifica_data_comentario_questao
   WHEN (NEW.id_questao IS NOT NULL)
   EXECUTE PROCEDURE verifica_data_comentario_questao();
 
+/*
+  TRIGGER PARA VERIFICAR SE O TANTO A NOTIFICAÇÃO COMO O HISTÓRICO SE REFEREM APENAS A UM TIPO DE INTERAÇÃO
+*/
+
 CREATE OR REPLACE FUNCTION apenas_um_tipo_interacao() RETURNS TRIGGER AS $$
 BEGIN
   IF (NEW.id_questao IS NOT NULL AND NEW.id_resposta IS NULL AND NEW.id_comentario IS NULL) OR (NEW.id_resposta IS NOT NULL AND NEW.id_questao IS NULL AND NEW.id_comentario IS NULL) OR (NEW.id_comentario IS NOT NULL AND NEW.id_questao IS NULL AND NEW.id_resposta IS NULL) THEN
@@ -447,6 +451,10 @@ CREATE TRIGGER apenas_um_tipo_interacao
   BEFORE INSERT ON notificacao
   FOR EACH ROW
   EXECUTE PROCEDURE apenas_um_tipo_interacao();
+
+/*
+  TRIGGER QUE VERIFICA SE O AUTOR DAS INTERAÇÕES NÃO É NULO DURANTE A CRIAÇÃO
+*/
 
 CREATE OR REPLACE FUNCTION valor_autor_insere() RETURNS TRIGGER AS $$
 BEGIN
@@ -473,6 +481,10 @@ CREATE TRIGGER valor_autor_insere
   FOR EACH ROW
   EXECUTE PROCEDURE valor_autor_insere();
 
+/*
+  TRIGGER QUE VERIFICA SE UMA QUESTÃO COM AUTOR ANONIMO É EDITADA
+*/
+
 CREATE OR REPLACE FUNCTION valor_questao_atualiza() RETURNS TRIGGER AS $$
 BEGIN
   IF OLD.autor IS NULL THEN
@@ -493,6 +505,10 @@ CREATE TRIGGER valor_questao_atualiza
   BEFORE UPDATE ON questao
   FOR EACH ROW
   EXECUTE PROCEDURE valor_questao_atualiza();
+
+/*
+  TRIGGER QUE VERIFICA SE UMA RESPOSTA COM AUTOR ANONIMO É EDITADA
+*/
 
 CREATE OR REPLACE FUNCTION valor_resposta_atualiza() RETURNS TRIGGER AS $$
 BEGIN
@@ -515,6 +531,10 @@ CREATE TRIGGER valor_resposta_atualiza
   FOR EACH ROW
   EXECUTE PROCEDURE valor_resposta_atualiza();
 
+/*
+  TRIGGER QUE VERIFICA SE UMA COMENTÁRIO COM AUTOR ANONIMO É EDITADA
+*/
+
 CREATE OR REPLACE FUNCTION valor_comentario_atualiza() RETURNS TRIGGER AS $$
 BEGIN
   IF OLD.autor IS NULL THEN
@@ -536,6 +556,10 @@ CREATE TRIGGER valor_comentario_atualiza
   FOR EACH STATEMENT
   EXECUTE PROCEDURE valor_comentario_atualiza();
 
+/*
+  TRIGGER QUE ATUALIZA AS VISTAS DO HISTORICO DE INTERAÇÕES
+*/
+
 CREATE OR REPLACE FUNCTION atualiza_historicos() RETURNS TRIGGER AS $$
 BEGIN
   REFRESH MATERIALIZED VIEW historico_questao;
@@ -548,6 +572,10 @@ CREATE TRIGGER atualiza_historicos
   AFTER INSERT OR UPDATE ON historico_interacao
   FOR EACH STATEMENT
   EXECUTE PROCEDURE atualiza_historicos();
+
+/*
+  TRIGGER QUE VERIFICA SE O NÚMERO DE APELOS PARA CADA UTILIZADOR ESTÁ ENTRE 0 E 3
+*/
 
 CREATE OR REPLACE FUNCTION verifica_nr_apelos() RETURNS TRIGGER AS $$
 DECLARE
@@ -571,7 +599,7 @@ CREATE TRIGGER verifica_nr_apelos
   EXECUTE PROCEDURE verifica_nr_apelos();
 
 /*
-  Permite a pesquisa por etiqueta em questões
+  PERMITE A PESQUISA NO TEXTO DE ETIQUETAS
 */
 
 ALTER TABLE etiqueta
