@@ -465,7 +465,10 @@ CREATE TRIGGER valor_autor_insere
 
 CREATE OR REPLACE FUNCTION valor_questao_atualiza() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.autor IS NULL OR OLD.autor IS NULL THEN
+  IF OLD.autor IS NULL THEN
+    RAISE EXCEPTION 'Alteracao em comentario sem autor identificado';
+  END IF;
+  IF NEW.autor IS NULL THEN
     IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.titulo = OLD.titulo THEN
       RETURN NEW;
     END IF;
@@ -483,7 +486,10 @@ CREATE TRIGGER valor_questao_atualiza
 
 CREATE OR REPLACE FUNCTION valor_resposta_atualiza() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.autor IS NULL OR OLD.autor IS NULL THEN
+  IF OLD.autor IS NULL THEN
+    RAISE EXCEPTION 'Alteracao em comentario sem autor identificado';
+  END IF;
+  IF NEW.autor IS NULL THEN
     IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.id_questao = OLD.id_questao AND NEW.resposta_aceite = OLD.resposta_aceite THEN
       RETURN NEW;
     END IF;
@@ -501,7 +507,10 @@ CREATE TRIGGER valor_resposta_atualiza
 
 CREATE OR REPLACE FUNCTION valor_comentario_atualiza() RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.autor IS NULL OR OLD.autor IS NULL THEN
+  IF OLD.autor IS NULL THEN
+    RAISE EXCEPTION 'Alteracao em comentario sem autor identificado';
+  END IF;
+  IF NEW.autor IS NULL THEN
     IF NEW.id = OLD.id AND NEW.texto = OLD.texto AND NEW.data_publicacao = OLD.data_publicacao AND NEW.id_questao IS NOT DISTINCT FROM OLD.id_questao AND NEW.id_resposta IS NOT DISTINCT FROM OLD.id_resposta THEN
       RETURN NEW;
     END IF;
