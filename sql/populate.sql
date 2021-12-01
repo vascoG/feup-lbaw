@@ -3,13 +3,13 @@ SET search_path TO lbaw2191;
 INSERT INTO palavra_passe(id,palavra_passe,palavra_passe_salt)
 VALUES (generate_series(1,1010),md5(random()::text),md5(random()::text));
 INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,id_palavra_passe,moderador,administrador)
-VALUES (generate_series(1,1000),md5(random()::text),md5(random()::text),md5(random()::text),(timestamp '1972-01-01 00:00:00' + random() * (now() - timestamp '1972-01-01 00:00:00')) :: DATE,generate_series(1,1000),FALSE,FALSE);
+VALUES (generate_series(1,1000),md5(random()::text),md5(random()::text),md5(random()::text),generate_series('1972-01-01'::date,now()::date, '1 day'::interval),generate_series(1,1000),FALSE,FALSE);
 INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,id_palavra_passe,moderador,administrador)
 VALUES
 (1001,'vasco8','Vasco Gomes','vascogomes@gmail.pt','2001-02-15',1001,FALSE,TRUE),
 (1002,'mari75','Maria Santos','mariasantos@gmail.pt','2001-04-16',1002,TRUE,FALSE),
 (1003,'marci_24','Marcia Carvalho','marcia@gmail.pt','1998-10-29',1003,TRUE,FALSE),
-(1004,'m_monteiro','Mariana Monteiro''mmonteiro@gmail.pt','2001-05-04',1004,FALSE,TRUE),
+(1004,'m_monteiro','Mariana Monteiro','mmonteiro@gmail.pt','2001-05-04',1004,FALSE,TRUE),
 (1005,'francisco1','Francisco Oliveira','francisco1@gmail.pt','2001-06-24',1005,FALSE,TRUE),
 (1006,'j_rodrigo','João Rodrigo','joaor@gmail.pt','1998-05-30',1006,FALSE,TRUE),
 (1007,'leonor2001','Leonor Castro','leonor2001@gmail.pt','1990-04-16',1007,TRUE,FALSE),
@@ -46,3 +46,5 @@ INSERT INTO questao_avaliada(id_utilizador,id_questao)
 VALUES (generate_series(1,1000),random()*999+1);
 INSERT INTO resposta_avaliada(id_utilizador,id_resposta)
 VALUES (generate_series(1,1000),random()*999+1);
+INSERT INTO utilizador_ativo_etiqueta(id_utilizador,id_etiqueta)
+VALUES (generate_series(1,1000),random()*9+1);
