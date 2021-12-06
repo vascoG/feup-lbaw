@@ -16,6 +16,7 @@ tags:
   - name: 'M04: Visualização, votação e resposta a questões'
   - name: 'M05: Criação e edição de questões. Edição de respostas e comentários'
 paths:
+#MO1
   /login:
     put:
       operationId: R101
@@ -26,3 +27,107 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra formulário de login'
+
+
+#M02 
+  /sobrenos:
+    get:
+      operationId: R201
+      summary: 'R201: Sobre nós'
+      description: 'Mostra a página Sobre nós. Acesso: PUB'
+      tags:
+      - 'M02: Administração de utilizadores e páginas estáticas'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página Sobre nós'
+  /contactos:
+    get:
+      operationId: R202
+      summary: 'R202: Contactos'
+      description: 'Mostra a página Contactos. Acesso: PUB'
+      tags:
+      - 'M02: Administração de utilizadores e páginas estáticas'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página Contactos'
+  /faq:
+    get:
+      operationId: R203
+      summary: 'R203: FAQ'
+      description: 'Mostra a página FAQ. Acesso: PUB'
+      tags:
+      - 'M02: Administração de utilizadores e páginas estáticas'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página FAQ'
+  /servicos:
+    get:
+      operationId: R204
+      summary: 'R204: Serviços'
+      description: 'Mostra a página Serviços. Acesso: PUB'
+      tags:
+      - 'M02: Administração de utilizadores e páginas estáticas'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página Serviços.'
+
+
+  /admin:
+    get:
+      operationId: R205
+      summary: 'R205: Página de Admin'
+      description: 'Mostra a página de administrador. Acesso: ADM'
+      tags:
+      - 'M02: Administração de utilizadores e páginas estáticas'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de administrador'
+  /admin/moderadores:
+    get:
+      operationId: R206
+      summary: 'R206: Administração de moderadores do sistema'
+      description: 'Mostra a página de administração de moderadores do sistema. Acesso: ADM'
+      tags:
+      - 'M02: Administração de utilizadores e páginas estáticas'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de admnistração dos moderadores do sistema.'
+    post:
+      operationId: R207
+      summary: 'R207: Alteração de permissões de moderador'
+      description: 'Adiciona ou remove moderadores ao sistema. Acesso: ADM'
+      tags:
+      - 'M02: Administração de utilizadores e páginas estáticas'
+      
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded: #checkbox?
+            schema:
+              type: object
+              properties:
+                moderador:
+                  type: boolean
+                user_id: 
+                  type: integer
+              required:
+                - moderador
+                - user_id
+    
+      responses:
+        '302':
+          description: 'Redirecionando após alterar permissões de moderador'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucess:
+                  description: 'Alteração de permissão aceite. Redirecionando para a página de moderador'
+                  value: '/admin/moderadores'
+                302Failure:
+                  description: 'Alteração de permissão rejeitada. Redirecionando para a página de moderador' 
+                  value: '/admin/moderadores'
+
+
+    
