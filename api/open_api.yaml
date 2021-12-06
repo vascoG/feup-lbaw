@@ -5,7 +5,7 @@ info:
   description: 'Recursos web (A7) para FinJet'
 servers:
 - url: http://lbaw2191.lbaw.fe.up.pt
-  description: 'Production Server'
+  description: 'Servidor de Produção'
 externalDocs:
   url: https://git.fe.up.pt/lbaw/lbaw2122/lbaw2191/-/wikis/home
   description: 'Encontre mais informação na wiki'
@@ -17,7 +17,7 @@ tags:
   - name: 'M05: Criação e edição de questões. Edição de respostas e comentários'
 paths:
   /login:
-    put:
+    get:
       operationId: R101
       summary: 'R101: Formulário de Login'
       description: 'Providencia um formulário de login. Acesso: PUB'
@@ -26,3 +26,226 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra formulário de login'
+    post:
+      operationId: R102
+      summary: 'R102: Ação de Login'
+      description: 'Processa a submissão do formulário de login. Acesso: PUB'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email: 
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '302': 
+          description: 'Redirecionar depois de processar as credenciais de login'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Autenticação sucedida. Redirecção para a homepage'
+                  value: '/'
+                302Erro:
+                  description: 'Autenticação falhou. Redirecção para a página de login'
+                  value: '/login'
+  
+  /login/recovery:
+    get:
+      operationId: 'R103'
+      summary: 'R103: Formulário de recuperação de password'
+      description: 'Providencia um formulário para recuperar o acesso à conta. Acesso: PUB'
+      tags: 
+        - 'M01: Autenticação e perfil individual'
+      responses:
+        '200': 
+          description: 'Ok. Mostra formulário de recuperação'
+    post:
+      operationId: 'R104'
+      summary: 'R104: Submissão de dados de recuperação'
+      description: 'Processa a submissão de dados de recuperação'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+      responses:
+        '302': 
+          description: 'Redirecção depois da submissão dos dados da conta'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Dados submetidos. Se a conta existir será recebido um email com dados de recuperação.'
+                  value: '/login'
+
+  /logout:
+    post:
+      operationId: R105
+      summary: 'R105: Ação de logout'
+      description: 'Faz o logout do utilizador autenticado. Acesso: USR, MOD, ADM'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      responses:
+        '302':
+          description: 'Redirecção depois de processar o logout.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Logout efetuado com sucesso'
+                  value: '/'
+
+  /login/registo:
+    get:
+      operationId: R106
+      summary: 'R106: Página de registo do utilizador'
+      description: 'Providencia a página de registo de utilizador. Acesso: PUB'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      responses:
+        '200':
+          description: 'Ok. Mostra página de registo'
+
+    post:
+      operationId: R107
+      summary: 'R107: Ação de registo'
+      description: 'Processa os dados da nova conta fornecidos pelo utilizador. Acesso: PUB'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                nomeUtilizador:
+                  type: string
+                nome:
+                  type: string
+                dataNascimento:
+                  type: string
+                  format: date
+                  example: '02-09-2001'
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - nomeUtilizador
+                - nome
+                - dataNascimento
+                - email
+                - password
+      responses:
+        '302':
+          description: 'Redirecção depois de processar dados fornecidos'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'A conta foi corretamente criada'
+                  value: '/perfil/{userName}'
+                302Erro:
+                  description: 'Os dados fornecidos pelo cliente não são válidos.'
+                  value: '/login/registo'
+  
+  /perfil/{nomeUtilizador}:
+    get:
+      operationId: R108
+      summary: 'R108: Perfil do utilizador'
+      description: 'Mostra a informação do perfil de um utilizador. Acesso: USR'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Mostra o perfil do utilizador'
+  
+  /perfil/{nomeUtilizador}/editar:
+    get:
+      operationId: R109
+      summary: 'R109: Edição do perfil do utilizador'
+      description: 'Mostra a página de edição do perfil de um utilizador. Acesso: OWN'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de edição do perfil do utilizador'
+    
+    post:
+      operationId: R110
+      summary: 'R110: Submete dados editados'
+      description: 'Processa os dados de perfil que foram editados pelo utilizador. Acesso: OWN'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                email:
+                  type: string
+                dataNascimento:
+                  type: string
+                  format: date
+                  example: '02-09-2001'
+                password:
+                  type: string
+      responses:
+        '302':
+          description: 'Redirecção ao processar dados enviados'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Dados alterados com sucesso'
+                  value: '/perfil/{nomeUtilizador}'
+      
+
+
+        
