@@ -218,6 +218,12 @@ paths:
       description: 'Processa os dados de perfil que foram editados pelo utilizador. Acesso: OWN'
       tags:
         - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
       requestBody:
         required: true
         content:
@@ -467,13 +473,10 @@ paths:
                   type: string
                 etiqueta:
                   type: string
-                user_id: 
-                  type: integer
               required:
                 - titulo
                 - texto
                 - etiqueta
-                - user_id
     
       responses:
         '302':
@@ -496,15 +499,30 @@ paths:
       description: 'Mostra a página de edição de questões. Acesso: OWN'
       tags:
       - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      parameters:
+      - in: path
+        name: id_questao
+        description: 'id da questao'
+        schema:
+          type: integer
+        required: true
       responses:
         '200':
           description: 'Ok. Mostra a página de edição de questões.'
     post:
-      operationId: R503
-      summary: 'R503: Edita uma questão'
+      operationId: R504
+      summary: 'R504: Edita uma questão'
       description: 'Edita uma questão. Acesso: OWN'
       tags:
       - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      
+      parameters:
+      - in: path
+        name: id_questao
+        description: 'id da questao'
+        schema:
+          type: integer
+        required: true
       
       requestBody:
         required: true
@@ -519,13 +537,10 @@ paths:
                   type: string
                 etiqueta:
                   type: string
-                user_id: 
-                  type: integer
               required:
                 - titulo
                 - texto
                 - etiqueta
-                - user_id
     
       responses:
         '302':
@@ -540,4 +555,81 @@ paths:
                   value: '/questao/{id_questao}'
                 302Erro:
                   description: 'Falha na edição da questão. Redirecionando para a página da questão' 
+                  value: '/questao/{id_questao}'
+  /questao/{id_questao}/editar_interacao/{id_interacao}: 
+    get:
+      operationId: R505
+      summary: 'R505: Editar respostas ou comentários'
+      description: 'Mostra a página de edição de respostas ou comentários. Acesso: OWN'
+      tags:
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      parameters:
+      - in: path
+        name: id_interacao
+        description: 'id da interação'
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id_questao
+        description: 'id da questao'
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: tipo
+        description: 'Tipo de interação: resposta ou comentário'
+        schema:
+          type: string
+          enum:
+            - resposta
+            - comentario
+        required: true
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de edição de respostas ou comentários.'
+    post:
+      operationId: R506
+      summary: 'R506: Edita uma reposta ou comentário'
+      description: 'Edita uma resposta ou comentário. Acesso: OWN'
+      tags:
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      parameters:
+      - in: path
+        name: id_interacao
+        description: 'id da interação'
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id_questao
+        description: 'id da questao'
+        schema:
+          type: integer
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded: 
+            schema:
+              type: object
+              properties:
+                texto:
+                  type: string
+              required:
+                - texto
+    
+      responses:
+        '302':
+          description: 'Redirecionando após editar resposta ou comentário '
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Edição de resposta ou comentário feito com sucesso. Redirecionando para a página da questão'
+                  value: '/questao/{id_questao}'
+                302Erro:
+                  description: 'Falha na edição da resposta ou do comentário. Redirecionando para a página da questão' 
                   value: '/questao/{id_questao}'
