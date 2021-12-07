@@ -436,3 +436,108 @@ paths:
                   properties:
                     id_questao:
                       type: integer #responder só com os ids das questoes?
+#M05
+  /criarquestao:
+    get:
+      operationId: R501
+      summary: 'R501: Criação de questões'
+      description: 'Mostra a página de criação de questões. Acesso: USR'
+      tags:
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de criação de questões.'
+    post:
+      operationId: R502
+      summary: 'R502: Cria uma questão'
+      description: 'Cria uma questão. Acesso: USR'
+      tags:
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded: 
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                texto:
+                  type: string
+                etiqueta:
+                  type: string
+                user_id: 
+                  type: integer
+              required:
+                - titulo
+                - texto
+                - etiqueta
+                - user_id
+    
+      responses:
+        '302':
+          description: 'Redirecionando após criar questão'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Criação de questão feito com sucesso. Redirecionando para a página da questão'
+                  value: '/questao/{id_questao}'
+                302Erro:
+                  description: 'Falha na criação da questão. Redirecionando para a homepage' 
+                  value: ''
+  /questao/{id_questao}/editar:
+    get:
+      operationId: R503
+      summary: 'R503: Editar questões'
+      description: 'Mostra a página de edição de questões. Acesso: OWN'
+      tags:
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de edição de questões.'
+    post:
+      operationId: R503
+      summary: 'R503: Edita uma questão'
+      description: 'Edita uma questão. Acesso: OWN'
+      tags:
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded: 
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                texto:
+                  type: string
+                etiqueta:
+                  type: string
+                user_id: 
+                  type: integer
+              required:
+                - titulo
+                - texto
+                - etiqueta
+                - user_id
+    
+      responses:
+        '302':
+          description: 'Redirecionando após editar questão'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Edição de questão feito com sucesso. Redirecionando para a página da questão'
+                  value: '/questao/{id_questao}'
+                302Erro:
+                  description: 'Falha na edição da questão. Redirecionando para a página da questão' 
+                  value: '/questao/{id_questao}'
