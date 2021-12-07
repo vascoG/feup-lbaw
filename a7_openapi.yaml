@@ -347,3 +347,49 @@ paths:
                 302Erro:
                   description: 'Alteração de permissão rejeitada. Redirecionando para a página de moderador' 
                   value: '/admin/moderadores'
+  /admin/banimento:
+    get:
+      operationId: R208
+      summary: 'R208: Administração de moderadores do sistema'
+      description: 'Mostra a página de apelos de banimento. Acesso: ADM'
+      tags:
+      - 'M02: Administração de utilizadores e páginas estáticas'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de apelos de banimento.'
+    post:
+      operationId: R209
+      summary: 'R209: Bloqueia e/ou desbloqueia contas'
+      description: 'Bloqueia e/ou desbloqueia contas. Acesso: ADM'
+      tags:
+      - 'M02: Administração de utilizadores e páginas estáticas'
+      
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded: #checkbox?
+            schema:
+              type: object
+              properties:
+                bloqueado:
+                  type: boolean
+                user_id: 
+                  type: integer
+              required:
+                - bloqueado
+                - user_id
+    
+      responses:
+        '302':
+          description: 'Redirecionando após bloquear ou desbloquear a conta'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Bloqueio ou desbloqueio feito com sucesso. Redirecionando para a página de banimento'
+                  value: '/admin/banimento'
+                302Erro:
+                  description: 'Bloqueio ou desbloqueio de conta rejeitado. Redirecionando para a página de banimento' 
+                  value: '/admin/banimento'
