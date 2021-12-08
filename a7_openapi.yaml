@@ -16,6 +16,7 @@ tags:
   - name: 'M04: Visualização, votação e resposta a questões'
   - name: 'M05: Criação e edição de questões. Edição de respostas e comentários'
 paths:
+
 #MO1
   /login:
     get:
@@ -253,7 +254,6 @@ paths:
                   description: 'Dados alterados com sucesso'
                   value: '/perfil/{nomeUtilizador}'
 
-
 #M02 
   /sobrenos:
     get:
@@ -406,7 +406,7 @@ paths:
       summary: 'R301: Lista de Questões'
       description: 'Mostra a lista de questões associadas a uma pesquisa. Acesso: PUB'
       tags:
-      - 'M03: Pesquisa de questões'
+        - 'M03: Pesquisa de questões'
       parameters:
       - in: query
         name: query
@@ -442,6 +442,259 @@ paths:
                   properties:
                     id_questao:
                       type: integer #responder só com os ids das questoes?
+
+#M04
+  /questao/{idQuestao}:
+    get:
+      operationId: R401
+      summary: 'R401: Visualização de questões. Acesso: PUB'
+      description: 'Mostra a página que apresenta a página de uma questão com as suas respostas e comentários.'
+      tags:
+        - 'M04: Visualização, votação e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true 
+      responses:
+        '200':
+          description: 'Ok. Mostra a página da questão'
+        '404':
+          description: 'Erro. Questão com determinado id não encontrada'
+  
+  /votar/questao/{idQuestao}:
+    get:
+      operationId: R402
+      summary: 'R402: Número de votos em questões. Acesso: PUB'
+      description: 'Retorna o número de votos numa questão'
+      tags:
+        - 'M04: Visualização, votação e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true 
+      responses:
+        '200':
+          description: 'Ok. Retorna os votos numa questão'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nVotos:
+                      type: integer
+        '404':
+          description: 'Erro. Questão com determinado id não encontrada'
+    post:
+      operationId: R403
+      summary: 'R403: Votação em questões. Acesso: USR'
+      description: 'Processa um pedido de voto em determinada questão'
+      tags:
+        - 'M04: Visualização, votação e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                idUtilizador:
+                  type: integer
+              required:
+                - idUtilizador
+      responses:
+        '200':
+          description: 'Voto pôde ser processado'
+        '403':
+          description: 'Voto foi inválido (pelo utilizador já ter votado por exemplo)'
+
+  /votar/resposta/{idResposta}:
+    get:
+      operationId: R404
+      summary: 'R404: Número de votos em respostas. Acesso: PUB'
+      description: 'Retorna o número de votos numa resposta'
+      tags:
+        - 'M04: Visualização, votação e resposta a questões'
+      parameters:
+        - in: path
+          name: idResposta
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Retorna os votos numa resposta'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nVotos:
+                      type: integer
+        '404':
+          description: 'Erro. Resposta com determinado id não encontrada'
+    post:
+      operationId: R405
+      summary: 'R405: Votação em respostas. Acesso: USR'
+      description: 'Processa um pedido de voto em determinada resposta'
+      tags:
+        - 'M04: Visualização, votação e resposta a questões'
+      parameters:
+        - in: path
+          name: idResposta
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                idUtilizador:
+                  type: integer
+              required:
+                - idUtilizador
+      responses:
+        '200':
+          description: 'Voto pôde ser processado'
+        '403':
+          description: 'Voto foi inválido (pelo utilizador já ter votado por exemplo)'
+  
+  /criar/resposta:
+    post:
+      operationId: R406
+      summary: 'R406: Criação de Respostas. Acesso: USR'
+      description: 'Processa o pedido de criação de uma resposta a uma questão'
+      tags:
+        - 'M04: Visualização, votação e resposta a questões'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                texto:
+                  type: string
+                autor:
+                  description: 'ID do utilizador autenticado no momento do pedido'
+                  type: integer
+                idQuestao:
+                  description: 'ID da questão onde se pretende inserir a resposta'
+                  type: integer
+              required:
+                - texto
+                - autor
+                - idQuestao
+      responses:
+        '200':
+          description: 'Resposta criada com sucesso'
+        '403':
+          description: 'Não foi possível criar a questão'
+
+  /criar/comentario:
+    post:
+      operationId: R407
+      summary: 'R407: Criação de Comentários. Acesso: USR'
+      description: 'Processa o pedido de criação de um comentário a uma questão ou resposta'
+      tags:
+        - 'M04: Visualização, votação e resposta a questões'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                texto:
+                  type: string
+                autor:
+                  description: 'ID do utilizador autenticado no momento do pedido'
+                  type: integer
+                idQuestao:
+                  description: 'ID da questão onde se pretende inserir o comentário'
+                  type: integer
+                idResposta:
+                  description: 'ID da resposta onde se pretende inserir o comentário'
+              required:
+                - texto
+                - autor
+      responses:
+        '200':
+          description: 'Resposta criada com sucesso'
+        '403':
+          description: 'Não foi possível criar a questão'
+
+  /resposta-correta/{idQuestao}:
+    get:
+      operationId: R408
+      summary: 'R408: Acesso à resposta correta. Acesso: PUB'
+      description: 'Retorna o id da resposta correta a uma determinada questão'
+      tags:
+        - 'M04: Visualização, votação e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200': 
+          description: 'Ok. Questão encontrada'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    idResposta:
+                      type: integer
+    post:
+      operationId: R409
+      summary: 'R408: Marca a resposta correta. Acesso: OWN'
+      description: 'Marca como correta a resposta de id enviado.'
+      tags:
+        - 'M04: Visualização, votação e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                idResposta:
+                  description: 'Resposta que deve ser marcada como correta'
+                  type: integer
+              required:
+                - idResposta
+      responses:
+        '200': 
+          description: 'Resposta marcada com sucesso'
+        '403':
+          description: 'Resposta ou Questão não encontradas.'
+
 #M05
   /criarquestao:
     get:
@@ -449,7 +702,7 @@ paths:
       summary: 'R501: Criação de questões'
       description: 'Mostra a página de criação de questões. Acesso: USR'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+        - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
       responses:
         '200':
           description: 'Ok. Mostra a página de criação de questões.'
