@@ -59,11 +59,14 @@ paths:
                 302Sucesso:
                   description: 'Autenticação sucedida. Redirecção para a homepage'
                   value: '/'
+                302SucessoBanido:
+                  description: 'Autenticação sucedida. Utilizador banido.'
+                  value: '/perfil/{nomeUtilizador}'
                 302Erro:
                   description: 'Autenticação falhou. Redirecção para a página de login'
                   value: '/login'
   
-  /login/recovery:
+  /login/recuperacao:
     get:
       operationId: 'R103'
       summary: 'R103: Formulário de recuperação de password'
@@ -120,6 +123,8 @@ paths:
                 302Sucesso:
                   description: 'Logout efetuado com sucesso'
                   value: '/'
+        '403':
+          description: 'O utilizador não estava autenticado.'
 
   /login/registo:
     get:
@@ -177,12 +182,12 @@ paths:
                 302Erro:
                   description: 'Os dados fornecidos pelo cliente não são válidos.'
                   value: '/login/registo'
-  
+
   /perfil/{nomeUtilizador}:
     get:
       operationId: R108
       summary: 'R108: Perfil do utilizador'
-      description: 'Mostra a informação do perfil de um utilizador. Acesso: USR'
+      description: 'Mostra a informação do perfil de um utilizador. Acesso: USR, OWN'
       tags:
         - 'M01: Autenticação e perfil individual'
       
@@ -195,6 +200,10 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra o perfil do utilizador'
+        '403':
+          description: 'O utilizador autenticado não tem permissões suficientes.'
+        '404':
+          description: 'ID não existe. Mostra página de erro'
   
   /perfil/{nomeUtilizador}/editar:
     get:
@@ -212,8 +221,12 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página de edição do perfil do utilizador'
+        '404':
+          description: 'ID do utilizador não existe. Mostra erro.'
+        '403':
+          description: 'ID encontrado, mas cliente não tem permissões de alteração'
     
-    post:
+    put:
       operationId: R110
       summary: 'R110: Submete dados editados'
       description: 'Processa os dados de perfil que foram editados pelo utilizador. Acesso: OWN'
@@ -253,6 +266,64 @@ paths:
                 302Sucesso:
                   description: 'Dados alterados com sucesso'
                   value: '/perfil/{nomeUtilizador}'
+                303Erro:
+                  description: 'Email duplicado'
+                  value: '/perfil/{nomeUtilizador}/editar'
+        '403':
+          description: 'O utilizador autenticado não tem permissões suficientes.'
+
+  /perfil/{nomeUtilizador}/apelos:
+    get:
+      operationId: R111
+      summary: 'R111: Lista os apelos do utilizador. Acesso: BAN'
+      description: 'Mostra uma página com os apelos do utilizador. Se este puder fazer mais apelos é apresentado um formulário de apelos.'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      responses:
+        '200': 
+          description: 'Ok. Mostra a página.'
+        '403': 
+          description: 'O utilizador não está banido ou autenticado.'
+    post:
+      operationId: R112
+      summary: 'R112: Cria um novo apelo de desbloqueio.'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                texto:
+                  type: string
+      responses:
+        '302':
+          description: 'Redirecção ao processar dados enviados'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Apelo feito com sucesso'
+                  value: '/perfil/{nomeUtilizador}/apelos'
+                303Erro:
+                  description: 'Não são permitidos mais apelos'
+                  value: '/perfil/{nomeUtilizador}/apelos'
 
 #M02 
   /sobrenos:
@@ -296,17 +367,6 @@ paths:
         '200':
           description: 'Ok. Mostra a página Serviços.'
 
-
-  /admin:
-    get:
-      operationId: R205
-      summary: 'R205: Página de Admin'
-      description: 'Mostra a página de administrador. Acesso: ADM'
-      tags:
-      - 'M02: Administração de utilizadores e páginas estáticas'
-      responses:
-        '200':
-          description: 'Ok. Mostra a página de administrador'
   /admin/moderadores:
     get:
       operationId: R206
@@ -317,7 +377,9 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página de administração dos moderadores do sistema.'
-    post:
+        '403':
+          description: 'O utilizador autenticado não tem permissões suficientes.'
+    put:
       operationId: R207
       summary: 'R207: Alteração de permissões de moderador'
       description: 'Adiciona ou remove moderadores ao sistema. Acesso: ADM'
@@ -327,18 +389,16 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded: #checkbox?
+          application/json: #checkbox?
             schema:
-              type: object
-              properties:
-                moderador:
-                  type: boolean
-                user_id: 
-                  type: integer
-              required:
-                - moderador
-                - user_id
-    
+              type: array
+              items:
+                type: object
+                properties:
+                  moderador:
+                    type: boolean
+                  user_id:
+                    type: integer
       responses:
         '302':
           description: 'Redirecionando após alterar permissões de moderador'
@@ -353,6 +413,9 @@ paths:
                 302Erro:
                   description: 'Alteração de permissão rejeitada. Redirecionando para a página de moderador' 
                   value: '/admin/moderadores'
+        '403':
+          description: 'O utilizador autenticado não tem permissões suficientes.'
+
   /admin/banimento:
     get:
       operationId: R208
@@ -363,27 +426,25 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página de apelos de banimento.'
-    post:
+        '403':
+          description: 'O utilizador autenticado não tem permissões suficientes.'
+    delete:
       operationId: R209
-      summary: 'R209: Bloqueia e/ou desbloqueia contas'
-      description: 'Bloqueia e/ou desbloqueia contas. Acesso: ADM'
+      summary: 'R209: Desbloqueia contas'
+      description: 'Desbloqueia contas. Acesso: ADM'
       tags:
-      - 'M02: Administração de utilizadores e páginas estáticas'
-      
+        - 'M02: Administração de utilizadores e páginas estáticas'
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded: #checkbox?
+          application/json: #checkbox?
             schema:
-              type: object
-              properties:
-                bloqueado:
-                  type: boolean
-                user_id: 
-                  type: integer
-              required:
-                - bloqueado
-                - user_id
+              type: array
+              items:
+                type: object
+                properties:
+                  user_id: 
+                    type: integer
     
       responses:
         '302':
@@ -394,54 +455,46 @@ paths:
                 type: string
               examples:
                 302Sucesso:
-                  description: 'Bloqueio ou desbloqueio feito com sucesso. Redirecionando para a página de banimento'
+                  description: 'Desbloqueio feito com sucesso. Redirecionando para a página de banimento'
                   value: '/admin/banimento'
                 302Erro:
-                  description: 'Bloqueio ou desbloqueio de conta rejeitado. Redirecionando para a página de banimento' 
+                  description: 'Desbloqueio de conta rejeitado. Redirecionando para a página de banimento' 
                   value: '/admin/banimento'
-#M03
-  /questoes:
-    get:
-      operationId: R301
-      summary: 'R301: Lista de Questões'
-      description: 'Mostra a lista de questões associadas a uma pesquisa. Acesso: PUB'
+
+  /banir:
+    post: 
+      operationId: R210
+      summary: '210: Bane um utilizador. Acesso: ADM'
+      description: 'Quando é feita com sucesso, o utilizador é banido'
       tags:
-        - 'M03: Pesquisa de questões'
-      parameters:
-      - in: query
-        name: query
-        description: 'Pesquisa exata'
-        schema:
-          type: string
-        required: false
-      - in: query
-        name: etiqueta
-        description: 'Pesquisa por etiquetas'
-        schema:
-          type: string
-        required: false
-      - in: query
-        name: ordenar
-        description: 'Ordenação de perguntas'
-        schema:
-          type: string
-          enum:
-            - mais_votos
-            - mais_recente
-            - mais_reputacao
-        required: false
+        - 'M02: Administração de utilizadores e páginas estáticas'
+      requestBody:
+        required: true
+        content:
+          application/json: #checkbox?
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  user_id: 
+                    type: integer
       responses:
-        '200':
-          description: 'Ok. Mostra a lista de questões'
-          content:
-            application/json:
+        '403':
+          description: 'O utilizador autenticado não tem permissões suficientes.'
+        '302':
+          description: 'Redirecionando após bloquear ou desbloquear a conta'
+          headers:
+            Location:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id_questao:
-                      type: integer #responder só com os ids das questoes?
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Bloqueio feito com sucesso. Redirecionando o perfil.'
+                  value: '/perfil/{idUtilizador}'
+                302Erro:
+                  description: 'Bloqueio de conta rejeitado. Redirecionando o perfil.' 
+                  value: '/perfil/{idUtilizador}'
 
 #M04
   /questao/{idQuestao}:
@@ -695,6 +748,49 @@ paths:
         '403':
           description: 'Resposta ou Questão não encontradas.'
 
+  /questoes:
+      get:
+        operationId: R410
+        summary: 'R410: Lista de Questões'
+        description: 'Mostra a lista de questões associadas a uma pesquisa. Acesso: PUB'
+        tags:
+          - 'M03: Pesquisa de questões'
+        parameters:
+        - in: query
+          name: query
+          description: 'Pesquisa exata'
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: etiqueta
+          description: 'Pesquisa por etiquetas'
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: ordenar
+          description: 'Ordenação de perguntas'
+          schema:
+            type: string
+            enum:
+              - mais_votos
+              - mais_recente
+              - mais_reputacao
+          required: false
+        responses:
+          '200':
+            description: 'Ok. Mostra a lista de questões'
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id_questao:
+                        type: integer #responder só com os ids das questoes?
+
 #M05
   /criarquestao:
     get:
@@ -744,7 +840,8 @@ paths:
                   value: '/questao/{id_questao}'
                 302Erro:
                   description: 'Falha na criação da questão. Redirecionando para a homepage' 
-                  value: ''
+                  value: '/'
+
   /questao/{id_questao}/editar:
     get:
       operationId: R503
