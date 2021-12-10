@@ -702,7 +702,7 @@ paths:
       summary: 'R501: Criação de questões'
       description: 'Mostra a página de criação de questões. Acesso: USR'
       tags:
-        - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+        - 'M05: Criação e edição de questões. Edição de respostas e comentários'
       responses:
         '200':
           description: 'Ok. Mostra a página de criação de questões.'
@@ -711,7 +711,7 @@ paths:
       summary: 'R502: Cria uma questão'
       description: 'Cria uma questão. Acesso: USR'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
       
       requestBody:
         required: true
@@ -751,7 +751,7 @@ paths:
       summary: 'R503: Editar questões'
       description: 'Mostra a página de edição de questões. Acesso: OWN'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
       parameters:
       - in: path
         name: id_questao
@@ -767,7 +767,7 @@ paths:
       summary: 'R504: Edita uma questão'
       description: 'Edita uma questão. Acesso: OWN'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
       
       parameters:
       - in: path
@@ -815,7 +815,7 @@ paths:
       summary: 'R505: Editar respostas ou comentários'
       description: 'Mostra a página de edição de respostas ou comentários. Acesso: OWN'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
       parameters:
       - in: path
         name: id_interacao
@@ -846,7 +846,7 @@ paths:
       summary: 'R506: Edita uma reposta ou comentário'
       description: 'Edita uma resposta ou comentário. Acesso: OWN'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários.'
+      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
       parameters:
       - in: path
         name: id_interacao
