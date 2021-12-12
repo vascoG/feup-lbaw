@@ -10,7 +10,7 @@ class Utilizador extends Authenticable {
     protected $table = 'utilizador';
     
     protected $fillable = [
-        'imagem_perfil', 'nome_utilizador', 'nome', 'e_mail', 'data_nascimento', 'id_palavra_passe'
+        'imagem_perfil', 'nome_utilizador', 'nome', 'e_mail', 'data_nascimento', 'palavra_passe'
     ];
 
     protected $attributes = [
@@ -19,10 +19,6 @@ class Utilizador extends Authenticable {
     ];
 
     protected $hidden = [
-        'id_palavra_passe', 'imagem_perfil'
+        'palavra_passe', 'imagem_perfil'
     ];
-
-    public function palavraPasse() {
-        return $this->hasOne(App\Models\PalavraPasse, 'id_palavra_passe');
-    }
 }
