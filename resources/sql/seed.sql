@@ -23,15 +23,7 @@ DROP TABLE IF EXISTS questao_avaliada CASCADE;
 DROP TABLE IF EXISTS resposta_avaliada CASCADE;
 DROP TABLE IF EXISTS etiqueta CASCADE;
 DROP TABLE IF EXISTS questao_etiqueta CASCADE;
-DROP TABLE IF EXISTS palavra_passe CASCADE;
 DROP TABLE IF EXISTS utilizador_ativo_etiqueta CASCADE;
-
-
-CREATE TABLE palavra_passe(
-  id SERIAL PRIMARY KEY,
-  palavra_passe TEXT NOT NULL,
-  palavra_passe_salt TEXT UNIQUE NOT NULL
-);
 
 CREATE TABLE utilizador(
   id SERIAL PRIMARY KEY,
@@ -40,7 +32,7 @@ CREATE TABLE utilizador(
   nome TEXT NOT NULL,
   e_mail TEXT NOT NULL UNIQUE,
   data_nascimento DATE NOT NULL CHECK (data_nascimento < now()),
-  id_palavra_passe INTEGER UNIQUE NOT NULL REFERENCES palavra_passe(id) ON UPDATE CASCADE,
+  palavra_passe VARCHAR(72) NOT NULL,
   moderador BOOLEAN NOT NULL,
   administrador BOOLEAN NOT NULL
 );
@@ -704,22 +696,20 @@ CLUSTER historico_comentario USING agrupa_historico_comentario;
   POPULAÇÃO DA BASE DE DADOS
 */
 
-INSERT INTO palavra_passe(id,palavra_passe,palavra_passe_salt)
-VALUES (generate_series(1,1010),md5(random()::text),md5(random()::text));
-INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,id_palavra_passe,moderador,administrador)
-VALUES (generate_series(1,1000),md5(random()::text),md5(random()::text),md5(random()::text), (timestamp '1972-01-01 00:00:00' + random() * (now() - timestamp '1972-01-01 00:00:00')) :: DATE, generate_series(1,1000),FALSE,FALSE);
-INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,id_palavra_passe,moderador,administrador)
+INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,palavra_passe,moderador,administrador)
+VALUES (generate_series(1,1000),md5(random()::text),md5(random()::text),md5(random()::text), (timestamp '1972-01-01 00:00:00' + random() * (now() - timestamp '1972-01-01 00:00:00')) :: DATE, md5(random()::text),FALSE,FALSE);
+INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,palavra_passe,moderador,administrador)
 VALUES
-(1001,'vasco8','Vasco Gomes','vascogomes@gmail.pt','2001-02-15',1001,FALSE,TRUE),
-(1002,'mari75','Maria Santos','mariasantos@gmail.pt','2001-04-16',1002,TRUE,FALSE),
-(1003,'marci_24','Marcia Carvalho','marcia@gmail.pt','1998-10-29',1003,TRUE,FALSE),
-(1004,'m_monteiro','Mariana Monteiro','mmonteiro@gmail.pt','2001-05-04',1004,FALSE,TRUE),
-(1005,'francisco1','Francisco Oliveira','francisco1@gmail.pt','2001-06-24',1005,FALSE,TRUE),
-(1006,'j_rodrigo','João Rodrigo','joaor@gmail.pt','1998-05-30',1006,FALSE,TRUE),
-(1007,'leonor2001','Leonor Castro','leonor2001@gmail.pt','1990-04-16',1007,TRUE,FALSE),
-(1008,'mariapinto','Maria Pinto','mariap@gmail.pt','1995-11-19',1008,TRUE,FALSE),
-(1009,'martim22','Martim Castro','martimcastro@gmail.pt','1997-09-22',1009,TRUE,FALSE),
-(1010,'carla_mirra','Carla Mirra','carlam@gmail.pt','2002-07-25',1010,TRUE,FALSE);
+(1001,'vasco8','Vasco Gomes','vascogomes@gmail.pt','2001-02-15',md5(random()::text),FALSE,TRUE),
+(1002,'mari75','Maria Santos','mariasantos@gmail.pt','2001-04-16',md5(random()::text),TRUE,FALSE),
+(1003,'marci_24','Marcia Carvalho','marcia@gmail.pt','1998-10-29',md5(random()::text),TRUE,FALSE),
+(1004,'m_monteiro','Mariana Monteiro','mmonteiro@gmail.pt','2001-05-04',md5(random()::text),FALSE,TRUE),
+(1005,'francisco1','Francisco Oliveira','francisco1@gmail.pt','2001-06-24',md5(random()::text),FALSE,TRUE),
+(1006,'j_rodrigo','João Rodrigo','joaor@gmail.pt','1998-05-30',md5(random()::text),FALSE,TRUE),
+(1007,'leonor2001','Leonor Castro','leonor2001@gmail.pt','1990-04-16',md5(random()::text),TRUE,FALSE),
+(1008,'mariapinto','Maria Pinto','mariap@gmail.pt','1995-11-19',md5(random()::text),TRUE,FALSE),
+(1009,'martim22','Martim Castro','martimcastro@gmail.pt','1997-09-22',md5(random()::text),TRUE,FALSE),
+(1010,'carla_mirra','Carla Mirra','carlam@gmail.pt','2002-07-25',md5(random()::text),TRUE,FALSE);
 INSERT INTO utilizador_ativo(id,id_utilizador)
 VALUES (generate_series(1,1010),generate_series(1,1010));
 INSERT INTO utilizador_banido(id,id_utilizador)
