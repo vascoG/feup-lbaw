@@ -428,7 +428,7 @@ paths:
           description: 'Ok. Mostra a página de apelos de banimento.'
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
-    delete:
+    put:
       operationId: R209
       summary: 'R209: Desbloqueia contas'
       description: 'Desbloqueia contas. Acesso: ADM'
