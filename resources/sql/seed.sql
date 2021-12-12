@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS lbaw2191;
+
 SET search_path TO lbaw2191;
 
 /*
