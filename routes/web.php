@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Utilizador;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,4 +13,6 @@
 |
 */
 // Home
-Route::get('/', 'Auth\LoginController@home');
+Route::get('/', function(){
+    return Utilizador::find(1)->palavraPasse->toJson();
+});
