@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticable;
 class Utilizador extends Authenticable {
     public $timestamps = false;
 
-    protected $table = 'user';
+    protected $table = 'utilizador';
     
     protected $fillable = [
         'imagem_perfil', 'nome_utilizador', 'nome', 'e_mail', 'data_nascimento', 'id_palavra_passe'
