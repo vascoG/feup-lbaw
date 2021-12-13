@@ -14,5 +14,5 @@ use App\Models\Utilizador;
 */
 // Home
 Route::get('/', function(){
-    return Utilizador::find(1)->palavraPasse->toJson();
+    return Utilizador::find(1)->toJson();
 });
