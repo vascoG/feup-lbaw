@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\Utilizador;
+use App\Models\UtilizadorAtivo;
+use App\Models\Questao;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,15 @@ use App\Models\Utilizador;
 */
 // Home
 Route::get('/', function(){
-    return Utilizador::find(1)->toJson();
+    /*$user = UtilizadorAtivo::find(1);
+    $message = '';
+    foreach ($user->questoes as $questao) {
+        $message .= '<br>' . $questao->toJson();
+        echo $questao->getAutor->toJson();
+    }
+    return $message;*/
+    foreach (UtilizadorAtivo::find(19)->notificacoes as $notificacao) {
+        echo $notificacao->pivot;
+    }
+    //echo UtilizadorAtivo::find(19)->notificacoes;
 });

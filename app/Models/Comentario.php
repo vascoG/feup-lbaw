@@ -11,15 +11,23 @@ class Comentario extends Model {
 
     protected $fillable = ['texto', 'autor', 'id_questao', 'id_resposta'];
 
-    function autor() {
-        return $this->hasOne('App\Model\UtilizadorAtivo', 'autor', 'id');
+    public function criador() {
+        return $this->belongsTo('App\Models\UtilizadorAtivo', 'autor', 'id');
     }
 
-    function questao() {
-        return $this->hasOne('App\Model\Questao', 'id_questao', 'id');
+    public function questao() {
+        return $this->belongsTo('App\Model\Questao', 'id_questao', 'id');
     }
 
-    function resposta() {
-        return $this->hasOne('App\Model\Resposta', 'id_resposta', 'id');
+    public function resposta() {
+        return $this->belongsTo('App\Model\Resposta', 'id_resposta', 'id');
+    }
+
+    public function notificacoes() {
+        return $this->hasMany('App\Models\Notificacao', 'id_comentario', 'id');
+    }
+
+    public function historicos() {
+        return $this->hasMany('App\Models\HistoricoInteracao', 'id_comentario', 'id');
     }
 }

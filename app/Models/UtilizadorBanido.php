@@ -14,4 +14,8 @@ class UtilizadorBanido extends Model {
     function utilizador() {
         return $this->hasOne('App\Models\Utilizador', 'id_utilizador', 'id');
     }
+
+    function apelos() {
+        return $this->hasMany('App\Models\ApeloDesbloqueio', 'id_utilizador', 'id');
+    }
 }

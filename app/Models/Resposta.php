@@ -11,11 +11,23 @@ class Resposta extends Model {
 
     protected $fillable = ['texto', 'autor', 'id_questao', 'resposta_aceite'];
 
-    function autor() {
-        return $this->hasOne('App\Model\UtilizadorAtivo', 'autor', 'id');
+    public function criador() {
+        return $this->belongsTo('App\Models\UtilizadorAtivo', 'autor', 'id');
     }
 
-    function questao() {
-        return $this->hasOne('App\Model\Questao', 'id_questao', 'id');
+    public function questao() {
+        return $this->belongsTo('App\Model\Questao', 'id_questao', 'id');
+    }
+
+    public function comentarios() {
+        return $this->hasMany('App\Models\Comentario', 'id_resposta', 'id');
+    }
+
+    public function notificacoes() {
+        return $this->hasMany('App\Models\Notificacao', 'id_resposta', 'id');
+    }
+
+    public function historicos() {
+        return $this->hasMany('App\Models\HistoricoInteracao', 'id_resposta', 'id');
     }
 }

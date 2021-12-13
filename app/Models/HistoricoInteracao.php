@@ -12,14 +12,14 @@ class HistoricoInteracao extends Model {
     protected $fillable = ['texto', 'id_questao', 'id_comentario', 'id_resposta'];
 
     function questao() {
-        return $this->hasOne('App\Model\Questao', 'id_questao', 'id');
+        return $this->belongsTo('App\Model\Questao', 'id_questao', 'id');
     }
 
     function resposta() {
-        return $this->hasOne('App\Model\Resposta', 'id_resposta', 'id');
+        return $this->belongsTo('App\Model\Resposta', 'id_resposta', 'id');
     }
 
     function comentario() {
-        return $this->hasOne('App\Model\Comentario', 'id_comentario', 'id');
+        return $this->belongsTo('App\Model\Comentario', 'id_comentario', 'id');
     }
 }

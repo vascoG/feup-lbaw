@@ -12,14 +12,18 @@ class Notificacao extends Model {
     protected $fillable = ['texto', 'autor', 'id_questao', 'id_comentario', 'id_resposta'];
 
     function questao() {
-        return $this->hasOne('App\Model\Questao', 'id_questao', 'id');
+        return $this->belongsTo('App\Model\Questao', 'id_questao', 'id');
     }
 
     function resposta() {
-        return $this->hasOne('App\Model\Resposta', 'id_resposta', 'id');
+        return $this->belongsTo('App\Model\Resposta', 'id_resposta', 'id');
     }
 
     function comentario() {
-        return $this->hasOne('App\Model\Comentario', 'id_comentario', 'id');
+        return $this->belongsTo('App\Model\Comentario', 'id_comentario', 'id');
+    }
+
+    public function utilizadoresAfetados() {
+        return $this->belongsToMany('App\Models\UtilizadorAtivo', 'utilizador_ativo_notificacao', 'id_notificacao', 'id_utilizador')->withPivot('data_lida');
     }
 }
