@@ -12,9 +12,8 @@ externalDocs:
 tags:
   - name: 'M01: Autenticação e perfil individual'
   - name: 'M02: Administração de utilizadores e páginas estáticas'
-  - name: 'M03: Pesquisa de questões'
-  - name: 'M04: Visualização, votação e resposta a questões'
-  - name: 'M05: Criação e edição de questões. Edição de respostas e comentários'
+  - name: 'M03: Visualização, votação, pesquisa e resposta a questões'
+  - name: 'M04: Criação e edição de questões. Edição de respostas e comentários'
 paths:
 
 #MO1
@@ -275,8 +274,8 @@ paths:
   /perfil/{nomeUtilizador}/apelos:
     get:
       operationId: R111
-      summary: 'R111: Lista os apelos do utilizador. Acesso: BAN'
-      description: 'Mostra uma página com os apelos do utilizador. Se este puder fazer mais apelos é apresentado um formulário de apelos.'
+      summary: 'R111: Lista os apelos do utilizador.'
+      description: 'Mostra uma página com os apelos do utilizador. Se este puder fazer mais apelos é apresentado um formulário de apelos. Acesso: BAN'
       tags:
         - 'M01: Autenticação e perfil individual'
       parameters:
@@ -324,6 +323,37 @@ paths:
                 303Erro:
                   description: 'Não são permitidos mais apelos'
                   value: '/perfil/{nomeUtilizador}/apelos'
+  /perfil/{nomeUtilizador}/eliminar: 
+        delete:
+          operationId: R113
+          summary: 'R113: Eliminar perfil'
+          description: 'Elimina o perfil. Acesso: OWN, ADM'
+          tags:
+            - 'M01: Autenticação e perfil individual'
+          parameters:
+            - in: path
+              name: nomeUtilizador
+              schema:
+                type: string
+              required: true
+          responses:
+            '302':
+              description: 'Redirecionando após eliminar perfil.'
+              headers:
+                Location:
+                  schema:
+                    type: string
+                  examples:
+                    302Sucesso:
+                      description: 'Perfil eliminado com sucesso.'
+                      value: '/'
+                    302Erro:
+                      description: 'Falha na eliminação do perfil. Redirecionando para o perfil' 
+                      value: '/perfil/{nomeUtilizador}'
+            '404':
+              description: 'Nome utilizador não existe. Mostra página de erro.'
+            '403':
+              description: 'O utilizador não tem permissões suficientes.'
 
 #M02 
   /sobrenos:
@@ -369,8 +399,8 @@ paths:
 
   /admin/moderadores:
     get:
-      operationId: R206
-      summary: 'R206: Administração de moderadores do sistema'
+      operationId: R205
+      summary: 'R205: Administração de moderadores do sistema'
       description: 'Mostra a página de administração de moderadores do sistema. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
@@ -389,8 +419,8 @@ paths:
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
     put:
-      operationId: R207
-      summary: 'R207: Alteração de permissões de moderador'
+      operationId: R206
+      summary: 'R206: Alteração de permissões de moderador'
       description: 'Adiciona ou remove moderadores ao sistema. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
@@ -427,8 +457,8 @@ paths:
 
   /admin/banimento:
     get:
-      operationId: R208
-      summary: 'R208: Administração de moderadores do sistema'
+      operationId: R207
+      summary: 'R207: Administração de moderadores do sistema'
       description: 'Mostra a página de apelos de banimento. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
@@ -447,8 +477,8 @@ paths:
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
     put:
-      operationId: R209
-      summary: 'R209: Desbloqueia contas'
+      operationId: R208
+      summary: 'R208: Desbloqueia contas'
       description: 'Desbloqueia contas. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -481,9 +511,9 @@ paths:
 
   /banir:
     post: 
-      operationId: R210
-      summary: '210: Bane um utilizador. Acesso: ADM'
-      description: 'Quando é feita com sucesso, o utilizador é banido'
+      operationId: R209
+      summary: '209: Bane um utilizador.'
+      description: 'Quando é feita com sucesso, o utilizador é banido. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
       requestBody:
@@ -514,14 +544,14 @@ paths:
                   description: 'Bloqueio de conta rejeitado. Redirecionando o perfil.' 
                   value: '/perfil/{idUtilizador}'
 
-#M04
+#M03
   /questao/{idQuestao}:
     get:
-      operationId: R401
-      summary: 'R401: Visualização de questões. Acesso: PUB'
-      description: 'Mostra a página que apresenta a página de uma questão com as suas respostas e comentários.'
+      operationId: R301
+      summary: 'R301: Visualização de questões.'
+      description: 'Mostra a página que apresenta a página de uma questão com as suas respostas e comentários. Acesso: PUB'
       tags:
-        - 'M04: Visualização, votação e resposta a questões'
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
       parameters:
         - in: path
           name: idQuestao
@@ -536,11 +566,11 @@ paths:
   
   /votar/questao/{idQuestao}:
     get:
-      operationId: R402
-      summary: 'R402: Número de votos em questões. Acesso: PUB'
-      description: 'Retorna o número de votos numa questão'
+      operationId: R302
+      summary: 'R302: Número de votos em questões. '
+      description: 'Retorna o número de votos numa questão. Acesso: PUB'
       tags:
-        - 'M04: Visualização, votação e resposta a questões'
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
       parameters:
         - in: path
           name: idQuestao
@@ -562,11 +592,11 @@ paths:
         '404':
           description: 'Erro. Questão com determinado id não encontrada'
     post:
-      operationId: R403
-      summary: 'R403: Votação em questões. Acesso: USR'
-      description: 'Processa um pedido de voto em determinada questão'
+      operationId: R303
+      summary: 'R303: Votação em questões.'
+      description: 'Processa um pedido de voto em determinada questão. Acesso: USR'
       tags:
-        - 'M04: Visualização, votação e resposta a questões'
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
       parameters:
         - in: path
           name: idQuestao
@@ -592,11 +622,11 @@ paths:
 
   /votar/resposta/{idResposta}:
     get:
-      operationId: R404
-      summary: 'R404: Número de votos em respostas. Acesso: PUB'
-      description: 'Retorna o número de votos numa resposta'
+      operationId: R304
+      summary: 'R304: Número de votos em respostas.'
+      description: 'Retorna o número de votos numa resposta. Acesso: PUB'
       tags:
-        - 'M04: Visualização, votação e resposta a questões'
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
       parameters:
         - in: path
           name: idResposta
@@ -618,11 +648,11 @@ paths:
         '404':
           description: 'Erro. Resposta com determinado id não encontrada'
     post:
-      operationId: R405
-      summary: 'R405: Votação em respostas. Acesso: USR'
-      description: 'Processa um pedido de voto em determinada resposta'
+      operationId: R305
+      summary: 'R305: Votação em respostas.'
+      description: 'Processa um pedido de voto em determinada resposta. Acesso: USR'
       tags:
-        - 'M04: Visualização, votação e resposta a questões'
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
       parameters:
         - in: path
           name: idResposta
@@ -648,11 +678,11 @@ paths:
   
   /criar/resposta:
     post:
-      operationId: R406
-      summary: 'R406: Criação de Respostas. Acesso: USR'
-      description: 'Processa o pedido de criação de uma resposta a uma questão'
+      operationId: R306
+      summary: 'R306: Criação de Respostas.'
+      description: 'Processa o pedido de criação de uma resposta a uma questão. Acesso: USR'
       tags:
-        - 'M04: Visualização, votação e resposta a questões'
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
       requestBody:
         required: true
         content:
@@ -680,11 +710,11 @@ paths:
 
   /criar/comentario:
     post:
-      operationId: R407
-      summary: 'R407: Criação de Comentários. Acesso: USR'
-      description: 'Processa o pedido de criação de um comentário a uma questão ou resposta'
+      operationId: R307
+      summary: 'R307: Criação de Comentários.'
+      description: 'Processa o pedido de criação de um comentário a uma questão ou resposta. Acesso: USR'
       tags:
-        - 'M04: Visualização, votação e resposta a questões'
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
       requestBody:
         required: true
         content:
@@ -713,11 +743,11 @@ paths:
 
   /resposta-correta/{idQuestao}:
     get:
-      operationId: R408
-      summary: 'R408: Acesso à resposta correta. Acesso: PUB'
-      description: 'Retorna o id da resposta correta a uma determinada questão'
+      operationId: R308
+      summary: 'R308: Acesso à resposta correta.'
+      description: 'Retorna o id da resposta correta a uma determinada questão. Acesso: PUB'
       tags:
-        - 'M04: Visualização, votação e resposta a questões'
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
       parameters:
         - in: path
           name: idQuestao
@@ -737,11 +767,11 @@ paths:
                     idResposta:
                       type: integer
     post:
-      operationId: R409
-      summary: 'R408: Marca a resposta correta. Acesso: OWN'
-      description: 'Marca como correta a resposta de id enviado.'
+      operationId: R309
+      summary: 'R309: Marca a resposta correta.'
+      description: 'Marca como correta a resposta de id enviado. Acesso: OWN'
       tags:
-        - 'M04: Visualização, votação e resposta a questões'
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
       parameters:
         - in: path
           name: idQuestao
@@ -768,11 +798,11 @@ paths:
 
   /questoes:
       get:
-        operationId: R410
-        summary: 'R410: Lista de Questões'
+        operationId: R310
+        summary: 'R310: Lista de Questões'
         description: 'Mostra a lista de questões associadas a uma pesquisa. Acesso: PUB'
         tags:
-          - 'M03: Pesquisa de questões'
+          - 'M03: Visualização, votação, pesquisa e resposta a questões'
         parameters:
         - in: query
           name: query
@@ -809,23 +839,23 @@ paths:
                       idQuestao:
                         type: integer
 
-#M05
+#M04
   /criarquestao:
     get:
-      operationId: R501
-      summary: 'R501: Criação de questões'
+      operationId: R401
+      summary: 'R401: Criação de questões'
       description: 'Mostra a página de criação de questões. Acesso: USR'
       tags:
-        - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+        - 'M04: Criação e edição de questões. Edição de respostas e comentários'
       responses:
         '200':
           description: 'Ok. Mostra a página de criação de questões.'
     post:
-      operationId: R502
-      summary: 'R502: Cria uma questão'
+      operationId: R402
+      summary: 'R402: Cria uma questão'
       description: 'Cria uma questão. Acesso: USR'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+      - 'M04: Criação e edição de questões. Edição de respostas e comentários'
       
       requestBody:
         required: true
@@ -862,11 +892,11 @@ paths:
 
   /questao/{idQuestao}/editar:
     get:
-      operationId: R503
-      summary: 'R503: Editar questões'
+      operationId: R403
+      summary: 'R403: Editar questões'
       description: 'Mostra a página de edição de questões. Acesso: OWN'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+      - 'M04: Criação e edição de questões. Edição de respostas e comentários'
       parameters:
       - in: path
         name: idQuestao
@@ -878,11 +908,11 @@ paths:
         '200':
           description: 'Ok. Mostra a página de edição de questões.'
     post:
-      operationId: R504
-      summary: 'R504: Edita uma questão'
+      operationId: R404
+      summary: 'R404: Edita uma questão'
       description: 'Edita uma questão. Acesso: OWN'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+      - 'M04: Criação e edição de questões. Edição de respostas e comentários'
       
       parameters:
       - in: path
@@ -926,11 +956,11 @@ paths:
                   value: '/questao/{idQuestao}'
   /questao/{idQuestao}/editar-resposta/{idResposta}: 
     get:
-      operationId: R505
-      summary: 'R505: Editar respostas'
+      operationId: R405
+      summary: 'R405: Editar respostas'
       description: 'Mostra a página de edição de respostas. Acesso: OWN'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+      - 'M04: Criação e edição de questões. Edição de respostas e comentários'
       parameters:
       - in: path
         name: idResposta
@@ -947,12 +977,14 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página de edição de respostas.'
-    post:
-      operationId: R506
-      summary: 'R506: Edita uma reposta'
+        '404':
+          description: 'ID não existe. Mostra página de erro.'
+    put:
+      operationId: R406
+      summary: 'R406: Edita uma reposta'
       description: 'Edita uma resposta. Acesso: OWN'
       tags:
-      - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+      - 'M04: Criação e edição de questões. Edição de respostas e comentários'
       parameters:
       - in: path
         name: idResposta
@@ -994,13 +1026,15 @@ paths:
                   value: '/questao/{idQuestao}'
         '403':
           description: 'O utilizador não tem permissões suficientes.'
+        '404':
+          description: 'ID não existe. Mostra página de erro.'
   /questao/{idQuestao}/editar-comentario/{idComentario}: 
       get:
-        operationId: R507
-        summary: 'R507: Editar comentários'
+        operationId: R407
+        summary: 'R407: Editar comentários'
         description: 'Mostra a página de edição de comentários. Acesso: OWN'
         tags:
-        - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+        - 'M04: Criação e edição de questões. Edição de respostas e comentários'
         parameters:
         - in: path
           name: idComentario
@@ -1017,12 +1051,14 @@ paths:
         responses:
           '200':
             description: 'Ok. Mostra a página de edição de comentários.'
-      post:
-        operationId: R508
-        summary: 'R508: Edita um comentário'
+          '404':
+            description: 'ID não existe. Mostra página de erro.'
+      put:
+        operationId: R408
+        summary: 'R408: Edita um comentário'
         description: 'Edita um comentário. Acesso: OWN'
         tags:
-        - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+        - 'M04: Criação e edição de questões. Edição de respostas e comentários'
         parameters:
         - in: path
           name: idComentario
@@ -1064,3 +1100,117 @@ paths:
                     value: '/questao/{idQuestao}'
           '403':
             description: 'O utilizador não tem permissões suficientes.'
+          '404':
+            description: 'ID não existe. Mostra página de erro.'
+  /questao/{idQuestao}/eliminar: 
+      delete:
+        operationId: R409
+        summary: 'R409: Eliminar questão'
+        description: 'Elimina uma questão. Acesso: OWN, MOD, ADM'
+        tags:
+        - 'M04: Criação e edição de questões. Edição de respostas e comentários'
+        parameters:
+        - in: path
+          name: idQuestao
+          description: 'id da questao'
+          schema:
+            type: integer
+          required: true
+        responses:
+          '302':
+            description: 'Redirecionando após eliminar questão.'
+            headers:
+              Location:
+                schema:
+                  type: string
+                examples:
+                  302Sucesso:
+                    description: 'Questão eliminada com sucesso.'
+                    value: '/'
+                  302Erro:
+                    description: 'Falha na eliminação da questão. Redirecionando para a página da questão' 
+                    value: '/questao/{idQuestao}'
+          '404':
+            description: 'ID não existe. Mostra página de erro.'
+          '403':
+            description: 'O utilizador não tem permissões suficientes.'
+  /questao/{idQuestao}/{idResposta}/eliminar: 
+      delete:
+        operationId: R410
+        summary: 'R410: Eliminar resposta'
+        description: 'Elimina uma resposta. Acesso: OWN, MOD, ADM'
+        tags:
+        - 'M04: Criação e edição de questões. Edição de respostas e comentários'
+        parameters:
+        - in: path
+          name: idResposta
+          description: 'id da resposta' 
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: idQuestao
+          description: 'id da questao'
+          schema:
+            type: integer
+          required: true
+        responses:
+          '302':
+            description: 'Redirecionando após eliminar resposta.'
+            headers:
+              Location:
+                schema:
+                  type: string
+                examples:
+                  302Sucesso:
+                    description: 'Resposta eliminada com sucesso. Redirecionando para a página da questão'
+                    value: '/questao/{idQuestao}'
+                  302Erro:
+                    description: 'Falha na eliminação da resposta. Redirecionando para a página da questão' 
+                    value: '/questao/{idQuestao}'
+          '404':
+            description: 'ID não existe. Mostra página de erro.'
+          '403':
+            description: 'O utilizador não tem permissões suficientes.'
+  /questao/{idQuestao}/{idComentario}/eliminar: 
+        delete:
+          operationId: R411
+          summary: 'R411: Eliminar comentário'
+          description: 'Elimina um comentário. Acesso: OWN, MOD, ADM'
+          tags:
+          - 'M04: Criação e edição de questões. Edição de respostas e comentários'
+          parameters:
+          - in: path
+            name: idComentario
+            description: 'id do comentario' 
+            schema:
+              type: integer
+            required: true
+          - in: path
+            name: idQuestao
+            description: 'id da questao'
+            schema:
+              type: integer
+            required: true
+          responses:
+            '302':
+              description: 'Redirecionando após eliminar comentário.'
+              headers:
+                Location:
+                  schema:
+                    type: string
+                  examples:
+                    302Sucesso:
+                      description: 'Comentário eliminado com sucesso. Redirecionando para a página da questão'
+                      value: '/questao/{idQuestao}'
+                    302Erro:
+                      description: 'Falha na eliminação do comentário. Redirecionando para a página da questão' 
+                      value: '/questao/{idQuestao}'
+            '404':
+              description: 'ID não existe. Mostra página de erro.'
+            '403':
+              description: 'O utilizador não tem permissões suficientes.'
+        
+
+
+        
