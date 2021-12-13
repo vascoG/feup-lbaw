@@ -924,17 +924,17 @@ paths:
                 302Erro:
                   description: 'Falha na edição da questão. Redirecionando para a página da questão' 
                   value: '/questao/{idQuestao}'
-  /questao/{idQuestao}/editar-interacao/{idInteracao}: 
+  /questao/{idQuestao}/editar-resposta/{idResposta}: 
     get:
       operationId: R505
-      summary: 'R505: Editar respostas ou comentários'
-      description: 'Mostra a página de edição de respostas ou comentários. Acesso: OWN'
+      summary: 'R505: Editar respostas'
+      description: 'Mostra a página de edição de respostas. Acesso: OWN'
       tags:
       - 'M05: Criação e edição de questões. Edição de respostas e comentários'
       parameters:
       - in: path
-        name: idInteracao
-        description: 'id da interação'
+        name: idResposta
+        description: 'id da resposta'
         schema:
           type: integer
         required: true
@@ -944,28 +944,19 @@ paths:
         schema:
           type: integer
         required: true
-      - in: query
-        name: tipo
-        description: 'Tipo de interação: resposta ou comentário'
-        schema:
-          type: string
-          enum:
-            - resposta
-            - comentario
-        required: true
       responses:
         '200':
-          description: 'Ok. Mostra a página de edição de respostas ou comentários.'
+          description: 'Ok. Mostra a página de edição de respostas.'
     post:
       operationId: R506
-      summary: 'R506: Edita uma reposta ou comentário'
-      description: 'Edita uma resposta ou comentário. Acesso: OWN'
+      summary: 'R506: Edita uma reposta'
+      description: 'Edita uma resposta. Acesso: OWN'
       tags:
       - 'M05: Criação e edição de questões. Edição de respostas e comentários'
       parameters:
       - in: path
-        name: idInteracao
-        description: 'id da interação'
+        name: idResposta
+        description: 'id da resposta'
         schema:
           type: integer
         required: true
@@ -984,21 +975,92 @@ paths:
               properties:
                 texto:
                   type: string
-                
               required:
                 - texto
     
       responses:
         '302':
-          description: 'Redirecionando após editar resposta ou comentário '
+          description: 'Redirecionando após editar resposta'
           headers:
             Location:
               schema:
                 type: string
               examples:
                 302Sucesso:
-                  description: 'Edição de resposta ou comentário feito com sucesso. Redirecionando para a página da questão'
+                  description: 'Edição de resposta feito com sucesso. Redirecionando para a página da questão'
                   value: '/questao/{idQuestao}'
                 302Erro:
-                  description: 'Falha na edição da resposta ou do comentário. Redirecionando para a página da questão' 
+                  description: 'Falha na edição da resposta. Redirecionando para a página da questão' 
                   value: '/questao/{idQuestao}'
+        '403':
+          description: 'O utilizador não tem permissões suficientes.'
+  /questao/{idQuestao}/editar-comentario/{idComentario}: 
+      get:
+        operationId: R507
+        summary: 'R507: Editar comentários'
+        description: 'Mostra a página de edição de comentários. Acesso: OWN'
+        tags:
+        - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+        parameters:
+        - in: path
+          name: idComentario
+          description: 'id do comentário'
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: idQuestao
+          description: 'id da questao'
+          schema:
+            type: integer
+          required: true
+        responses:
+          '200':
+            description: 'Ok. Mostra a página de edição de comentários.'
+      post:
+        operationId: R508
+        summary: 'R508: Edita um comentário'
+        description: 'Edita um comentário. Acesso: OWN'
+        tags:
+        - 'M05: Criação e edição de questões. Edição de respostas e comentários'
+        parameters:
+        - in: path
+          name: idComentario
+          description: 'id do comentario'
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: idQuestao
+          description: 'id da questao'
+          schema:
+            type: integer
+          required: true
+        requestBody:
+          required: true
+          content:
+            application/x-www-form-urlencoded: 
+              schema:
+                type: object
+                properties:
+                  texto:
+                    type: string
+                required:
+                  - texto
+      
+        responses:
+          '302':
+            description: 'Redirecionando após editar comentário'
+            headers:
+              Location:
+                schema:
+                  type: string
+                examples:
+                  302Sucesso:
+                    description: 'Edição do comentário feito com sucesso. Redirecionando para a página da questão'
+                    value: '/questao/{idQuestao}'
+                  302Erro:
+                    description: 'Falha na edição do comentário. Redirecionando para a página da questão' 
+                    value: '/questao/{idQuestao}'
+          '403':
+            description: 'O utilizador não tem permissões suficientes.'
