@@ -591,7 +591,7 @@ paths:
                       type: integer
         '404':
           description: 'Erro. Questão com determinado id não encontrada'
-    post:
+    put:
       operationId: R303
       summary: 'R303: Votação em questões.'
       description: 'Processa um pedido de voto em determinada questão. Acesso: USR'
@@ -606,19 +606,19 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json: #checkbox?
             schema:
               type: object
               properties:
+                voto:
+                  type: boolean
                 idUtilizador:
                   type: integer
-              required:
-                - idUtilizador
       responses:
         '200':
           description: 'Voto pôde ser processado'
         '403':
-          description: 'Voto foi inválido (pelo utilizador já ter votado por exemplo)'
+          description: 'Voto foi inválido, o utilizador não tem permissão para votar'
 
   /votar/resposta/{idResposta}:
     get:
@@ -647,9 +647,9 @@ paths:
                       type: integer
         '404':
           description: 'Erro. Resposta com determinado id não encontrada'
-    post:
+    put:
       operationId: R305
-      summary: 'R305: Votação em respostas.'
+      summary: 'R305: Votação em resposta.'
       description: 'Processa um pedido de voto em determinada resposta. Acesso: USR'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
@@ -662,20 +662,20 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json: #checkbox?
             schema:
               type: object
               properties:
+                voto:
+                  type: boolean
                 idUtilizador:
                   type: integer
-              required:
-                - idUtilizador
       responses:
         '200':
           description: 'Voto pôde ser processado'
         '403':
-          description: 'Voto foi inválido (pelo utilizador já ter votado por exemplo)'
-  
+          description: 'Voto foi inválido, o utilizador não tem permissão para votar'
+
   /criar/resposta:
     post:
       operationId: R306
