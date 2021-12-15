@@ -14,5 +14,5 @@ use App\Models\Questao;
 |
 */
 // Home
-Route::get('/', 'Auth\Autenticacao@home');
+Route::view('/', 'teste');
 Route::get('login', 'Auth\Autenticacao@showLoginForm')->name('login');
