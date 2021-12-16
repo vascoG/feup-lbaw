@@ -42,8 +42,8 @@
           </div>
         </div>
       </header>
-      <section id="content">
-        @yield('content')
+      <section id="conteudo">
+        @yield('conteudo')
       </section>
       <footer class="fixed-bottom">
         <p class="geral-footer-paragrafo">LBAW</p>

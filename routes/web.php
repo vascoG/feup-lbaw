@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\UtilizadorAtivo;
-use App\Models\Questao;
-
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 // Home
 
 Route::view('/', 'teste');
-Route::get('login', 'Auth\Autenticacao@showLoginForm')->name('login');
+
+#M01
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm');
