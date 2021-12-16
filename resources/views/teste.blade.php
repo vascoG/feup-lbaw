@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.geral')
 
 @section('content')
     <p>My Content</p>

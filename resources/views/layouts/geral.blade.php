@@ -19,23 +19,25 @@
     </script>
   </head>
   <body>
-      <header>
+      <header class="shadow-lg">
         <div class="hstack gap-3">
           <div>
-            <h1><a href="{{ url('/') }}">FinJet</a></h1>
+            <h1><a href="{{ url('/') }}" id="geral-header-nome">FinJet</a></h1>
           </div>
           <div class="ms-auto">
-            <ul id="user-header-navbar">
-              <li><a>Sobre nós</a></li>
-              <li><a>Serviços</a></li>
-              <li><a>FAQ</a></li>
-              <li><a>Contactos</a></li>
+            <ul id="geral-header-navbar">
+              <li><a href="https://www.google.com">Sobre nós</a></li>
+              <li><a href="https://www.google.com">Serviços</a></li>
+              <li><a href="https://www.google.com">FAQ</a></li>
+              <li><a href="https://www.google.com">Contactos</a></li>
             </ul>
           </div>
           <div class="vr"></div>
           <div>
             @if (Auth::check())
               <!-- Colocar dados do utilizador aqui-->
+            @else
+              <!-- Colocar aqui link de login -->
             @endif
           </div>
         </div>
@@ -43,6 +45,11 @@
       <section id="content">
         @yield('content')
       </section>
+      <footer class="fixed-bottom">
+        <p class="geral-footer-paragrafo">LBAW</p>
+        <div class="vr"></div>
+        <p class="geral-footer-paragrafo">2191</p>
+      </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   </body>
 </html>
