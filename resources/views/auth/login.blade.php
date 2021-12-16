@@ -1,32 +1,37 @@
-@extends('layouts.geral')
+@extends('layouts.minimo')
 
 @section('conteudo')
-<form method="POST" action="{{ route('login') }}">
+<form method="POST" action="{{ route('login') }}" id="login-form">
     {{ csrf_field() }}
 
-    <label for="email">Email</label>
-    <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
-    @if ($errors->has('email'))
-        <span class="error">
-          {{ $errors->first('email') }}
-        </span>
-    @endif
+    <div class="form-group login-field">
+        <label for="e_mail" class="form-label">Email</label>
+        <input id="e_mail" type="email" name="e_mail" value="{{ old('e_mail') }}" class="form-control" required autofocus>
+        @if ($errors->has('email'))
+            <span class="error">
+            {{ $errors->first('email') }}
+            </span>
+        @endif
+    </div>
+    
+    <div class="form-group login-field">
+        <label for="palavra_passe" class="form-label">Palavra-passe</label>
+        <input id="palavra_passe" type="password" name="palavra_passe" class="form-control" required>
+        @if ($errors->has('palavra_passe'))
+            <span class="error">
+                {{ $errors->first('palavra_passe') }}
+            </span>
+        @endif
+    </div>
 
-    <label for="password" >Password</label>
-    <input id="password" type="password" name="password" required>
-    @if ($errors->has('password'))
-        <span class="error">
-            {{ $errors->first('password') }}
-        </span>
-    @endif
+    <div class="form-check login-field">
+        <label for="login-lembrar" class="form-check-label">Lembrar-me</label>
+        <input type="checkbox" name="lembrar" id="login-lembrar" class="form-check-input shadow-none" {{ old('lembrar') ? 'checked' : '' }}>
+    </div>
 
-    <label>
-        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-    </label>
-
-    <button type="submit">
-        Login
-    </button>
-    <a class="button button-outline" href="{{ route('register') }}">Register</a>
+    <div class="login-field" id="botoes-login">
+        <a class="btn btn-secondary px-2" href="{{ route('registo') }}">Registe-se</a>
+        <button type="submit" class="btn btn-primary px-4">Login</button>
+    </div>
 </form>
 @endsection

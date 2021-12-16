@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.minimo')
 
-@section('content')
-<form method="POST" action="{{ route('register') }}">
+@section('conteudo')
+<form method="POST" action="{{ route('registo') }}">
     {{ csrf_field() }}
 
     <label for="name">Name</label>

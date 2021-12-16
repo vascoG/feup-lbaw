@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" class="minimo">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,32 +18,15 @@
         // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
     </script>
   </head>
-  <body>
+  <body class="minimo">
       <header class="shadow-lg">
-        <div class="hstack gap-3">
+        <div id="minimo-logo">
           @include('layouts.logo-text')
-          <div class="ms-auto">
-            <ul id="geral-header-navbar">
-              <li><a href="https://www.google.com">Sobre nós</a></li>
-              <li><a href="https://www.google.com">Serviços</a></li>
-              <li><a href="https://www.google.com">FAQ</a></li>
-              <li><a href="https://www.google.com">Contactos</a></li>
-            </ul>
-          </div>
-          <div class="vr"></div>
-          <div>
-            @if (Auth::check())
-              <!-- Colocar dados do utilizador aqui-->
-            @else
-              <!-- Colocar aqui link de login -->
-            @endif
-          </div>
         </div>
       </header>
-      <section id="conteudo">
-        @yield('conteudo')
+      <section id="minimo-conteudo">
+          @yield('conteudo')
       </section>
       @include('layouts.footer')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   </body>
 </html>

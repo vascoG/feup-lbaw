@@ -16,36 +16,18 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+
+html, body {
+	/*height: 100%;*/
 }
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
+
+ul {
+    list-style-type: none;
 }
 
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite {
+a, abbr, acronym, address, big, cite, label, input, button {
     font-family: 'Nunito', sans-serif;;
 }
 
@@ -60,6 +42,10 @@ header {
 }
 
 footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	display: flex;
 	justify-content: center;
 	margin-bottom: 10px;
@@ -85,4 +71,31 @@ footer {
     display: flex;
     flex-flow: row wrap;
     gap: 20px;
+}
+
+#minimo-logo {
+	text-align: center;
+}
+
+.minimo body {
+	background-color: #EAEAEA;
+}
+
+#minimo-conteudo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#login-form {
+	display: inline-block;
+	width: 40vw;
+}
+
+#botoes-login {
+	text-align: end;
+}
+
+.login-field {
+	margin: 20px;
 }
