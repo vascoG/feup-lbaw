@@ -3,6 +3,8 @@
 use App\Models\UtilizadorAtivo;
 use App\Models\Questao;
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,3 +29,8 @@ Route::get('/', function(){
     }
     //echo UtilizadorAtivo::find(19)->notificacoes;
 });
+
+
+#M04
+Route::get('/criarquestao','QuestaoController@showCreateForm');
+Route::post('/criarquestao','QuestaoController@create');
