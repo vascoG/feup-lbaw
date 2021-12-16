@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Etiqueta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -46,8 +47,8 @@ class QuestaoController extends Controller
             'titulo' => $request->get('titulo'),
             'texto' => $request->get('texto'),
         ]);
-        //data publicacao no sql dá por default ou temos de calcular aqui?
-        //como usar a etiqueta visto que é muitos para muitos
+        //se nao existir a etiqueta que ele escreveu?
+        $questao->etiquetas()->attach(Etiqueta::where('nome',$request->get('etiqueta'))->first()->id);
         $questao->save();
         return redirect()->route('questao',[$questao]);
     }
