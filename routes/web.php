@@ -3,6 +3,8 @@
 use App\Models\UtilizadorAtivo;
 use App\Models\Questao;
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +16,10 @@ use App\Models\Questao;
 |
 */
 // Home
+
 Route::view('/', 'teste');
 Route::get('login', 'Auth\Autenticacao@showLoginForm')->name('login');
+
+#M04
+Route::get('/criarquestao','QuestaoController@showCreateForm');
+Route::post('/criarquestao','QuestaoController@create');
