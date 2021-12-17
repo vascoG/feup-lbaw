@@ -24,3 +24,5 @@ Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->nam
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm');
 Route::post('/criarquestao','QuestaoController@create');
+Route::get('/questao/{idQuestao}/editar','QuestaoController@showEditForm')->name('editar-questao');
+Route::put('questao/{idQuestao}/editar','QuestaoController@edit');
