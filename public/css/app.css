@@ -95,3 +95,31 @@ footer {
 .login-field {
 	margin: 20px;
 }
+
+.questao-titulo
+{
+	width: 70vw;
+	margin:10px;
+	resize:none;
+}
+
+.questao-texto
+{	text-align: left;
+	width: 70vw;
+	height: 20vw;
+	margin: 10px;
+	resize:none;
+}
+
+.questao-button
+{
+	border-style: outset;
+	border-color: #2F2D2E;
+	border-width: 1px;
+}
+
+.questao-button:hover
+{
+	background-color: #2F2D2E;
+	color:#EAEAEA;
+}
