@@ -20,6 +20,15 @@ Route::view('/', 'teste');
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->name('registo');
+#M02
+Route::get('/sobrenos',function(){return view('pages.sobrenos');});
+Route::get('/contactos',function(){return view('pages.contactos');});
+Route::get('/faq',function(){return view('pages.faq');});
+Route::get('/servicos',function(){return view('pages.servicos');});
+Route::get('/admin/moderadores','AdminController@showModerador');
+Route::put('/admin/moderadores','AdminController@createModerador');
+Route::get('/admin/banimento','AdminController@showApelo');
+
 
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm');
