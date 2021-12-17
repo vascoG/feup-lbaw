@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:wght@500&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -28,6 +28,7 @@ ul {
 
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, label, input, button {
+	font-weight: 500;
     font-family: 'Nunito', sans-serif;;
 }
 
@@ -53,11 +54,12 @@ footer {
 	margin-right: 5px;
 }
 
-#geral-header-nome a, a:visited, a:active, a:hover, a:link {
+.link-header, .link-header:hover, .link-header:active, .link-header:link {
     color: #DAA520;
 }
 
-#geral-header-nome {
+#finjet-nome {
+	color: #DAA520;
     font-size: 3rem;
     font-weight: bold;
     font-family: 'Meow Script', cursive;
@@ -94,4 +96,19 @@ footer {
 
 .login-field {
 	margin: 20px;
+}
+
+.erro-input {
+	font-weight: bold;
+	color: #ff0033;
+	margin-left: 20px;
+}
+
+#login-registo {
+	color: #F7FEEF;
+}
+
+#login-submeter {
+	background-color: #DAA520;
+	color: black;
 }
