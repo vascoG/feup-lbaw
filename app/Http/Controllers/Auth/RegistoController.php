@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Utilizador;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegistoController extends Controller {
@@ -36,7 +37,7 @@ class RegistoController extends Controller {
             'nome_utilizador' => $data['nome_utilizador'],
             'nome' => $data['nome'],
             'e_mail' => $data['e_mail'],
-            'palavra_passe' => bcrypt($data['palavra_passe']),
+            'palavra_passe' => Hash::make($data['palavra_passe']),
             'data_nascimento' => $data['data_nascimento'],
             'moderador' => false,
             'administrador' => false,

@@ -19,6 +19,7 @@ Route::view('/', 'teste')->name('home');
 #M01
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->name('registo');
 Route::post('/login/registo', 'Auth\RegistoController@register');
 

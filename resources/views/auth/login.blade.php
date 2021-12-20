@@ -17,10 +17,10 @@
         
         <div class="form-group campo-form-autenticacao">
             <label for="palavra-passe" class="form-label">Palavra-passe</label>
-            <input id="palavra-passe" type="password" name="palavra_passe" class="form-control" required>
-            @if ($errors->has('palavra_passe'))
+            <input id="palavra-passe" type="password" name="password" class="form-control" required>
+            @if ($errors->has('password'))
                 <span class="erro-input">
-                    {{ $errors->first('palavra_passe') }}
+                    {{ $errors->first('password') }}
                 </span>
             @endif
         </div>

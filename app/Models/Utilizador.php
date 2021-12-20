@@ -25,4 +25,8 @@ class Utilizador extends Authenticable {
     protected $dates = [
         'data_nascimento',
     ];
+
+    public function getAuthPassword() {
+        return $this->palavra_passe;
+    }
 }
