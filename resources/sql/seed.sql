@@ -748,3 +748,28 @@ INSERT INTO historico_interacao(id,texto,id_questao)
 VALUES (generate_series(101,200),md5(random()::text),random()*999+1);
 INSERT INTO historico_interacao(id,texto,id_comentario)
 VALUES (generate_series(201,300),md5(random()::text),random()*999+1);
+
+CREATE OR REPLACE FUNCTION atualiza_ids() RETURNS void AS $$
+DECLARE
+  tabelas record;
+  id_max BIGINT;
+  nome_tabela TEXT;
+BEGIN
+  FOR tabelas IN SELECT tables.table_schema, tables.table_name
+    FROM information_schema.tables AS tables INNER JOIN (
+      SELECT * 
+      FROM information_schema.columns 
+      WHERE column_name='id'
+    ) AS columns
+    ON columns.table_name= tables.table_name AND columns.table_schema=tables.table_schema
+    WHERE columns.table_schema='public' OR columns.table_schema='lbaw2191' 
+    LOOP
+    nome_tabela := tabelas.table_schema || '.' || tabelas.table_name;
+    EXECUTE 'SELECT MAX(id) FROM ' || nome_tabela INTO id_max;
+    EXECUTE 'ALTER SEQUENCE ' || nome_tabela || '_id_seq' || ' RESTART WITH ' || CAST((id_max + 1) AS TEXT);
+  END LOOP;
+END
+$$ 
+LANGUAGE plpgsql; 
+
+SELECT atualiza_ids();
