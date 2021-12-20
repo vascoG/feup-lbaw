@@ -27,7 +27,7 @@
 
         <div class="form-check login-field">
             <label for="login-lembrar" class="form-check-label">Lembrar-me</label>
-            <input type="checkbox" name="lembrar" id="login-lembrar" class="form-check-input shadow-none" {{ old('lembrar') ? 'checked' : '' }}>
+            <input type="checkbox" name="lembrar" id="login-lembrar" class="form-check-input shadow-none cb-cor-diferente" {{ old('lembrar') ? 'checked' : '' }}>
         </div>
 
         <div class="login-field" id="botoes-login">
