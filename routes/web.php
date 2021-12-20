@@ -20,6 +20,8 @@ Route::view('/', 'teste')->name('home');
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->name('registo');
+Route::post('/login/registo', 'Auth\RegistoController@register');
+
 #M02
 Route::get('/sobrenos',function(){return view('pages.sobrenos');});
 Route::get('/contactos',function(){return view('pages.contactos');});

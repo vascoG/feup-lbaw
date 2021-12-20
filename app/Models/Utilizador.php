@@ -21,4 +21,8 @@ class Utilizador extends Authenticable {
     protected $hidden = [
         'palavra_passe', 'imagem_perfil'
     ];
+
+    protected $dates = [
+        'data_nascimento',
+    ];
 }
