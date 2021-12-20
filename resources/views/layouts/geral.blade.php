@@ -27,19 +27,27 @@
         <div class="hstack gap-3">
           @include('layouts.logo-text')
           <div class="ms-auto">
-            <ul id="geral-header-navbar">
-              <li><a class="link-header" href="https://www.google.com">Sobre nós</a></li>
-              <li><a class="link-header" href="https://www.google.com">Serviços</a></li>
-              <li><a class="link-header" href="https://www.google.com">FAQ</a></li>
-              <li><a class="link-header" href="https://www.google.com">Contactos</a></li>
-            </ul>
+            <nav id="geral-header-navbar">
+              <a class="link-header" href="https://www.google.com">Sobre nós</a>
+              <a class="link-header" href="https://www.google.com">Serviços</a>
+              <a class="link-header" href="https://www.google.com">FAQ</a>
+              <a class="link-header" href="https://www.google.com">Contactos</a>
+            </nav>
           </div>
-          <div class="vr"></div>
+          <div class="vr" id="header-vr"></div>
           <div>
             @if (Auth::check())
-              <!-- Colocar dados do utilizador aqui-->
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ Auth::user()->nome }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><a class="dropdown-item" href="#">Perfil</a></li>
+                  <li><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
+              </div>
             @else
-              <!-- Colocar aqui link de login -->
+              <a class="link-header"href="{{ route('login') }}">Login</a>
             @endif
           </div>
         </div>
@@ -48,6 +56,6 @@
         @yield('conteudo')
       </section>
       @include('layouts.footer')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   </body>
 </html>

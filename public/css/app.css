@@ -66,6 +66,14 @@ footer {
     align-items: stretch;
 }
 
+/*
+	Estilos do template geral
+*/
+
+#header-vr {
+	color: #4A7C59;
+}
+
 #geral-header {
 	margin-bottom: 15px;
 }
@@ -92,6 +100,10 @@ footer {
     flex-flow: row wrap;
     gap: 20px;
 }
+
+/*
+	Estilos do template minimo
+*/
 
 #minimo-logo {
 	text-align: center;
