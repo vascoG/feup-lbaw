@@ -19,7 +19,7 @@
     </script>
   </head>
   <body>
-      <header class="shadow-lg">
+      <header id="geral-header" class="shadow-lg">
         <div class="hstack gap-3">
           @include('layouts.logo-text')
           <div class="ms-auto">

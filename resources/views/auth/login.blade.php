@@ -1,9 +1,10 @@
 @extends('layouts.minimo')
 
 @section('conteudo')
+<div class="d-flex justify-content-center pt-4">
     <form method="POST" action="{{ route('login') }}" id="login-form">
         {{ csrf_field() }}
-    
+
         <div class="form-group login-field">
             <label for="e_mail" class="form-label">Email</label>
             <input id="e_mail" type="email" name="e_mail" value="{{ old('e_mail') }}" class="form-control" required autofocus>
@@ -23,15 +24,16 @@
                 </span>
             @endif
         </div>
-    
+
         <div class="form-check login-field">
             <label for="login-lembrar" class="form-check-label">Lembrar-me</label>
             <input type="checkbox" name="lembrar" id="login-lembrar" class="form-check-input shadow-none" {{ old('lembrar') ? 'checked' : '' }}>
         </div>
-    
+
         <div class="login-field" id="botoes-login">
             <a id="login-registo" class="btn btn-secondary px-2" href="{{ route('registo') }}">Registe-se</a>
             <button type="submit" id="login-submeter" class="btn btn-primary px-4">Login</button>
         </div>
     </form>
+</div>
 @endsection

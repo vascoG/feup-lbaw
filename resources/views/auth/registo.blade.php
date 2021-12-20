@@ -1,7 +1,8 @@
 @extends('layouts.minimo')
 
 @section('conteudo')
-<form method="POST" action="{{ route('registo') }}">
+<div class="h-100 d-flex flex-row flex-nowrap overflow-hidden">
+  <form id="form-registo" method="POST" action="{{ route('registo') }}">
     {{ csrf_field() }}
 
     <label for="name">Name</label>
@@ -35,5 +36,9 @@
       Register
     </button>
     <a class="button button-outline" href="{{ route('login') }}">Login</a>
-</form>
+  </form>
+  <div id="registo-img-div">
+    <img id="registo-img" src="{{ asset('images/registo.jpg') }}">
+  </div>
+</div>
 @endsection

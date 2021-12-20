@@ -37,8 +37,7 @@ a {
 }
 
 header {
-    padding: 15px;
-    margin-bottom: 15px;
+	padding: 15px;
     background-color: #2F2D2E;
 }
 
@@ -46,6 +45,29 @@ footer {
 	display: flex;
 	justify-content: center;
 	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+/* 
+	Estilos para altura maxima
+*/
+.altura-max header, .altura-max main, .altura-max footer {
+	flex-shrink: 0;
+}
+
+.altura-max main {
+	flex-grow: 1;
+}
+
+.altura-max {
+	min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#geral-header {
+	margin-bottom: 15px;
 }
 
 .geral-footer-paragrafo {
@@ -85,9 +107,14 @@ footer {
 	align-items: center;
 }
 
+/*
+	Estilos formulario login
+*/
+
 #login-form {
 	display: inline-block;
-	width: 40vw;
+	margin-top: 20px;
+	width: 35vw;
 }
 
 #botoes-login {
@@ -111,4 +138,20 @@ footer {
 #login-submeter {
 	background-color: #DAA520;
 	color: black;
+}
+
+/*
+	Estilos formulario registo
+*/
+
+#registo-img-div {
+	flex-grow: 3;
+}
+
+#registo-img {
+	max-height: 100%;
+}
+
+#form-registo {
+	flex-grow: 9;
 }
