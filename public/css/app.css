@@ -1,157 +1,174 @@
-body {
-  background-color: #ffffff;
-  color: #9b4dca;
+@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:wght@500&display=swap');
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
-main > header {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: center;
-  background-color: #d2afe7;
-  padding: 1em;
-  margin: 1em;
+
+html, body {
+	height: 100%;
 }
-main > header h1 {
-  margin: 0;
+
+ul {
+    list-style-type: none;
 }
-main > header a.button {
-  margin: 1em;
-  justify-self: center;
+
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, label, input, button {
+	font-weight: 500;
+    font-family: 'Nunito', sans-serif;;
 }
-main > header span {
-  margin: 1em;
-  justify-self: center;
-}
-#cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-#cards article.card {
-  display: flex;
-  flex-direction: column;
-  background-color: #d3edc3;
-  padding: 1em;
-  margin: 1em;
-}
-#cards article.card header {
-  display: flex;
-  align-items: center;
-}
-#cards article.card header h2 {
-  flex-grow: 1;
-}
-#cards article.card header a.delete {
-  display: none;
-  font-size: 2.6rem;
-  margin-top: .5rem;
-  margin-bottom: 2.5rem;
-  line-height: 1.25;
-}
-#cards article.card header:hover a.delete {
-  display: inline;
-}
-#cards article.card li {
-  list-style-type: none;
-}
-#cards article.card li label {
-  display: flex;
-  align-items: baseline;
-}
-#cards article.card li label span {
-  margin-left: .5em;
-  flex-grow: 1;
-}
-#cards article.card li label a {
-  display: none;
-}
-#cards article.card li label:hover a {
-  display: inline;
-}
-#cards article.card input:checked + span {
-  text-decoration: var(--primary-color) solid line-through;
-}
-#cards article.card ul {
-  margin: 0;
-}
-#cards article.card form {
-  margin: 0;
-}
-#cards article.card input[type=text] {
-  background-color: white;
-  margin: 0;
-}
-#content label {
-  font-weight: normal;
-}
-#content > form {
-  margin: 0 auto;
-  padding: 1em;
-  max-width: 20em;
-  border: 1px solid #d2afe7;
-}
-#content > form .error {
-  font-weight: bold;
-  color: #ff3333;
-}
-#content > form input {
-  background-color: white;
-}
-@media (max-width: 70em) {
-  #cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  main > header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-  }
-  main > header h1 {
-    grid-row-end: span 2;
-  }
-}
-@media (max-width: 40em) {
-  #cards {
-    grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 25em) {
-  body {
-    margin: 0;
-  }
-  main > header {
-    margin: 0;
-    padding: 0.5em;
-  }
-  main > header span {
-    margin: 0;
-  }
-  #content form {
-    margin: 0;
-    max-width: 25em;
-  }
-  article.card {
-    margin: 0;
-    border-bottom: 1px solid rgba(96, 108, 118, 0.4);
-  }
-}
-/**
- * Overide milligram colors
- * Some styles might be missing
- **/
-button {
-  background-color: #9b4dca;
-  border-color: #9b4dca;
-}
-a.button {
-  background-color: #9b4dca;
-  border-color: #9b4dca;
-}
-a.button.button-outline {
-  color: #9b4dca;
-}
+
 a {
-  color: #9b4dca;
+    text-decoration: none;
 }
-input[type=text]:focus,
-input[type=email]:focus,
-input[type=password]:focus {
-  border-color: #9b4dca;
+
+header {
+	padding: 15px;
+    background-color: #2F2D2E;
 }
+
+footer {
+	display: flex;
+	justify-content: center;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+/* 
+	Estilos para altura maxima
+*/
+.altura-max header, .altura-max main, .altura-max footer {
+	flex-shrink: 0;
+}
+
+.altura-max main {
+	flex-grow: 1;
+}
+
+.altura-max {
+	min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#geral-header {
+	margin-bottom: 15px;
+}
+
+.geral-footer-paragrafo {
+	display: inline;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.link-header, .link-header:hover, .link-header:active, .link-header:link {
+    color: #DAA520;
+}
+
+#finjet-nome {
+	color: #DAA520;
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: 'Meow Script', cursive;
+}
+
+#geral-header-navbar {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20px;
+}
+
+#minimo-logo {
+	text-align: center;
+}
+
+.minimo body {
+	background-color: #EAEAEA;
+}
+
+#minimo-conteudo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/*
+	Estilos gerais do formulario
+*/
+
+.form-autenticacao {
+	display: inline-block;
+	margin-top: 20px;
+	width: 35vw;
+	min-width: 300px;
+}
+
+.campo-form-autenticacao {
+	margin: 20px;
+}
+
+.form-control:focus {
+	border-color: #D2691E;
+	box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.075), 0 0 8px rgba(139, 69, 19, 0.6);
+}
+
+.form-check-input:checked {
+    background-color: #DAA520;
+    border-color: #D2691E;
+}
+
+.autenticacao-secundario {
+	color: #F7FEEF;
+}
+
+.autenticacao-primario {
+	background-color: #DAA520;
+	color: black;
+}
+
+.autenticacao-primario:hover {
+	background-color: #b88f27;
+	color: #241C1C;
+}
+
+/*
+	Estilos formulario login
+*/
+
+#botoes-login {
+	text-align: end;
+}
+
+.erro-input {
+	font-weight: bold;
+	color: #ff0033;
+	margin-left: 20px;
+}
+
+/*
+	Estilos formulario registo
+*/
+
+#registo-img-div {
+	flex-grow: 3;
+}
+
+#registo-img {
+	max-height: 100%;
+}
+

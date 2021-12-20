@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\UtilizadorAtivo;
-use App\Models\Questao;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,16 +13,25 @@ use App\Models\Questao;
 |
 */
 // Home
-Route::get('/', function(){
-    /*$user = UtilizadorAtivo::find(1);
-    $message = '';
-    foreach ($user->questoes as $questao) {
-        $message .= '<br>' . $questao->toJson();
-        echo $questao->getAutor->toJson();
-    }
-    return $message;*/
-    foreach (UtilizadorAtivo::find(19)->notificacoes as $notificacao) {
-        echo $notificacao->pivot;
-    }
-    //echo UtilizadorAtivo::find(19)->notificacoes;
-});
+
+Route::view('/', 'teste')->name('home');
+
+#M01
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('/login', 'Auth\LoginController@login');
+Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->name('registo');
+#M02
+Route::get('/sobrenos',function(){return view('pages.sobrenos');});
+Route::get('/contactos',function(){return view('pages.contactos');});
+Route::get('/faq',function(){return view('pages.faq');});
+Route::get('/servicos',function(){return view('pages.servicos');});
+Route::get('/admin/moderadores','AdminController@showModerador');
+Route::put('/admin/moderadores','AdminController@createModerador');
+Route::get('/admin/banimento','AdminController@showApelo');
+
+
+#M04
+Route::get('/criarquestao','QuestaoController@showCreateForm');
+Route::post('/criarquestao','QuestaoController@create');
+Route::get('/questao/{idQuestao}/editar','QuestaoController@showEditForm')->name('editar-questao');
+Route::put('questao/{idQuestao}/editar','QuestaoController@edit');
