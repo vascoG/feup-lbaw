@@ -52,7 +52,7 @@
 
     <div class="form-group campo-form-autenticacao">
       <label for="palavra-passe-confirmacao" class="form-label">Confirmação da palavra-passe</label>
-      <input id="palavra-passe-confirmacao" class="form-control" type="password" name="palavra_passe_confirmacao" required>
+      <input id="palavra-passe-confirmacao" class="form-control" type="password" name="palavra_passe_confirmation" required>
     </div>
 
     <div class="campo-form-autenticacao" id="botoes-login">
