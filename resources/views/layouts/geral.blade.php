@@ -24,10 +24,10 @@
           @include('layouts.logo-text')
           <div class="ms-auto">
             <ul id="geral-header-navbar">
-              <li><a href="https://www.google.com">Sobre nós</a></li>
-              <li><a href="https://www.google.com">Serviços</a></li>
-              <li><a href="https://www.google.com">FAQ</a></li>
-              <li><a href="https://www.google.com">Contactos</a></li>
+              <li><a class="link-header" href="https://www.google.com">Sobre nós</a></li>
+              <li><a class="link-header" href="https://www.google.com">Serviços</a></li>
+              <li><a class="link-header" href="https://www.google.com">FAQ</a></li>
+              <li><a class="link-header" href="https://www.google.com">Contactos</a></li>
             </ul>
           </div>
           <div class="vr"></div>

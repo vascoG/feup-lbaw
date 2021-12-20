@@ -9,7 +9,7 @@
             <input id="e_mail" type="email" name="e_mail" value="{{ old('e_mail') }}" class="form-control" required autofocus>
         </div>
         @if ($errors->has('e_mail'))
-            <span class="error">
+            <span class="erro-input">
             {{ $errors->first('e_mail') }}
             </span>
         @endif
@@ -18,7 +18,7 @@
             <label for="palavra_passe" class="form-label">Palavra-passe</label>
             <input id="palavra_passe" type="password" name="palavra_passe" class="form-control" required>
             @if ($errors->has('palavra_passe'))
-                <span class="error">
+                <span class="erro-input">
                     {{ $errors->first('palavra_passe') }}
                 </span>
             @endif
@@ -30,8 +30,8 @@
         </div>
     
         <div class="login-field" id="botoes-login">
-            <a class="btn btn-secondary px-2" href="{{ route('registo') }}">Registe-se</a>
-            <button type="submit" class="btn btn-primary px-4">Login</button>
+            <a id="login-registo" class="btn btn-secondary px-2" href="{{ route('registo') }}">Registe-se</a>
+            <button type="submit" id="login-submeter" class="btn btn-primary px-4">Login</button>
         </div>
     </form>
 @endsection
