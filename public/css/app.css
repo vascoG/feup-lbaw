@@ -111,6 +111,17 @@ footer {
 	Estilos gerais do formulario
 */
 
+.form-autenticacao {
+	display: inline-block;
+	margin-top: 20px;
+	width: 35vw;
+	min-width: 300px;
+}
+
+.campo-form-autenticacao {
+	margin: 20px;
+}
+
 .form-control:focus {
 	border-color: #D2691E;
 	box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.075), 0 0 8px rgba(139, 69, 19, 0.6);
@@ -121,37 +132,32 @@ footer {
     border-color: #D2691E;
 }
 
+.autenticacao-secundario {
+	color: #F7FEEF;
+}
+
+.autenticacao-primario {
+	background-color: #DAA520;
+	color: black;
+}
+
+.autenticacao-primario:hover {
+	background-color: #b88f27;
+	color: #241C1C;
+}
+
 /*
 	Estilos formulario login
 */
 
-#login-form {
-	display: inline-block;
-	margin-top: 20px;
-	width: 35vw;
-}
-
 #botoes-login {
 	text-align: end;
-}
-
-.login-field {
-	margin: 20px;
 }
 
 .erro-input {
 	font-weight: bold;
 	color: #ff0033;
 	margin-left: 20px;
-}
-
-#login-registo {
-	color: #F7FEEF;
-}
-
-#login-submeter {
-	background-color: #DAA520;
-	color: black;
 }
 
 /*
@@ -166,6 +172,3 @@ footer {
 	max-height: 100%;
 }
 
-#form-registo {
-	flex-grow: 9;
-}
