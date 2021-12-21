@@ -20,7 +20,7 @@ class RegistoController extends Controller {
 
     protected function validator(array $data) {
         return Validator::make($data, [
-            'nome_utilizador' => 'required|string|max:256|unique:utilizador',
+            'nome_utilizador' => 'required|string|max:256|unique:utilizador|regex:^[a-z](?:_?[a-z0-9])*',
             'nome' => 'required|string|max:512',
             'data_nascimento' => 'date|required|string',
             'e_mail' => 'required|string|email|max:512|unique:utilizador',

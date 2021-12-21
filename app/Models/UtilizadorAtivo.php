@@ -12,7 +12,7 @@ class UtilizadorAtivo extends Model {
     protected $fillable = ['id_utilizador'];
 
     public function utilizador() {
-        return $this->hasOne('App\Models\Utilizador', 'id_utilizador', 'id');
+        return $this->belongsTo('App\Models\Utilizador', 'id_utilizador', 'id');
     }
 
     public function questoes() {
