@@ -14,7 +14,7 @@
     <div class="form-group container">
         @foreach ($tags as $etiqueta)
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="{{$etiqueta['id']}}" value="{{$etiqueta['nome']}}">
+            <input class="form-check-input" type="checkbox" name="etiqueta[]" id="{{$etiqueta['id']}}" value="{{$etiqueta['id']}}">
             <label class="form-check-label" for="{{$etiqueta['id']}}">{{$etiqueta['nome']}}</label>
         </div>
         @endforeach

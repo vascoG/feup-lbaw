@@ -35,9 +35,8 @@ class QuestaoController extends Controller
         //$this->authorize('notBanned',Questao::class);
         $validator = Validator::make($request->all(),
             [
-                'titulo' => 'required|max:100',
+                'titulo' => 'required',
                 'texto' => 'required',
-                'etiqueta' => 'required',
             ]);
         if($validator->fails())
         {
@@ -45,15 +44,15 @@ class QuestaoController extends Controller
         }
 
         $questao = new Questao([
-            'autor' => Auth::user()->id,
+            'autor' => 1,
             'titulo' => $request->get('titulo'),
             'texto' => $request->get('texto'),
         ]);
+        $questao->save();
         $etiquetas = $request->get('etiqueta');
         foreach($etiquetas as $tag)
-            $questao->etiquetas()->attach($tag->id);
-        $questao->save();
-        return redirect()->route('questao',[$questao->id]);
+            $questao->etiquetas()->attach($tag);
+        return redirect()->route('questao',[$questao]);
     }
 
     /**
