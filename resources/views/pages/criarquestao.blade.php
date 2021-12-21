@@ -11,9 +11,14 @@
         <label for="texto">Corpo da questão</label>
         <textarea required class="form-control questao-texto" id="textoQuestao" name="texto" placeholder="Escreva aqui a sua questão"></textarea>
     </div>
-    <div class="form-group ">
-        <label for="etiqueta">Tags</label>
-        <textarea class="form-control questao-titulo" id="etiquetaQuestao" name="etiqueta" placeholder="Ainda não está implementado..."></textarea>
+    <div class="form-group container">
+        @foreach ($tags as $etiqueta)
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="{{$etiqueta['id']}}" value="{{$etiqueta['nome']}}">
+            <label class="form-check-label" for="{{$etiqueta['id']}}">{{$etiqueta['nome']}}</label>
+        </div>
+        @endforeach
+       
     </div>
     <div >
         <button class="btn float-end clearfix rounded-pill questao-button" type="submit" id="submit_button">

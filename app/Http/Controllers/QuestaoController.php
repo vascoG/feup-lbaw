@@ -19,9 +19,10 @@ class QuestaoController extends Controller
      */
     public function showCreateForm()
     {
-        if(!Auth::check()) return redirect('/login');
-        $this->authorize('notBanned',Questao::class);
-        return view('pages.criarquestao');
+        //if(!Auth::check()) return redirect('/login');
+       // $this->authorize('notBanned',Questao::class);
+        $tags = Etiqueta::all();
+        return view('pages.criarquestao', ['tags'=>$tags]);
     }
 
     /**
@@ -30,8 +31,8 @@ class QuestaoController extends Controller
      */
     public function create(Request $request)
     {
-        if(!Auth::check()) return redirect('/login');
-        $this->authorize('notBanned',Questao::class);
+        //if(!Auth::check()) return redirect('/login');
+        //$this->authorize('notBanned',Questao::class);
         $validator = Validator::make($request->all(),
             [
                 'titulo' => 'required|max:100',
@@ -48,8 +49,9 @@ class QuestaoController extends Controller
             'titulo' => $request->get('titulo'),
             'texto' => $request->get('texto'),
         ]);
-        //se nao existir a etiqueta que ele escreveu?
-        $questao->etiquetas()->attach(Etiqueta::where('nome',$request->get('etiqueta'))->first()->id);
+        $etiquetas = $request->get('etiqueta');
+        foreach($etiquetas as $tag)
+            $questao->etiquetas()->attach($tag->id);
         $questao->save();
         return redirect()->route('questao',[$questao->id]);
     }
