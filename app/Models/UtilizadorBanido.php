@@ -12,7 +12,7 @@ class UtilizadorBanido extends Model {
     protected $fillable = ['id_utilizador'];
 
     function utilizador() {
-        return $this->hasOne('App\Models\Utilizador', 'id_utilizador', 'id');
+        return $this->belongsTo('App\Models\Utilizador', 'id_utilizador', 'id');
     }
 
     function apelos() {

@@ -773,3 +773,13 @@ $$
 LANGUAGE plpgsql; 
 
 SELECT atualiza_ids();
+
+INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador) VALUES (
+  'Francisco Oliveira',
+  'frpdoliv3',
+  'up201907361@edu.fe.up.pt',
+  '2001-09-02',
+  '$2y$10$Lxm.cac1TzyQReLN0PxOGevZCHP0hNVfB2HPP6PZRahcPJF47GqfG',
+  TRUE,
+  TRUE
+);
