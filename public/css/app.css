@@ -29,7 +29,7 @@ ul {
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, label, input, button {
 	font-weight: 500;
-    font-family: 'Nunito', sans-serif;;
+    font-family: 'Nunito', sans-serif;
 }
 
 a {
@@ -173,7 +173,7 @@ footer {
 }
 
 /*
-Página sobre nós
+Página estáticas
 */
 body {
 	font-family: Arial, Helvetica, sans-serif;
@@ -200,8 +200,8 @@ body {
 	margin: 8px;
   }
   
-  .about-section {
-	padding: 50px;
+  .pagina-estaticas {
+	padding: 100px;
 	text-align: center;
 	background-color: #474e5d;
 	color: white;
@@ -220,6 +220,10 @@ body {
   .title {
 	color: grey;
   }
+  .titulo-secundario{
+	  margin-top: 5%;
+	 font-size: 150%;
+  }
   
   .button {
 	border: none;
@@ -236,7 +240,10 @@ body {
   .button:hover {
 	background-color: #555;
   }
-  
+  .text-faq{
+	  color:#DAA520;
+	  font-weight: bold;
+  }
   @media screen and (max-width: 650px) {
 	.column {
 	  width: 100%;
