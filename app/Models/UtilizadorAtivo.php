@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 class UtilizadorAtivo extends Model {
@@ -16,15 +15,8 @@ class UtilizadorAtivo extends Model {
         return $this->belongsTo('App\Models\Utilizador', 'id_utilizador', 'id');
     }
 
-    public function questoes($numeroQuestoes = null) {
-        if (is_null($numeroQuestoes)) {
-            return $this->hasMany('App\Models\Questao', 'autor', 'id');
-        } else {
-            return DB::table('questao')
-                ->where('autor', $this->id)
-                ->orderBy('data_publicacao', 'desc')
-                ->get();
-        }
+    public function questoes() {
+        return $this->hasMany('App\Models\Questao', 'autor', 'id');
     }
 
     public function respostas() {

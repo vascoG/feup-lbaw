@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:wght@500;600;800&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -221,12 +221,12 @@ lable {
 
 #perfil-nome-utilizador {
 	font-size: 1.5rem;
+	font-weight: 600;
 }
 
 #perfil-caracterizacao {
-	display: flex;
-	display: row wrap;
-	width: 60%;
+	display: inline-flex;
+	flex-flow: row nowrap;
 	border: 1px solid black;
 }
 
@@ -245,13 +245,26 @@ lable {
 	padding: 20px;
 }
 
-.perfil-interacoes {
-	border: 5px solid red;
-	padding: 20px;
-	width: 30vw;
+#perfil-listagens {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: start;
+	gap: 60px;
 }
 
-.perfil-interacoes li {
+.lista-perfil {
+	border: 5px solid red;
+	padding: 20px;
+	min-width: 300px;
+	max-width: 30vw;
+}
+
+.lista-perfil h1 {
+	font-size: 1.25rem;
+	font-weight: 800;
+}
+
+.lista-perfil li {
   	overflow: hidden;
   	text-overflow: ellipsis;
 }
