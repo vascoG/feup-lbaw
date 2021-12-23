@@ -22,7 +22,7 @@ Route::post('/login', 'Auth\LoginController@login');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->name('registo');
 Route::post('/login/registo', 'Auth\RegistoController@register');
-Route::get('perfil/{nomeUtilizador}', 'PerfilController@showPerfil');
+Route::get('perfil/{nomeUtilizador}', 'PerfilController@showPerfil')->name('perfil');
 
 #M02
 Route::view('/sobrenos', 'pages.sobrenos');

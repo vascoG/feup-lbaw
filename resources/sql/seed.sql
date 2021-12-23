@@ -32,9 +32,11 @@ CREATE TABLE utilizador(
   nome TEXT NOT NULL,
   e_mail TEXT NOT NULL UNIQUE,
   data_nascimento DATE NOT NULL CHECK (data_nascimento < now()),
+  descricao VARCHAR(1500),
   palavra_passe VARCHAR(72) NOT NULL,
   moderador BOOLEAN NOT NULL,
-  administrador BOOLEAN NOT NULL
+  administrador BOOLEAN NOT NULL,
+  remember_token VARCHAR(100)
 );
 
 CREATE TABLE utilizador_ativo(
@@ -217,6 +219,7 @@ DROP TRIGGER IF EXISTS pesquisa_etiqueta ON etiqueta;
 DROP TRIGGER IF EXISTS resposta_historico on resposta;
 DROP TRIGGER IF EXISTS questao_historico on questao;
 DROP TRIGGER IF EXISTS comentario_historico on comentario;
+DROP TRIGGER IF EXISTS ativa_utilizador on utilizador;
 
 
 /*
@@ -663,6 +666,22 @@ CREATE TRIGGER pesquisa_etiqueta
     EXECUTE PROCEDURE atualiza_tsvector_etiqueta();
 
 /*
+  Trigger que ativa utilizador quando este e criado
+*/
+CREATE OR REPLACE FUNCTION ativa_utilizador() RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO utilizador_ativo(id_utilizador) 
+  VALUES (NEW.id);
+  RETURN NULL;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER ativa_utilizador
+  AFTER INSERT ON utilizador
+  FOR EACH ROW
+  EXECUTE PROCEDURE ativa_utilizador();
+
+/*
 
   Indices comecam aqui
 
@@ -710,8 +729,6 @@ VALUES
 (1008,'mariapinto','Maria Pinto','mariap@gmail.pt','1995-11-19',md5(random()::text),TRUE,FALSE),
 (1009,'martim22','Martim Castro','martimcastro@gmail.pt','1997-09-22',md5(random()::text),TRUE,FALSE),
 (1010,'carla_mirra','Carla Mirra','carlam@gmail.pt','2002-07-25',md5(random()::text),TRUE,FALSE);
-INSERT INTO utilizador_ativo(id,id_utilizador)
-VALUES (generate_series(1,1010),generate_series(1,1010));
 INSERT INTO utilizador_banido(id,id_utilizador)
 VALUES (generate_series(1,10),generate_series(1,10));
 INSERT INTO apelo_desbloqueio(id,motivo,id_utilizador)
@@ -774,12 +791,13 @@ LANGUAGE plpgsql;
 
 SELECT atualiza_ids();
 
-INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador) VALUES (
+INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
   'Francisco Oliveira',
   'frpdoliv3',
   'up201907361@edu.fe.up.pt',
   '2001-09-02',
   '$2y$10$Lxm.cac1TzyQReLN0PxOGevZCHP0hNVfB2HPP6PZRahcPJF47GqfG',
   TRUE,
-  TRUE
+  TRUE,
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut nisi a tellus luctus accumsan. Nunc id nisi id libero posuere tincidunt. Sed varius, arcu ut dapibus sagittis, dui dui imperdiet felis, quis dapibus tortor leo maximus risus. Sed ut vehicula leo. Etiam fringilla tempus arcu, eu fringilla lorem semper at. Nullam in ante et sapien cursus elementum. Ut id mollis mauris. Quisque non nulla mollis, feugiat erat vel, euismod velit. Maecenas in turpis enim. Nam sit amet sagittis libero. Morbi vulputate orci sit amet finibus pulvinar. Aliquam placerat urna sit amet mattis feugiat. Maecenas ligula elit, iaculis vel pellentesque vitae, tincidunt in sapien. Aenean ornare augue orci, non consectetur mauris consequat sit amet. Fusce lacinia ultrices malesuada. Curabitur id ornare urna. Etiam sit amet diam feugiat, sollicitudin elit a, ullamcorper dui. Mauris convallis maximus eleifend. Nulla facilisi. Ut semper gravida sem, sed eleifend ligula euismod vel. Quisque sodales mauris eu.'
 );

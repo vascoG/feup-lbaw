@@ -48,6 +48,14 @@ footer {
 	padding-top: 10px;
 }
 
+hr {
+	margin: 10px 0;
+}
+
+lable {
+	user-select: none;
+}
+
 /* 
 	Estilos para altura maxima
 */
@@ -184,3 +192,66 @@ footer {
 	max-height: 100%;
 }
 
+/*
+	Estilos erro na procura de utilizadores
+*/
+#perfil-utilizador-erro {
+	text-align: center;
+	margin-top: 100px;
+}
+
+#perfil-utilizador-erro img {
+	width: 15vw;
+	height: 15vw;
+	margin: 10px;
+}
+
+#perfil-utilizador-erro p {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+#corpo-perfil {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 10px;
+	padding: 20px;
+}
+
+#perfil-nome-utilizador {
+	font-size: 1.5rem;
+}
+
+#perfil-caracterizacao {
+	display: flex;
+	display: row wrap;
+	width: 60%;
+	border: 1px solid black;
+}
+
+#perfil-avatar-container {
+	display: flex;
+	align-items: center;
+}
+
+#perfil-avatar {
+	width: 180px;
+	height: 180px;
+	margin: 30px;
+}
+
+#perfil-caracterização-texto {
+	padding: 20px;
+}
+
+.perfil-interacoes {
+	border: 5px solid red;
+	padding: 20px;
+	width: 30vw;
+}
+
+.perfil-interacoes li {
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+}

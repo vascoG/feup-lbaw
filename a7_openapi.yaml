@@ -199,8 +199,16 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra o perfil do utilizador'
-        '403':
-          description: 'O utilizador autenticado não tem permissões suficientes.'
+        '302':
+          description: 'O utilizador autenticado não tem permissões suficientes. Por isso é redirecionado à página de login.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Redireção à página de login'
+                  value: '/login'
         '404':
           description: 'ID não existe. Mostra página de erro'
   
