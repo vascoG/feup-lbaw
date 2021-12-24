@@ -206,11 +206,15 @@ lable {
 	margin: 10px;
 }
 
-#perfil-utilizador-erro p {
+#perfil-utilizador-erro h1 {
 	font-size: 1.25rem;
 	font-weight: bold;
 	margin-bottom: 20px;
 }
+
+/*
+	Estilos perfil de utilizadores
+*/
 
 #corpo-perfil {
 	display: flex;
@@ -237,8 +241,7 @@ lable {
 
 #perfil-avatar {
 	width: 180px;
-	height: 180px;
-	margin: 30px;
+	margin: 15px;
 }
 
 #perfil-caracterização-texto {
@@ -267,4 +270,56 @@ lable {
 .lista-perfil li {
   	overflow: hidden;
   	text-overflow: ellipsis;
+}
+
+/*
+	Estilos 403 Forbidden
+*/
+#sem-permissoes-corpo {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	margin: 20vh;
+}
+
+#sem-permissoes-corpo h1 {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+#sem-permissoes-corpo img {
+	width: 10vw;
+	margin-bottom: 10px;
+}
+
+/*
+	Erro 404: Not Found
+*/
+
+#nao-encontrado-corpo {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	margin: 20vh;
+}
+
+#nao-encontrado-corpo h1 {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+#nao-encontrado-corpo img {
+	width: 10vw;
+	margin-bottom: 10px;
+}
+
+/*
+	Estilos de edicao de perfil
+*/
+#edita-perfil-imagem {
+	width: 180px;
 }

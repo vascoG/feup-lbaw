@@ -25,7 +25,6 @@ class RegistoController extends Controller {
             'data_nascimento' => 'date|required|string',
             'e_mail' => 'required|string|email|max:512|unique:utilizador',
             'palavra_passe' => 'required|string|min:8|confirmed',
-            'descricao' => 'string|max:1500'
         ]);
     }
 
