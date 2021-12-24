@@ -22,7 +22,11 @@ Route::post('/login', 'Auth\LoginController@login');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->name('registo');
 Route::post('/login/registo', 'Auth\RegistoController@register');
-Route::get('perfil/{nomeUtilizador}', 'PerfilController@showPerfil')->name('perfil');
+Route::get('/perfil/{nomeUtilizador}', 'PerfilController@mostraPerfil')->name('perfil');
+Route::get('/perfil/{nomeUtilizador}/editar', 'PerfilController@mostraEditar')->name('editar-perfil');
+Route::patch('/perfil/{nomeUtilizador}/editar', 'PerfilController@publicaAlteracoesDados');
+Route::put('/perfil/{nomeUtilizador}/imagem', 'PerfilController@alteraImagem')->name('editar-perfil-imagem');
+Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
 
 #M02
 Route::view('/sobrenos', 'pages.sobrenos');
