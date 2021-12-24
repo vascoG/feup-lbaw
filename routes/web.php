@@ -19,12 +19,20 @@ Route::view('/', 'teste')->name('home');
 #M01
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->name('registo');
+Route::post('/login/registo', 'Auth\RegistoController@register');
+Route::get('/perfil/{nomeUtilizador}', 'PerfilController@mostraPerfil')->name('perfil');
+Route::get('/perfil/{nomeUtilizador}/editar', 'PerfilController@mostraEditar')->name('editar-perfil');
+Route::patch('/perfil/{nomeUtilizador}/editar', 'PerfilController@publicaAlteracoesDados');
+Route::put('/perfil/{nomeUtilizador}/imagem', 'PerfilController@alteraImagem')->name('editar-perfil-imagem');
+Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
+
 #M02
-Route::get('/sobrenos',function(){return view('pages.sobrenos');});
-Route::get('/contactos',function(){return view('pages.contactos');});
-Route::get('/faq',function(){return view('pages.faq');});
-Route::get('/servicos',function(){return view('pages.servicos');});
+Route::view('/sobrenos', 'pages.sobrenos');
+Route::view('/contactos', 'pages.contactos');
+Route::view('/faq', 'pages.faq');
+Route::view('/servicos', 'pages.servicos');
 Route::get('/admin/moderadores','AdminController@showModerador');
 Route::put('/admin/moderadores','AdminController@createModerador');
 Route::get('/admin/banimento','AdminController@showApelo');

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Carbon\Carbon;
 use App\Models\Utilizador;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
 
 class RegistoController extends Controller {
     use RegistersUsers;
@@ -19,9 +20,9 @@ class RegistoController extends Controller {
 
     protected function validator(array $data) {
         return Validator::make($data, [
-            'nome_utilizador' => 'required|string|max:256',
+            'nome_utilizador' => 'required|string|max:256|unique:utilizador|regex:/^[a-z](?:_?[a-z0-9])*$/',
             'nome' => 'required|string|max:512',
-            'data_nascimento' => 'required|string',
+            'data_nascimento' => 'date|required|string',
             'e_mail' => 'required|string|email|max:512|unique:utilizador',
             'palavra_passe' => 'required|string|min:8|confirmed',
         ]);
@@ -36,9 +37,8 @@ class RegistoController extends Controller {
             'nome_utilizador' => $data['nome_utilizador'],
             'nome' => $data['nome'],
             'e_mail' => $data['e_mail'],
-            'palavra_passe' => bcrypt($data['password']),
-            //TODO: Perguntar ao professor qual o valor a colocar aqui
-            //TODO: Colocar imagem perfil default
+            'palavra_passe' => Hash::make($data['palavra_passe']),
+            'data_nascimento' => $data['data_nascimento'],
             'moderador' => false,
             'administrador' => false,
         ]);

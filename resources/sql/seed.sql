@@ -32,9 +32,11 @@ CREATE TABLE utilizador(
   nome TEXT NOT NULL,
   e_mail TEXT NOT NULL UNIQUE,
   data_nascimento DATE NOT NULL CHECK (data_nascimento < now()),
+  descricao VARCHAR(1500),
   palavra_passe VARCHAR(72) NOT NULL,
   moderador BOOLEAN NOT NULL,
-  administrador BOOLEAN NOT NULL
+  administrador BOOLEAN NOT NULL,
+  remember_token VARCHAR(100)
 );
 
 CREATE TABLE utilizador_ativo(
@@ -217,6 +219,7 @@ DROP TRIGGER IF EXISTS pesquisa_etiqueta ON etiqueta;
 DROP TRIGGER IF EXISTS resposta_historico on resposta;
 DROP TRIGGER IF EXISTS questao_historico on questao;
 DROP TRIGGER IF EXISTS comentario_historico on comentario;
+DROP TRIGGER IF EXISTS ativa_utilizador on utilizador;
 
 
 /*
@@ -663,6 +666,22 @@ CREATE TRIGGER pesquisa_etiqueta
     EXECUTE PROCEDURE atualiza_tsvector_etiqueta();
 
 /*
+  Trigger que ativa utilizador quando este e criado
+*/
+CREATE OR REPLACE FUNCTION ativa_utilizador() RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO utilizador_ativo(id_utilizador) 
+  VALUES (NEW.id);
+  RETURN NULL;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER ativa_utilizador
+  AFTER INSERT ON utilizador
+  FOR EACH ROW
+  EXECUTE PROCEDURE ativa_utilizador();
+
+/*
 
   Indices comecam aqui
 
@@ -710,8 +729,6 @@ VALUES
 (1008,'mariapinto','Maria Pinto','mariap@gmail.pt','1995-11-19',md5(random()::text),TRUE,FALSE),
 (1009,'martim22','Martim Castro','martimcastro@gmail.pt','1997-09-22',md5(random()::text),TRUE,FALSE),
 (1010,'carla_mirra','Carla Mirra','carlam@gmail.pt','2002-07-25',md5(random()::text),TRUE,FALSE);
-INSERT INTO utilizador_ativo(id,id_utilizador)
-VALUES (generate_series(1,1010),generate_series(1,1010));
 INSERT INTO utilizador_banido(id,id_utilizador)
 VALUES (generate_series(1,10),generate_series(1,10));
 INSERT INTO apelo_desbloqueio(id,motivo,id_utilizador)
@@ -748,3 +765,40 @@ INSERT INTO historico_interacao(id,texto,id_questao)
 VALUES (generate_series(101,200),md5(random()::text),random()*999+1);
 INSERT INTO historico_interacao(id,texto,id_comentario)
 VALUES (generate_series(201,300),md5(random()::text),random()*999+1);
+
+CREATE OR REPLACE FUNCTION atualiza_ids() RETURNS void AS $$
+DECLARE
+  tabelas record;
+  id_max BIGINT;
+  nome_tabela TEXT;
+BEGIN
+  FOR tabelas IN SELECT tables.table_schema, tables.table_name
+    FROM information_schema.tables AS tables INNER JOIN (
+      SELECT * 
+      FROM information_schema.columns 
+      WHERE column_name='id'
+    ) AS columns
+    ON columns.table_name= tables.table_name AND columns.table_schema=tables.table_schema
+    WHERE columns.table_schema='public' OR columns.table_schema='lbaw2191' 
+    LOOP
+    nome_tabela := tabelas.table_schema || '.' || tabelas.table_name;
+    EXECUTE 'SELECT MAX(id) FROM ' || nome_tabela INTO id_max;
+    EXECUTE 'ALTER SEQUENCE ' || nome_tabela || '_id_seq' || ' RESTART WITH ' || CAST((id_max + 1) AS TEXT);
+  END LOOP;
+END
+$$ 
+LANGUAGE plpgsql; 
+
+SELECT atualiza_ids();
+
+INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
+  'Francisco Oliveira',
+  'frpdoliv3',
+  'up201907361@edu.fe.up.pt',
+  '2001-09-02',
+  '$2y$10$Lxm.cac1TzyQReLN0PxOGevZCHP0hNVfB2HPP6PZRahcPJF47GqfG',
+  TRUE,
+  TRUE,
+  '
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus finibus neque sit amet commodo. Quisque odio dui, auctor at tellus a, fermentum accumsan sapien. Curabitur laoreet pretium elit, in pharetra neque vulputate ut. Maecenas vitae quam mattis, aliquet libero vitae, faucibus nisi. Vestibulum facilisis elit ac rutrum ultricies. Quisque ut euismod metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi semper a neque eu egestas erat curae.'
+);

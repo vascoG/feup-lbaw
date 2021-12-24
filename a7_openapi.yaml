@@ -199,8 +199,16 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra o perfil do utilizador'
-        '403':
-          description: 'O utilizador autenticado não tem permissões suficientes.'
+        '302':
+          description: 'O utilizador autenticado não tem permissões suficientes. Por isso é redirecionado à página de login.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Redireção à página de login'
+                  value: '/login'
         '404':
           description: 'ID não existe. Mostra página de erro'
   
@@ -225,7 +233,7 @@ paths:
         '403':
           description: 'ID encontrado, mas cliente não tem permissões de alteração'
     
-    put:
+    patch:
       operationId: R110
       summary: 'R110: Submete dados editados'
       description: 'Processa os dados de perfil que foram editados pelo utilizador. Acesso: OWN'
@@ -252,6 +260,8 @@ paths:
                   type: string
                   format: date
                   example: '02-09-2001'
+                descricao:
+                  type: string
                 password:
                   type: string
       responses:
@@ -268,13 +278,66 @@ paths:
                 303Erro:
                   description: 'Email duplicado'
                   value: '/perfil/{nomeUtilizador}/editar'
+        '404':
+          description: 'ID do utilizador não existe. Mostra erro.'
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
 
+  /perfil/{nomeUtilizador}/imagem:
+    put:
+      operationId: R113
+      summary: 'R113: Alteração de imagem de perfil do utilizador'
+      description: 'Altera a imagem de perfil do utilizador para a imagem enviada. Acesso: OWN'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                imagem_perfil:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: 'Ok. Mostra o perfil do utilizador'
+        '404':
+          description: 'ID do utilizador não existe. Mostra erro.'
+        '403':
+          description: 'ID encontrado, mas cliente não tem permissões de alteração'
+
+    delete:
+      operationId: R114
+      summary: 'R114: Eleminação da página imagem de perfil'
+      description: 'Elimina a imagem de perfil de um utilizador. Acesso: OWN'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Mostra o perfil do utilizador'
+        '404':
+          description: 'ID do utilizador não existe. Mostra erro.'
+        '403':
+          description: 'ID encontrado, mas cliente não tem permissões de alteração'
+
   /perfil/{nomeUtilizador}/apelos:
     get:
-      operationId: R111
-      summary: 'R111: Lista os apelos do utilizador.'
+      operationId: R115
+      summary: 'R115: Lista os apelos do utilizador.'
       description: 'Mostra uma página com os apelos do utilizador. Se este puder fazer mais apelos é apresentado um formulário de apelos. Acesso: BAN'
       tags:
         - 'M01: Autenticação e perfil individual'
@@ -290,8 +353,8 @@ paths:
         '403': 
           description: 'O utilizador não está banido ou autenticado.'
     post:
-      operationId: R112
-      summary: 'R112: Cria um novo apelo de desbloqueio.'
+      operationId: R116
+      summary: 'R116: Cria um novo apelo de desbloqueio.'
       tags:
         - 'M01: Autenticação e perfil individual'
       parameters:
@@ -325,8 +388,8 @@ paths:
                   value: '/perfil/{nomeUtilizador}/apelos'
   /perfil/{nomeUtilizador}/eliminar: 
         delete:
-          operationId: R113
-          summary: 'R113: Eliminar perfil'
+          operationId: R117
+          summary: 'R117: Eliminar perfil'
           description: 'Elimina o perfil. Acesso: OWN, ADM'
           tags:
             - 'M01: Autenticação e perfil individual'

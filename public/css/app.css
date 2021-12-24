@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:wght@500;600;800&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -48,6 +48,14 @@ footer {
 	padding-top: 10px;
 }
 
+hr {
+	margin: 10px 0;
+}
+
+lable {
+	user-select: none;
+}
+
 /* 
 	Estilos para altura maxima
 */
@@ -64,6 +72,14 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+}
+
+/*
+	Estilos do template geral
+*/
+
+#header-vr {
+	color: #4A7C59;
 }
 
 #geral-header {
@@ -92,6 +108,10 @@ footer {
     flex-flow: row wrap;
     gap: 20px;
 }
+
+/*
+	Estilos do template minimo
+*/
 
 #minimo-logo {
 	text-align: center;
@@ -172,3 +192,134 @@ footer {
 	max-height: 100%;
 }
 
+/*
+	Estilos erro na procura de utilizadores
+*/
+#perfil-utilizador-erro {
+	text-align: center;
+	margin-top: 100px;
+}
+
+#perfil-utilizador-erro img {
+	width: 15vw;
+	height: 15vw;
+	margin: 10px;
+}
+
+#perfil-utilizador-erro h1 {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+/*
+	Estilos perfil de utilizadores
+*/
+
+#corpo-perfil {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 10px;
+	padding: 20px;
+}
+
+#perfil-nome-utilizador {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+#perfil-caracterizacao {
+	display: inline-flex;
+	flex-flow: row nowrap;
+	border: 1px solid black;
+}
+
+#perfil-avatar-container {
+	display: flex;
+	align-items: center;
+}
+
+#perfil-avatar {
+	width: 180px;
+	margin: 15px;
+}
+
+#perfil-caracterização-texto {
+	padding: 20px;
+}
+
+#perfil-listagens {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: start;
+	gap: 60px;
+}
+
+.lista-perfil {
+	border: 5px solid red;
+	padding: 20px;
+	min-width: 300px;
+	max-width: 30vw;
+}
+
+.lista-perfil h1 {
+	font-size: 1.25rem;
+	font-weight: 800;
+}
+
+.lista-perfil li {
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+}
+
+/*
+	Estilos 403 Forbidden
+*/
+#sem-permissoes-corpo {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	margin: 20vh;
+}
+
+#sem-permissoes-corpo h1 {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+#sem-permissoes-corpo img {
+	width: 10vw;
+	margin-bottom: 10px;
+}
+
+/*
+	Erro 404: Not Found
+*/
+
+#nao-encontrado-corpo {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	margin: 20vh;
+}
+
+#nao-encontrado-corpo h1 {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+#nao-encontrado-corpo img {
+	width: 10vw;
+	margin-bottom: 10px;
+}
+
+/*
+	Estilos de edicao de perfil
+*/
+#edita-perfil-imagem {
+	width: 180px;
+}
