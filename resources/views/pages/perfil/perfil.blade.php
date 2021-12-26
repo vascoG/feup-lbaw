@@ -1,5 +1,9 @@
 @extends('layouts.geral')
 
+@push('estilos-especificos')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+@endpush
+
 @section('conteudo')
 <div id="corpo-perfil">
     <h1 id="perfil-nome-utilizador">{{ $usr->nome }}</h1>
@@ -9,11 +13,24 @@
         </div>
         <div class="vr"></div>
         <div id="perfil-caracterização-texto">
-            <ul>
-                <li><strong>Nome de Utilizador:</strong> {{ $usr->nome_utilizador }}</li>
-                <li><strong>E-Mail: </strong> {{ $usr->e_mail }}</li>
-                <li><strong>Data de nascimento: </strong> {{ \Carbon\Carbon::parse($usr->data_nascimento)->format('d/m/Y') }}</li>
-            </ul>
+            <div class="d-flex">
+                <ul class="flex-grow-1">
+                    <li><strong>Nome de Utilizador:</strong> {{ $usr->nome_utilizador }}</li>
+                    <li><strong>E-Mail: </strong> {{ $usr->e_mail }}</li>
+                    <li><strong>Data de nascimento: </strong> {{ \Carbon\Carbon::parse($usr->data_nascimento)->format('d/m/Y') }}</li>
+                </ul>
+                @can('editar', $usr)
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-outline-dark" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ route('editar-perfil', $usr->nome_utilizador) }}">Editar</a>
+                        <a class="dropdown-item text-danger" href="#">Apagar</a>
+                        </div>
+                    </div>
+                @endcan
+            </div>
             @if (!is_null($usr->descricao))
                 <hr>
                 <article>{{ $usr->descricao }}</article>

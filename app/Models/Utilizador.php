@@ -14,7 +14,13 @@ class Utilizador extends Authenticable {
     protected $table = 'utilizador';
     
     protected $fillable = [
-        'imagem_perfil', 'nome_utilizador', 'nome', 'e_mail', 'data_nascimento', 'palavra_passe'
+        'imagem_perfil',
+        'nome_utilizador',
+        'nome',
+        'e_mail',
+        'data_nascimento',
+        'descricao',
+        'palavra_passe'
     ];
 
     protected $attributes = [

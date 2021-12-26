@@ -245,6 +245,8 @@ lable {
 }
 
 #perfil-caracterização-texto {
+	width: 100%;
+	word-break: break-all;
 	padding: 20px;
 }
 
@@ -322,4 +324,28 @@ lable {
 */
 #edita-perfil-imagem {
 	width: 180px;
+	margin-right: 20px;
+	margin-top: 30px;
+}
+
+#edita-perfil-texto {
+	width: 55%;
+	margin: 0 auto;
+	padding: 50px;
+}
+
+#edita-perfil-texto .form-group {
+	margin: 20px;
+}
+
+#edita-perfil-texto textarea {
+	resize: none;
+}
+
+#desc-char-cnt {
+	display: block;
+	visibility: hidden;
+	text-align: right;
+	color: grey;
+	background-color: smoke;
 }

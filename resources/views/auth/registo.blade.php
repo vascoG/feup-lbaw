@@ -38,6 +38,11 @@
     <div class="form-group campo-form-autenticacao">
       <label for="data-nascimento" class="form-label">Data de nascimento</label>
       <input id="data-nascimento" class="form-control" type="date" name="data_nascimento" value="{{ old('data_nascimento') }}"required>
+      @if ($errors->has('data_nascimento'))
+        <span class="error">
+          {{ $errors->first('data_nascimento') }}
+        </span>
+      @endif
     </div>
 
     <div class="form-group campo-form-autenticacao">
