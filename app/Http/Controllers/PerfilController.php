@@ -9,6 +9,7 @@ use Auth;
 use Image;
 use Storage;
 use Validator;
+use Carbon\Carbon;
 
 class PerfilController extends Controller {
     private function viewNaoEncontrada() {
@@ -55,6 +56,7 @@ class PerfilController extends Controller {
         $this->authorize('editar', $perfil);
 
         return view('pages.perfil.editar', [
+            'descricaoTamanhoMax' => 1500, 
             'nomeUtilizador' => $nomeUtilizador,
             'imagem_perfil' => $perfil->imagem_perfil,
             'email' => $perfil->e_mail,
@@ -79,9 +81,9 @@ class PerfilController extends Controller {
             $picName = $perfil->id.'.jpg';
             $this->apagaImagem($request, $nomeUtilizador);
             $uploadedPic = $request->file('imagem_perfil');
-            Image::make($uploadedPic->path())->resize(320, 320)->encode('jpg', 60)->save(public_path('storage').'/'.$picName);
+            Image::make($uploadedPic->path())->resize(320, 320)->encode('jpg', 60)->save(public_path('storage').'/avatar-'.$picName);
             
-            $perfil->update(['imagem_perfil' => 'storage/'.$picName]);
+            $perfil->update(['imagem_perfil' => 'storage/avatar-'.$picName]);
             $perfil->save();
             return redirect()->route('editar-perfil', $nomeUtilizador);
         }
@@ -97,14 +99,14 @@ class PerfilController extends Controller {
         $this->authorize('editar', $perfil);
 
         if (!is_null($perfil->imagem_perfil)) {
-            Storage::disk('public')->delete($perfil->id.'.jpg');
+            Storage::disk('public')->delete('avatar-'.$perfil->id.'.jpg');
         }
 
         $perfil->update(['imagem_perfil' => null]);
         $perfil->save();
     }
 
-    public function publicaAlteracoesDados(Request $request, String $nomeUtilizador) {
+    public function alteraDados(Request $request, String $nomeUtilizador) {
         $perfil = Utilizador::procuraNomeUtilizador($nomeUtilizador);
         if (is_null($perfil)) {
             $this->viewNaoEncontrada();
@@ -113,15 +115,16 @@ class PerfilController extends Controller {
 
         $validator = Validator::make($request->all(), [
             'nome' => "required|string|max:512",
-            'data_nascimento' => 'required|date',
+            'data_nascimento' => 'required|date|before_or_equal:'.Carbon::parse(Carbon::now())->format('Y-m-d'),
             'e_mail' => 'required|string|email|max:512|unique:utilizador,e_mail,'.$perfil->id,
+            'descricao' => 'nullable|string|max: 1500',
             'palavra_passe' => 'nullable|string|min:8|confirmed',
         ]);
         $validator->validate();
 
-        $validated = $validator->safe()->only(['nome', 'data_nascimento', 'e_mail', 'palavra_passe']);
+        $validated = $validator->safe()->only(['nome', 'data_nascimento', 'e_mail', 'palavra_passe', 'descricao']);
         $validated['palavra_passe'] = is_null($validated['palavra_passe']) ? $perfil->palavra_passe : Hash::make($validated['palavra_passe']);
-        
+
         $perfil->update($validated);
         $perfil->save();
 
