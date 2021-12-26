@@ -3,6 +3,9 @@
 @push('estilos-especificos')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 @endpush
+@push('scripts')
+    <script src="{{ asset('js/perfil.js') }}"></script>
+@endpush
 
 @section('conteudo')
 <div id="corpo-perfil">
@@ -25,8 +28,8 @@
                             <i class="bi bi-three-dots-vertical"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="{{ route('editar-perfil', $usr->nome_utilizador) }}">Editar</a>
-                        <a class="dropdown-item text-danger" href="#">Apagar</a>
+                            <a class="dropdown-item" href="{{ route('editar-perfil', $usr->nome_utilizador) }}">Editar</a>
+                            <a id="perfil-apagar" class="dropdown-item text-danger" data-nome-utilizador="{{ $usr->nome_utilizador }}" href="{{ route('perfil', $usr->nome_utilizador) }}">Apagar</a>
                         </div>
                     </div>
                 @endcan

@@ -20,7 +20,7 @@
     </div>
 </form>
 
-<form id="edita-perfil-texto" method="POST" action="{{ route('editar-perfil', $nomeUtilizador) }}">
+<form id="edita-perfil-texto" method="POST" action="{{ route('perfil', $nomeUtilizador) }}">
     @csrf
     @method('PATCH')
     <div class="form-group">

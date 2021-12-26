@@ -23,8 +23,9 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->name('registo');
 Route::post('/login/registo', 'Auth\RegistoController@register');
 Route::get('/perfil/{nomeUtilizador}', 'PerfilController@mostraPerfil')->name('perfil');
+Route::patch('/perfil/{nomeUtilizador}', 'PerfilController@alteraDados');
+Route::delete('/perfil/{nomeUtilizador}', 'PerfilController@apagaPerfil');
 Route::get('/perfil/{nomeUtilizador}/editar', 'PerfilController@mostraEditar')->name('editar-perfil');
-Route::patch('/perfil/{nomeUtilizador}/editar', 'PerfilController@alteraDados');
 Route::put('/perfil/{nomeUtilizador}/imagem', 'PerfilController@alteraImagem')->name('editar-perfil-imagem');
 Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
 

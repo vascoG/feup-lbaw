@@ -130,4 +130,17 @@ class PerfilController extends Controller {
 
         return redirect()->route('perfil', $nomeUtilizador);
     }
+
+    public function apagaPerfil(Request $request, String $nomeUtilizador) {
+        $perfil = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        if (is_null($perfil)) {
+            $this->viewNaoEncontrada();
+        }
+        $this->authorize('editar', $perfil);
+        $perfil->delete();
+        return response()->json([
+            'sucesso' => true,
+            'localizacao' => route('home')
+        ]);
+    }
 }

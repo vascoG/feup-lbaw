@@ -211,31 +211,10 @@ paths:
                   value: '/login'
         '404':
           description: 'ID não existe. Mostra página de erro'
-  
-  /perfil/{nomeUtilizador}/editar:
-    get:
-      operationId: R109
-      summary: 'R109: Edição do perfil do utilizador'
-      description: 'Mostra a página de edição do perfil de um utilizador. Acesso: OWN'
-      tags:
-        - 'M01: Autenticação e perfil individual'
-      parameters:
-        - in: path
-          name: nomeUtilizador
-          schema:
-            type: string
-          required: true
-      responses:
-        '200':
-          description: 'Ok. Mostra a página de edição do perfil do utilizador'
-        '404':
-          description: 'ID do utilizador não existe. Mostra erro.'
-        '403':
-          description: 'ID encontrado, mas cliente não tem permissões de alteração'
     
     patch:
-      operationId: R110
-      summary: 'R110: Submete dados editados'
+      operationId: R111
+      summary: 'R111: Submete dados editados'
       description: 'Processa os dados de perfil que foram editados pelo utilizador. Acesso: OWN'
       tags:
         - 'M01: Autenticação e perfil individual'
@@ -283,10 +262,61 @@ paths:
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
 
+    delete:
+          operationId: R109
+          summary: 'R109: Eliminar perfil'
+          description: 'Elimina o perfil. Acesso: OWN, ADM'
+          tags:
+            - 'M01: Autenticação e perfil individual'
+          parameters:
+            - in: path
+              name: nomeUtilizador
+              schema:
+                type: string
+              required: true
+          responses:
+            '200':
+              description: 'Redirecionando após eliminar perfil.'
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      sucesso:
+                        type: boolean
+                        description: 'Indica se a eliminação foi bem sucedida.'
+                      localizacao:
+                        type: string
+                        description: 'Caminho para o qual o utilizador deve ser redirecionado.'
+            '404':
+              description: 'Nome utilizador não existe.'
+            '403':
+              description: 'O utilizador não tem permissões suficientes.'
+  /perfil/{nomeUtilizador}/editar:
+    get:
+      operationId: R110
+      summary: 'R110: Edição do perfil do utilizador'
+      description: 'Mostra a página de edição do perfil de um utilizador. Acesso: OWN'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de edição do perfil do utilizador'
+        '404':
+          description: 'ID do utilizador não existe. Mostra erro.'
+        '403':
+          description: 'ID encontrado, mas cliente não tem permissões de alteração'
+
   /perfil/{nomeUtilizador}/imagem:
     put:
-      operationId: R113
-      summary: 'R113: Alteração de imagem de perfil do utilizador'
+      operationId: R112
+      summary: 'R112: Alteração de imagem de perfil do utilizador'
       description: 'Altera a imagem de perfil do utilizador para a imagem enviada. Acesso: OWN'
       tags:
         - 'M01: Autenticação e perfil individual'
@@ -315,8 +345,8 @@ paths:
           description: 'ID encontrado, mas cliente não tem permissões de alteração'
 
     delete:
-      operationId: R114
-      summary: 'R114: Eleminação da página imagem de perfil'
+      operationId: R113
+      summary: 'R113: Eleminação da página imagem de perfil'
       description: 'Elimina a imagem de perfil de um utilizador. Acesso: OWN'
       tags:
         - 'M01: Autenticação e perfil individual'
@@ -336,8 +366,8 @@ paths:
 
   /perfil/{nomeUtilizador}/apelos:
     get:
-      operationId: R115
-      summary: 'R115: Lista os apelos do utilizador.'
+      operationId: R114
+      summary: 'R114: Lista os apelos do utilizador.'
       description: 'Mostra uma página com os apelos do utilizador. Se este puder fazer mais apelos é apresentado um formulário de apelos. Acesso: BAN'
       tags:
         - 'M01: Autenticação e perfil individual'
@@ -353,8 +383,8 @@ paths:
         '403': 
           description: 'O utilizador não está banido ou autenticado.'
     post:
-      operationId: R116
-      summary: 'R116: Cria um novo apelo de desbloqueio.'
+      operationId: R115
+      summary: 'R115: Cria um novo apelo de desbloqueio.'
       tags:
         - 'M01: Autenticação e perfil individual'
       parameters:
@@ -386,37 +416,6 @@ paths:
                 303Erro:
                   description: 'Não são permitidos mais apelos'
                   value: '/perfil/{nomeUtilizador}/apelos'
-  /perfil/{nomeUtilizador}/eliminar: 
-        delete:
-          operationId: R117
-          summary: 'R117: Eliminar perfil'
-          description: 'Elimina o perfil. Acesso: OWN, ADM'
-          tags:
-            - 'M01: Autenticação e perfil individual'
-          parameters:
-            - in: path
-              name: nomeUtilizador
-              schema:
-                type: string
-              required: true
-          responses:
-            '302':
-              description: 'Redirecionando após eliminar perfil.'
-              headers:
-                Location:
-                  schema:
-                    type: string
-                  examples:
-                    302Sucesso:
-                      description: 'Perfil eliminado com sucesso.'
-                      value: '/'
-                    302Erro:
-                      description: 'Falha na eliminação do perfil. Redirecionando para o perfil' 
-                      value: '/perfil/{nomeUtilizador}'
-            '404':
-              description: 'Nome utilizador não existe. Mostra página de erro.'
-            '403':
-              description: 'O utilizador não tem permissões suficientes.'
 
 #M02 
   /sobrenos:
