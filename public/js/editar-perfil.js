@@ -1,8 +1,7 @@
 function apagaImagem(e) {
     e.preventDefault();
     let nomeUtilizador = document.getElementById('edita-perfil-imagem').dataset.nomeUtilizador;
-    console.log(`${window.location.origin}/perfil/${nomeUtilizador}/editar/imagem`);
-    fetch("http://localhost:8000/perfil/frpdoliv3/imagem", {
+    fetch(`${window.location.origin}/perfil/frpdoliv3/imagem`, {
         method: 'DELETE',
         credentials: "same-origin",
         headers: {

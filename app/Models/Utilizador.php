@@ -51,7 +51,7 @@ class Utilizador extends Authenticable {
 
     public function getImagemPerfilAttribute($value) {
         if (is_null($value)) {
-            return 'storage/avatar/default.png';
+            return 'storage/avatar-default.png';
         }
         return $value;
     }

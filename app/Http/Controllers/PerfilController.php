@@ -79,9 +79,9 @@ class PerfilController extends Controller {
             $picName = $perfil->id.'.jpg';
             $this->apagaImagem($request, $nomeUtilizador);
             $uploadedPic = $request->file('imagem_perfil');
-            Image::make($uploadedPic->path())->resize(320, 320)->encode('jpg', 60)->save(public_path('storage').'/'.$picName);
+            Image::make($uploadedPic->path())->resize(320, 320)->encode('jpg', 60)->save(public_path('storage').'/avatar-'.$picName);
             
-            $perfil->update(['imagem_perfil' => 'storage/'.$picName]);
+            $perfil->update(['imagem_perfil' => 'storage/avatar-'.$picName]);
             $perfil->save();
             return redirect()->route('editar-perfil', $nomeUtilizador);
         }
@@ -97,7 +97,7 @@ class PerfilController extends Controller {
         $this->authorize('editar', $perfil);
 
         if (!is_null($perfil->imagem_perfil)) {
-            Storage::disk('public')->delete($perfil->id.'.jpg');
+            Storage::disk('public')->delete('avatar-'.$perfil->id.'.jpg');
         }
 
         $perfil->update(['imagem_perfil' => null]);
