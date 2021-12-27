@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS resposta_avaliada CASCADE;
 DROP TABLE IF EXISTS etiqueta CASCADE;
 DROP TABLE IF EXISTS questao_etiqueta CASCADE;
 DROP TABLE IF EXISTS utilizador_ativo_etiqueta CASCADE;
+DROP TABLE IF EXISTS password_resets CASCADE;
 
 CREATE TABLE utilizador(
   id SERIAL PRIMARY KEY,
@@ -152,6 +153,12 @@ CREATE TABLE utilizador_ativo_etiqueta(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
   id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_utilizador, id_etiqueta)
+);
+
+CREATE TABLE password_resets(
+  email VARCHAR(255),
+  token VARCHAR(255),
+  created_at TIMESTAMP WITHOUT TIME ZONE
 );
 
 /*
@@ -695,6 +702,8 @@ DROP INDEX IF EXISTS data_publicacao_questao;
 DROP INDEX IF EXISTS agrupa_historico_questao;
 DROP INDEX IF EXISTS agrupa_historico_resposta;
 DROP INDEX IF EXISTS agrupa_historico_comentario;
+DROP INDEX IF EXISTS password_resets_email_index;
+DROP INDEX IF EXISTS password_resets_token_index;
 
 CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
 CREATE INDEX pesquisa_etiqueta ON etiqueta USING GIN (tsvectors);
@@ -710,6 +719,9 @@ CLUSTER historico_resposta USING agrupa_historico_resposta;
 
 CREATE INDEX agrupa_historico_comentario ON historico_comentario USING BTREE(id_comentario);
 CLUSTER historico_comentario USING agrupa_historico_comentario;
+
+CREATE INDEX password_resets_email_index ON password_resets USING BTREE(email);
+CREATE INDEX password_resets_token_index ON password_resets USING BTREE(token);
 
 /*
   POPULAÇÃO DA BASE DE DADOS

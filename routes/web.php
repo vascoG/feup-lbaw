@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 // Home
 
 Route::view('/', 'teste')->name('home');
+Route::get('/mail', function(){
+    return new \App\Mail\RecuperaConta(App\Models\Utilizador::find(1011), 'meu token');
+});
 
 #M01
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -22,6 +25,10 @@ Route::post('/login', 'Auth\LoginController@login');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/login/registo', 'Auth\RegistoController@showRegistrationForm')->name('registo');
 Route::post('/login/registo', 'Auth\RegistoController@register');
+Route::get('/recuperacao', 'Auth\RecuperaPassword@mostraFormularioPedido')->middleware('guest')->name('recupera-password');
+Route::post('/recuperacao', 'Auth\RecuperaPassword@submetePedido');
+Route::get('/recuperacao/{token}', 'Auth\RecuperaPassword@mostraFormularioRecuperacao')->middleware('guest');
+Route::post('/recuperacao/{token}', 'Auth\RecuperaPassword@alteraPassword')->name('altera-password');
 Route::get('/perfil/{nomeUtilizador}', 'PerfilController@mostraPerfil')->name('perfil');
 Route::patch('/perfil/{nomeUtilizador}', 'PerfilController@alteraDados');
 Route::delete('/perfil/{nomeUtilizador}', 'PerfilController@apagaPerfil');
