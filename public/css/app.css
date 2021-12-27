@@ -29,7 +29,7 @@ ul {
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, label, input, button {
 	font-weight: 500;
-    font-family: 'Nunito', sans-serif;;
+    font-family: 'Nunito', sans-serif;
 }
 
 a {
@@ -348,4 +348,14 @@ lable {
 	text-align: right;
 	color: grey;
 	background-color: smoke;
+}
+
+/*
+	Estilos recuperacao de conta
+*/
+
+.form-recuperacao {
+	padding-top: 10vh;
+	width: 40%;
+	margin: 0 auto;
 }
