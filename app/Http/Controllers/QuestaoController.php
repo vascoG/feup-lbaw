@@ -61,9 +61,9 @@ class QuestaoController extends Controller
      */
     public function showEditForm($idQuestao)
     {
-       // if(!Auth::check()) return redirect('/login');
+        if(!Auth::check()) return redirect('/login');
         $questao = Questao::find($idQuestao);
-        //$this->authorize('editar',$questao);
+        $this->authorize('editar',$questao);
         $tags = Etiqueta::all();
 
         return view('pages.editarquestao',['questao'=>$questao, 'tags'=>$tags]);
@@ -74,9 +74,9 @@ class QuestaoController extends Controller
      */
     public function edit(Request $request, $idQuestao)
     {
-        //if(!Auth::check()) return redirect('/login');
+        if(!Auth::check()) return redirect('/login');
         $questao = Questao::find($idQuestao);
-        //$this->authorize('editar',$questao);
+        $this->authorize('editar',$questao);
 
         $validator = Validator::make($request->all(),
             [
