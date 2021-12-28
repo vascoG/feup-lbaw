@@ -1,8 +1,9 @@
 @extends('layouts.minimo')
 
 @section('conteudo')
-<form method = "POST" action="{{route('editar-questao',$questao->id)}}" id="questao-editar-form">
+<form method = "POST" action="{{route('edit-questao',$questao->id)}}" id="questao-editar-form">
     {{ csrf_field() }}
+    @method('PUT')
     <div class="form-group ">
         <label for="titulo">Título da questão</label>
         <input required type="text" class="form-control questao-titulo" id="tituloQuestao" name="titulo" value="{{$questao->titulo}}">
