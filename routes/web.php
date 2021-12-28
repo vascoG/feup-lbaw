@@ -34,4 +34,4 @@ Route::get('/admin/banimento','AdminController@showApelo');
 Route::get('/criarquestao','QuestaoController@showCreateForm')->name('criarquestao');
 Route::post('/criarquestao','QuestaoController@create');
 Route::get('/questao/{idQuestao}/editar','QuestaoController@showEditForm')->name('editar-questao');
-Route::put('questao/{idQuestao}/editar','QuestaoController@edit');
+Route::post('questao/{idQuestao}/editar','QuestaoController@edit');
