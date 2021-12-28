@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Questao extends Model {
-    public $timestamp = false;
+
+    public $timestamps = false;
 
     public $table = 'questao';
 
