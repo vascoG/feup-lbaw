@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:wght@500;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:ital,wght@0,500;0,600;0,800;1,300&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -391,4 +391,61 @@ Criaçao e ediçao de questao
 	color:#EAEAEA;
 }
 
+/*
+	Ecra de pesquisa
+*/
+#conteudo-lista-questoes {
+	margin: 0 auto;
+	width: 60%;
+}
 
+.card-questao {
+	cursor: pointer;
+	background-color: #C0C0C0;
+}
+
+.card-questao-dados * {
+	font-weight: 300;
+	font-style: italic;
+	color: #19323C;
+	font-size: 0.90rem;
+}
+
+.card-questao-dados a, .card-questao-dados a:link, 
+.card-questao-dados a:visited, .card-questao-dados a:hover, 
+.card-questao-dados a:active {
+	color: #19323C;
+} 
+
+.card-questao-dados a:hover {
+	text-decoration: underline;
+}
+
+.card-questao-body h1 {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.card-questao-body hr {
+	margin: 5px 0;
+}
+
+.card-questao-body p {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 4;
+	overflow: hidden;
+}
+
+.etiqueta-pill {
+	cursor: pointer;
+	color: #C0C0C0;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	overflow: hidden;
+	background-color: #011936;
+	max-width: 10vw;
+	border-radius: 20px;
+	padding: 0 10px;
+}
