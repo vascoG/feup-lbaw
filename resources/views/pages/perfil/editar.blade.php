@@ -11,10 +11,10 @@
     <div class="d-flex justify-content-center">
         <img id="edita-perfil-imagem" data-nome-utilizador="{{ $nomeUtilizador }}" src="{{ asset($imagem_perfil) }}" alt="Imagem de perfil do utilizador">
         <div class="d-flex flex-column justify-content-center">
-            <input type="file" class="form-control-file" name="imagem_perfil">
-            <div class="d-inline-flex flex-row mt-2">
-                <button type="submit" class="btn btn-primary px-2">Enviar</button>
-                <button type="button" id="editar-perfil-apaga-imagem" class="btn btn-danger mx-4">Apagar</button>
+            <input type="file" class="form-control" name="imagem_perfil">
+            <div class="d-inline-flex flex-row justify-content-between mt-2">
+                <button type="button" id="editar-perfil-apaga-imagem" class="btn btn-danger px-5">Apagar</button>
+                <button type="submit" class="btn btn-primary px-5">Enviar</button>
             </div>
         </div>
     </div>
