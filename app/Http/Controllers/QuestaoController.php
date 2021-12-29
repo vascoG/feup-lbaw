@@ -101,4 +101,13 @@ class QuestaoController extends Controller
         return redirect()->route('questao',[$questao]);
     }
 
+    /**
+    * 
+    */
+    public function show(Request $request, $idQuestao){
+        $this->authorize('notBanned',Questao::class);
+        $questao = Questao::find($idQuestao);
+        return view('pages.questao',['questao'=>$questao]);
+
+    }
 }
