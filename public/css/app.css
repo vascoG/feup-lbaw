@@ -56,6 +56,15 @@ lable {
 	user-select: none;
 }
 
+.nao-selecionavel {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /* 
 	Estilos para altura maxima
 */
@@ -446,6 +455,20 @@ Criaçao e ediçao de questao
 	overflow: hidden;
 	background-color: #011936;
 	max-width: 10vw;
+	min-width: 100px;
 	border-radius: 20px;
 	padding: 0 10px;
+}
+
+/*
+	Estilos do filtro de pesquisa
+*/
+#mostrador-etiquetas {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.cm-ativa-checkbox input {
+	pointer-events: none;
+	opacity: 1 !important;
 }
