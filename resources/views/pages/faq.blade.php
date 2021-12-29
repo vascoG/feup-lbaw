@@ -1,4 +1,4 @@
-@extends('layouts.minimo')
+@extends('layouts.geral')
 
 @section('conteudo')
 
@@ -14,8 +14,7 @@
 
         <div class="col-md-6 col-lg-4 mb-4">
         <h6 class="mb-3 text-faq">É possível associar mais que uma tag à minha questão?</h6>
-        <p>
-            <strong><u>Sim, é possível!</u></strong>Pode adicionar mais que uma tags.</p>
+        <p>Sim, é possível! Pode adicionar mais que uma tag.</p>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
         <h6 class="mb-3 text-faq"> O que posso fazer no site sem me registar?</h6>
