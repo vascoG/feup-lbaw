@@ -390,5 +390,10 @@ Criaçao e ediçao de questao
 	background-color: #2F2D2E;
 	color:#EAEAEA;
 }
+.media img {
+    width: 60px;
+    height: 60px
+}
+
 
 
