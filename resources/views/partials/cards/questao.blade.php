@@ -1,4 +1,4 @@
-<article class="card card-questao p-2" data-id={{ $questao->id }}>
+<article class="card card-questao p-2 my-3" data-id={{ $questao->id }}>
     <div class="card-body card-questao-body">
         <h1 class="card-title">{{ $questao->titulo }}</h1>
         <hr>

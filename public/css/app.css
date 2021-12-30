@@ -404,13 +404,14 @@ Criaçao e ediçao de questao
 	Ecra de pesquisa
 */
 #conteudo-lista-questoes {
+	padding-top: 10px;
 	margin: 0 auto;
 	width: 60%;
 }
 
 .card-questao {
 	cursor: pointer;
-	background-color: #C0C0C0;
+	background-color: #DCDCDC;
 }
 
 .card-questao-dados * {

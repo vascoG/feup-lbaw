@@ -5,7 +5,7 @@
 <div>
     <form method="GET" action={{ route('pesquisa') }}>
         <div id="pesquisa-query" class="input-group">
-            <input class="form-control" name="query" placeholder="Procurar questões..."></input>
+            <input class="form-control" name="query" value="{{ $query }}" placeholder="Procurar questões..."></input>
             <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filtros-avancados" aria-expanded="false" aria-controls="filtros-avancados">
                 <i class="bi bi-funnel"></i>
             </button>
@@ -25,9 +25,9 @@
                             <li><hr class="dropdown-divider"></li>
                             @foreach (\App\Models\Etiqueta::all() as $etiqueta)
                                 <li class="pesquisa-etiqueta">
-                                    <div class="d-flex justify-content-between dropdown-item cm-ativa-checkbox">
+                                    <div class="d-flex justify-content-between dropdown-item cm-ativa-checkbox" id={{ "filtro-etiqueta-".$etiqueta->id }}>
                                         <p class="nao-selecionavel">{{ $etiqueta->nome }}</p>
-                                        <input class="form-check-input" type="checkbox" value="{{ $etiqueta->id }}" disabled>
+                                        <input class="form-check-input" type="checkbox" value="{{ $etiqueta->id }}" disabled {{ in_array($etiqueta->id, $etiquetas) ? "checked" : "" }}>
                                     </div>
                                 </li>
                             @endforeach
@@ -42,11 +42,11 @@
                         <label class="form-check-label" for="mais-recentes">Mais Recentes</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ordenar-atributo" value="mais-votos" id="mais-votos">
+                        <input class="form-check-input" type="radio" name="ordenar-atributo" value="mais-votos" id="mais-votos" {{ ($ordenarAtributo == 'mais-votos' ? "checked" : "") }}>
                         <label class="form-check-label" for="mais-votos">Mais Votos</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ordenar-atributo" value="mais-reputacao" id="mais-reputacao">
+                        <input class="form-check-input" type="radio" name="ordenar-atributo" value="mais-reputacao" id="mais-reputacao" {{ ($ordenarAtributo == 'mais-reputacao' ? "checked" : "") }}>
                         <label class="form-check-label" for="mais-reputacao">Mais Reputação</label>
                     </div>
                 </div>
@@ -58,13 +58,13 @@
                         <label class="form-check-label" for="decres">Decrescente</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ordenar-ordem" value="asc" id="cres">
+                        <input class="form-check-input" type="radio" name="ordenar-ordem" value="asc" id="cres" {{ $ordenarOrdem == "asc" ? "checked" : "" }}>
                         <label class="form-check-label" for="cres">Crescente</label>
                     </div>
                 </div>
             </div>
             <hr>
         </div>
-        <input id="etiqueta-secreta" name="etiqueta" type="hidden">
+        <input id="etiqueta-secreta" class="d-none" name="etiqueta" {{ count($etiquetas) ? "value=".implode(',', $etiquetas) : "" }} type="hidden">
     </form>
 </div>

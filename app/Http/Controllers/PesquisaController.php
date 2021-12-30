@@ -15,7 +15,7 @@ class PesquisaController extends Controller {
             $ordem = request('ordenar-ordem');
         }
         if(request('query')) {
-            $questoes->whereRaw("tsvectors @@ to_tsquery('portuguese', ?)", [request('query')]);
+            $questoes->whereRaw("tsvectors @@ to_tsquery('portuguese', ?)", request('query'));
         }
         if(request('etiqueta')) {
             $etiquetas = DB::table('questao_etiqueta')
@@ -42,12 +42,23 @@ class PesquisaController extends Controller {
                 }
             }
         }
-        return $questoes->get();
+        return $questoes->paginate(10);
     }
 
     public function mostraPesquisa() {
+        $paginasQuestoes = $this->aplicaFiltros();
+        $paginasQuestoes->appends([
+            'query' => request('query') ?: "",
+            'ordenar-atributo' => request('ordenar-atributo') ?: "",
+            'ordenar-ordem' => request('ordenar-ordem') ?: "",
+            'etiquetas' => request('etiquetas') ?: ""
+        ]);
         return view('pages.pesquisa.resultado', [
-            'questoes' => $this->aplicaFiltros()
+            'ordenarAtributo' => request('ordenar-atributo'),
+            'ordenarOrdem' => request('ordenar-ordem'),
+            'query' => request('query'),
+            'etiquetas' => explode(',', request('etiqueta')),
+            'questoes' => $paginasQuestoes
         ]);
     }
 }

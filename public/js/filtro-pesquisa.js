@@ -39,6 +39,14 @@ function atualizaMostrador(element) {
     }
 }
 
+function inicializaMostrador() {
+    let etiquetasAMostrar = document.getElementById('etiqueta-secreta').value.split(',');
+    for(let i = 0; i < etiquetasAMostrar.length; i++) {
+        let etiqueta = document.getElementById(`filtro-etiqueta-${etiquetasAMostrar[i]}`);
+        atualizaMostrador(etiqueta);
+    }
+}
+
 for (let i = 0; i < checkboxes.length; i++) {
     checkboxes[i].addEventListener('click', (e) => {
         e.stopPropagation();
@@ -54,8 +62,9 @@ for(let i = 0; i < botoes.length; i++) {
     });
 }
 
+inicializaMostrador();
 document.getElementById('filtro-etiquetas').addEventListener('keyup', atualizaLista);
 document.getElementById('lista-etiquetas').addEventListener('click', (e) => e.stopPropagation());
-document.getElementById('botao-pesquisa').addEventListener('click', (e) => {
+document.getElementById('botao-pesquisa').addEventListener('click', (_) => {
     document.getElementById('etiqueta-secreta').value = Array.from(etiquetasMostradas.keys()).join(',');
 })
