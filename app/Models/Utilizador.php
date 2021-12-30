@@ -38,12 +38,6 @@ class Utilizador extends Authenticable implements CanResetPassword{
         'palavra_passe', 'imagem_perfil'
     ];
 
-    protected $dates = [
-        'data_nascimento',
-    ];
-
-    protected $dateFormat = 'U';
-
     public function getAuthPassword() {
         return $this->palavra_passe;
     }
