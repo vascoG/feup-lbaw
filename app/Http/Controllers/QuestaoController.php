@@ -62,9 +62,9 @@ class QuestaoController extends Controller
      */
     public function showEditForm($idQuestao)
     {
-        if(!Auth::check()) return redirect('/login');
+       // if(!Auth::check()) return redirect('/login');
         $questao = Questao::find($idQuestao);
-        $this->authorize('editar',$questao);
+       // $this->authorize('editar',$questao);
         $tags = Etiqueta::all();
 
         return view('pages.editarquestao',['questao'=>$questao, 'tags'=>$tags]);
@@ -107,7 +107,7 @@ class QuestaoController extends Controller
     */
     public function show(Request $request, $idQuestao){
         $this->authorize('notBanned',Questao::class);
-        $questao = Questao::find($idQuestao);
+        $questao = Questao::findOrFail($idQuestao);
         $criador=Utilizador::find($questao->criador->id_utilizador);
         return view('pages.questao',['questao'=>$questao,'criador'=>$criador]);
 

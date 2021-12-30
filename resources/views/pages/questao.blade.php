@@ -4,42 +4,27 @@
 
 <div class="container">
   <div class="row">
-    <div class="col">
+    <div class="col-3">
       <div class="media">
-        <img class="mr-3 rounded-circle" alt="Foto Perfil" src="{{$criador->imagem_perfil}}"></img>
-        <p>Nome {{$criador->nome}}</p>
-        <p class="text-muted">{{$questao->data_publicacao}}</p>
+        <img class="mr-3 rounded-circle" src="{{$criador->imagem_perfil}}"></img>
+        <p>{{$criador->nome}}</p>
+        <p class="text-muted">{{date('d/m/y H:i:s',strtotime($questao->data_publicacao))}}</p>
       </div>
     </div>
-    <div class="col">
-      <br>
-    <p> Texto {{$questao->texto}}.</p>
+    <div class="col-9 corpo-questao">
+      <h3>{{$questao->titulo}}</h3>
+      {{$questao->texto}}
+      <hr>
+      @foreach ($questao->etiquetas as $etiqueta)
+      <span class="badge badge-pill badge-tag">
+      {{$etiqueta->nome}}
+      </span>
+      @endforeach
+      <button type="button" class="btn questao-button btn-sm float-end m-2">Responder</button>
+      <button type="button" class="btn questao-button btn-sm float-end m-2">Comentar</button>
     </div>
-    <div class="col">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-    <div class="badge bg-primary text-wrap" style="width: 6rem;">
-      Gosto
-    </div>
-    <div class="badge bg-primary text-wrap" style="width: 6rem;">
-      Não Gosto
-    </div>
-    </div>
-    <div class="col">
-    </div> 
-    <div class="col">
-      <div class="badge bg-primary text-wrap" style="width: 6rem;">
-        Responder
-      </div>
-      <div class="badge bg-primary text-wrap" style="width: 6rem;">
-        Comentar
-      </div>
-    </div>
-  </div>
+  </div> 
 </div>
-<hr> 
 
 
 

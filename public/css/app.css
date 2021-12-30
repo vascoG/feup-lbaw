@@ -391,9 +391,19 @@ Criaçao e ediçao de questao
 	color:#EAEAEA;
 }
 .media img {
-    width: 60px;
-    height: 60px
+    width: 160px;
+    height: 160px
 }
 
+.corpo-questao{
+	margin-top: 10px;
+	padding-bottom: 10px;
+	border-left: #DAA520;
+	border-width: 5px;
+	border-left-style: solid;
+}
 
-
+.badge-tag{
+	background-color: lightslategrey;
+	color: snow;
+}
