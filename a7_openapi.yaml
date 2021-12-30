@@ -969,7 +969,7 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página de edição de questões.'
-    post:
+    put:
       operationId: R404
       summary: 'R404: Edita uma questão'
       description: 'Edita uma questão. Acesso: OWN'
@@ -1196,7 +1196,7 @@ paths:
             description: 'ID não existe. Mostra página de erro.'
           '403':
             description: 'O utilizador não tem permissões suficientes.'
-  /questao/{idQuestao}/{idResposta}/eliminar: 
+  /questao/{idQuestao}/eliminar-resposta/{idResposta}: 
       delete:
         operationId: R410
         summary: 'R410: Eliminar resposta'
@@ -1234,7 +1234,7 @@ paths:
             description: 'ID não existe. Mostra página de erro.'
           '403':
             description: 'O utilizador não tem permissões suficientes.'
-  /questao/{idQuestao}/{idComentario}/eliminar: 
+  /questao/{idQuestao}/eliminar-comentario/{idComentario}: 
         delete:
           operationId: R411
           summary: 'R411: Eliminar comentário'
