@@ -5,10 +5,10 @@
 @endpush
 
 @section('conteudo')
-@include('partials.questoes-filtro.pesquisa-filtro')
+@include('partials.pesquisa-filtro')
 <div id="conteudo-lista-questoes">
     @if ($questoes->isEmpty())
-        <h1>Não foram encontradas questões que respeitassem os filtros de pesquisa</h1>
+        <h4>Não foram encontradas questões que respeitassem os filtros de pesquisa</h4>
     @else
         @foreach ($questoes as $questao)
             @include('partials.cards.questao', [

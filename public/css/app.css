@@ -463,12 +463,43 @@ Criaçao e ediçao de questao
 /*
 	Estilos do filtro de pesquisa
 */
-#mostrador-etiquetas {
-	display: flex;
-	flex-flow: row wrap;
+.pesquisa-header-filtro {
+	margin: 0 auto;
+	padding-bottom: 10px;
 }
 
 .cm-ativa-checkbox input {
 	pointer-events: none;
 	opacity: 1 !important;
+}
+
+.pesquisa-avancada-item {
+	margin: 10px 20px;
+}
+
+#filtros-avancados {
+	margin-top: 20px;
+}
+
+#mostrador-etiquetas {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 10px;
+}
+
+#pesquisa-query {
+	margin: 0 auto;
+	width: 60%;
+}
+
+#pesquisa-contentor-etiquetas {
+	flex: 4;
+}
+
+#pesquisa-ordem-atributo {
+	flex: 2;
+}
+
+#pesquisa-ordem {
+	flex: 2;
 }

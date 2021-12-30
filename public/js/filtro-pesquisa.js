@@ -27,7 +27,6 @@ function criaEtiqueta(texto) {
 }
 
 function atualizaMostrador(element) {
-    console.log(element);
     let id = element.querySelector('input').value;
     let texto = element.querySelector('p').innerText;
     if (etiquetasMostradas.has(id)) {
@@ -57,3 +56,6 @@ for(let i = 0; i < botoes.length; i++) {
 
 document.getElementById('filtro-etiquetas').addEventListener('keyup', atualizaLista);
 document.getElementById('lista-etiquetas').addEventListener('click', (e) => e.stopPropagation());
+document.getElementById('botao-pesquisa').addEventListener('click', (e) => {
+    document.getElementById('etiqueta-secreta').value = Array.from(etiquetasMostradas.keys()).join(',');
+})
