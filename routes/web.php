@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 // Home
 
 Route::view('/', 'teste')->name('home');
-Route::get('/mail', function(){
-    return new \App\Mail\RecuperaConta(App\Models\Utilizador::find(1011), 'meu token');
-});
 
 #M01
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -45,6 +42,9 @@ Route::get('/admin/moderadores','AdminController@showModerador');
 Route::put('/admin/moderadores','AdminController@createModerador');
 Route::get('/admin/banimento','AdminController@showApelo');
 
+
+#M03
+Route::get('/questoes', 'PesquisaController@mostraPesquisa')->name('pesquisa');
 
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm')->name('criarquestao');

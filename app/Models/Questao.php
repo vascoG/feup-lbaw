@@ -11,6 +11,10 @@ class Questao extends Model {
     public $table = 'questao';
 
     protected $fillable = ['texto', 'autor', 'titulo'];
+    
+    protected $dates = [
+        'data_publicacao',
+    ];
 
     public function criador() {
         return $this->belongsTo('App\Models\UtilizadorAtivo', 'autor', 'id');

@@ -174,14 +174,22 @@ DROP MATERIALIZED VIEW IF EXISTS historico_resposta;
 DROP MATERIALIZED VIEW IF EXISTS historico_comentario;
 
 CREATE MATERIALIZED VIEW gosto_questoes AS
-  SELECT id_questao, COUNT(*) AS n_gosto
-  FROM questao_avaliada
-  GROUP BY id_questao;
+  SELECT COALESCE(questao.id, gosto_existente.id_questao) AS id_questao, 
+    COALESCE(n_gosto, 0) AS n_gosto
+  FROM questao LEFT JOIN (
+    SELECT id_questao, COUNT(*) AS n_gosto
+    FROM questao_avaliada
+    GROUP BY id_questao
+  ) AS gosto_existente ON gosto_existente.id_questao=questao.id;
 
 CREATE MATERIALIZED VIEW gosto_respostas AS
-  SELECT id_resposta, COUNT(*) AS n_gosto
-  FROM resposta_avaliada
-  GROUP BY id_resposta;
+  SELECT COALESCE(resposta.id, gosto_existente.id_resposta) AS id_resposta, 
+	  COALESCE(n_gosto, 0) AS n_gosto
+  FROM resposta LEFT JOIN (
+    SELECT id_resposta, COUNT(*) AS n_gosto
+    FROM resposta_avaliada
+    GROUP BY id_resposta
+  ) AS gosto_existente ON gosto_existente.id_resposta=resposta.id;
 
 CREATE MATERIALIZED VIEW historico_questao AS
   SELECT id, texto, data_edicao, id_questao
@@ -197,6 +205,47 @@ CREATE MATERIALIZED VIEW historico_comentario AS
   SELECT id, texto, data_edicao, id_comentario
   FROM historico_interacao
   WHERE id_comentario IS NOT NULL;
+
+DROP VIEW IF EXISTS reputacao;
+
+CREATE VIEW reputacao AS
+    SELECT usr_pont_res.id_utilizador AS id_utilizador,
+	    (pontuacao_respostas+n_gosto_resposta+n_gosto_questao) AS reputacao
+    FROM (
+      SELECT id AS id_utilizador, 
+        COALESCE(respostas_aceites.n_repostas_aceites * 10, 0) AS pontuacao_respostas
+      FROM utilizador_ativo LEFT JOIN (
+        SELECT autor, count(*) AS n_repostas_aceites 
+        FROM resposta 
+        WHERE resposta_aceite
+        GROUP BY autor
+      ) AS respostas_aceites 
+      ON id=respostas_aceites.autor
+    ) AS usr_pont_res 
+    JOIN (
+      SELECT COALESCE(gosto_resposta_usr.id_utilizador, utilizador_ativo.id) AS id_utilizador,
+        COALESCE (n_gosto_resposta, 0) AS n_gosto_resposta
+      FROM utilizador_ativo LEFT JOIN (
+        SELECT autor AS id_utilizador, 
+          SUM(n_gosto) AS n_gosto_resposta 
+        FROM gosto_respostas JOIN 
+          resposta 
+        ON id_resposta=resposta.id
+        GROUP BY id_utilizador
+      ) AS gosto_resposta_usr ON gosto_resposta_usr.id_utilizador=utilizador_ativo.id
+    ) as usr_gst_res ON usr_gst_res.id_utilizador=usr_pont_res.id_utilizador
+    JOIN (
+      SELECT COALESCE(gosto_questao_usr.id_utilizador, utilizador_ativo.id) AS id_utilizador,
+        COALESCE (n_gosto_questao, 0) AS n_gosto_questao
+      FROM utilizador_ativo LEFT JOIN (
+        SELECT autor AS id_utilizador,
+          SUM(n_gosto) AS n_gosto_questao
+        FROM gosto_questoes JOIN 
+          questao 
+        ON id_questao=questao.id
+        GROUP BY id_utilizador
+      ) AS gosto_questao_usr ON gosto_questao_usr.id_utilizador=utilizador_ativo.id
+    ) AS usr_gst_quest ON usr_gst_quest.id_utilizador=usr_pont_res.id_utilizador;
 
 /*
 
@@ -754,7 +803,7 @@ VALUES (generate_series(1,1000),md5(random()::text),random()*199+1,md5(random():
 INSERT INTO questao_seguida(id_utilizador, id_questao)
 VALUES (generate_series(1,1010),random()*999+1);
 INSERT INTO resposta (id,texto,autor,id_questao,resposta_aceite)
-VALUES (generate_series(1,1000),md5(random()::text),random()*199+201,random()*999+1,FALSE);
+VALUES (generate_series(1,1000),md5(random()::text),random()*199+201,random()*999+1, RANDOM()::INT::BOOLEAN);
 INSERT INTO comentario (id,texto,autor,id_questao)
 VALUES (generate_series(1,500),md5(random()::text),random()*500+401,random()*999+1);
 INSERT INTO comentario (id,texto,autor,id_resposta)
