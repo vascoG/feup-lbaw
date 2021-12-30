@@ -368,13 +368,15 @@ Criaçao e ediçao de questao
 	width: 70vw;
 	margin:10px;
 	resize:none;
+	position: relative;
+	left: 10vw;
 }
 
 .questao-texto
 {	text-align: left;
 	width: 70vw;
 	height: 20vw;
-	margin: 10px;
+	margin-top: 10px;
 	resize:none;
 }
 
@@ -383,6 +385,8 @@ Criaçao e ediçao de questao
 	border-style: outset;
 	border-color: #2F2D2E;
 	border-width: 1px;
+	position: relative;
+	left: 75vw;
 }
 
 .questao-button:hover

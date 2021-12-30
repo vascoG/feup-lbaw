@@ -22,7 +22,7 @@ class QuestaoPolicy{
     public function editar(UtilizadorAtivo $utilizadorAtivo, Questao $questao)
     {   
         $user = Utilizador::find($utilizadorAtivo->id_utilizador);
-        return $utilizadorAtivo->id_utilizador == $questao->autor || $user->administrador;
+        return $utilizadorAtivo->id_utilizador == $questao->autor || $user->administrador || $user->moderador;
     }
 
 }

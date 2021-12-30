@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Etiqueta;
-use App\Models\HistoricoInteracao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +61,7 @@ class QuestaoController extends Controller
     public function showEditForm($idQuestao)
     {
         if(!Auth::check()) return redirect('/login');
-        $questao = Questao::find($idQuestao);
+        $questao = Questao::findOrFail($idQuestao);
         $this->authorize('editar',$questao);
         $tags = Etiqueta::all();
 
@@ -75,7 +74,7 @@ class QuestaoController extends Controller
     public function edit(Request $request, $idQuestao)
     {
         if(!Auth::check()) return redirect('/login');
-        $questao = Questao::find($idQuestao);
+        $questao = Questao::findOrFail($idQuestao);
         $this->authorize('editar',$questao);
 
         $validator = Validator::make($request->all(),
@@ -99,6 +98,19 @@ class QuestaoController extends Controller
         foreach($etiquetas as $tag)
             $questao->etiquetas()->attach($tag);
         return redirect()->route('questao',[$questao]);
+    }
+    /**
+     * Apaga uma questão
+     * @return Response
+     */
+    public function delete($idQuestao)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $questao = Questao::findOrFail($idQuestao);
+        $this->authorize('editar',$questao);
+        $questao->delete();
+        return redirect()->route('/');
+
     }
 
 }

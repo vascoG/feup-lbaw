@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Resposta extends Model {
-    public $timestamp = false;
+    public $timestamps = false;
 
     public $table = 'resposta';
 

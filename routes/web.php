@@ -51,3 +51,8 @@ Route::get('/criarquestao','QuestaoController@showCreateForm')->name('criarquest
 Route::post('/criarquestao','QuestaoController@create');
 Route::get('/questao/{idQuestao}/editar','QuestaoController@showEditForm')->name('editar-questao');
 Route::put('questao/{idQuestao}/editar','QuestaoController@edit')->name('edit-questao');
+Route::delete('questao/{idQuestao}/eliminar','QuestaoController@delete')->name('eliminar-questao');
+Route::get('questao/{idQuestao}/editar-resposta/{idResposta}','RespostaController@showEditForm')->name('editar-resposta');
+Route::put('questao/{idQuestao}/editar-resposta/{idResposta}','RespostaController@edit')->name('edit-resposta');
+Route::delete('questao/{idQuestao}/eliminar-resposta/{idResposta}','RespostaController@delete')->name('eliminar-resposta');
+
