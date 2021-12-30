@@ -37,7 +37,8 @@ class PesquisaController extends Controller {
                         ->orderBy('n_gosto', $ordem);
                 }
                 case "mais-reputacao": {
-                    
+                    $questoes->join('reputacao', 'questao.autor', '=', 'reputacao.id_utilizador')
+                        ->orderBy('reputacao.reputacao', $ordem);
                 }
             }
         }
