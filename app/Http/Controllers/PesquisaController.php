@@ -19,29 +19,17 @@ class PesquisaController extends Controller {
         }
         if(request('etiqueta')) {
             $etiquetasSelecionadas = explode(',', request('etiqueta'));
-            $questoesEtiquetas = DB::query()
-                ->select('questoes_etiqueta_0.id_questao')
-                ->fromSub (
-                    DB::table('questao_etiqueta')
-                        ->select('id_questao')
-                        ->where('id_etiqueta', '=', $etiquetasSelecionadas[0]),
-                    'questoes_etiqueta_0'
-                );
-            $idTabela = 1; //Podiamos usar curEtiqueta mas tornariamos a query vulneravel a SQL injection
-            array_shift($etiquetasSelecionadas);
+            $idTabela = 0; //Podiamos usar curEtiqueta mas tornariamos a query vulneravel a SQL injection
             foreach($etiquetasSelecionadas as $curEtiqueta) {
-                $questoesCurEtiqueta = DB::table('questao_etiqueta')
+                $questoesEtiqueta = DB::table('questao_etiqueta')
                     ->select('questao_etiqueta.id_questao')
                     ->where('id_etiqueta', '=', $curEtiqueta);
                 $nomeTabela = strtr('questoes_etiqueta_@id', ['@id' => $idTabela]);
-                $questoesEtiquetas->joinSub($questoesCurEtiqueta, $nomeTabela, function($join) use($nomeTabela) {
-                    $join->on('questoes_etiqueta_0.id_questao', '=', $nomeTabela.'.id_questao');
+                $questoes->joinSub($questoesEtiqueta, $nomeTabela, function($join) use($nomeTabela) {
+                    $join->on('questao.id', '=', $nomeTabela.'.id_questao');
                 });
                 $idTabela++;
             }
-            $questoes->joinSub($questoesEtiquetas, 'etiquetas_pesquisadas', function($join) {
-                $join->on('questao.id', '=', 'etiquetas_pesquisadas.id_questao');
-            });
         }
         if (request('ordenar-atributo')) {
             $atributo = request('ordenar-atributo');
