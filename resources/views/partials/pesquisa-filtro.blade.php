@@ -65,6 +65,6 @@
             </div>
             <hr>
         </div>
-        <input id="etiqueta-secreta" class="d-none" name="etiqueta" {{ count($etiquetas) ? "value=".implode(',', $etiquetas) : "" }} type="hidden">
+        <input id="etiqueta-secreta" class="d-none" name="etiqueta" {{ count($etiquetas) ? strtr('value=@etiquetas', ['@etiquetas' => implode(',', $etiquetas)]) : "" }} type="hidden">
     </form>
 </div>

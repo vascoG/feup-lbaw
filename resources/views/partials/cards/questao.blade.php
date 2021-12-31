@@ -9,9 +9,6 @@
             @include('partials.cards.etiqueta', [
                 'etiqueta' => $etiqueta
             ])
-            @include('partials.cards.etiqueta', [
-                'etiqueta' => $etiqueta
-            ])
         @endforeach
     </div>
     <div class="d-flex card-questao-dados">

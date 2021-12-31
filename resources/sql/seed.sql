@@ -863,3 +863,12 @@ INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_p
   '
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus finibus neque sit amet commodo. Quisque odio dui, auctor at tellus a, fermentum accumsan sapien. Curabitur laoreet pretium elit, in pharetra neque vulputate ut. Maecenas vitae quam mattis, aliquet libero vitae, faucibus nisi. Vestibulum facilisis elit ac rutrum ultricies. Quisque ut euismod metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi semper a neque eu egestas erat curae.'
 );
+
+INSERT INTO questao_etiqueta(id_etiqueta, id_questao)
+VALUES (1,1);
+INSERT INTO questao_etiqueta(id_etiqueta, id_questao)
+VALUES (2,1);
+INSERT INTO questao_etiqueta(id_etiqueta, id_questao)
+VALUES (3,1);
+INSERT INTO questao_etiqueta(id_etiqueta, id_questao)
+VALUES (4,1);
