@@ -31,12 +31,12 @@
       <div class="hstack gap-3">
         @include('layouts.logo-text')
         <div class="ms-auto">
-          <nav id="geral-header-navbar">
-            <a class="link-header" href="https://www.google.com">Sobre nós</a>
-            <a class="link-header" href="https://www.google.com">Serviços</a>
-            <a class="link-header" href="https://www.google.com">FAQ</a>
-            <a class="link-header" href="https://www.google.com">Contactos</a>
-          </nav>
+            <nav class="nav nav-pills flex-column flex-sm-row">
+                <a class="flex-sm-fill text-sm-center nav-link" href="{{ route('home') }}">Página Inicial</a>
+                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'etiquetas' ? "active" : "" }}" href="#">Etiquetas</a>
+                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'moderadores' ? "active" : "" }}" href="#">Moderadores</a>
+                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'ban' ? "active" : "" }}" href="#">Apelos de Desbloqueio</a>
+            </nav>
         </div>
         <div class="vr" id="header-vr"></div>
         <div>

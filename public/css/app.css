@@ -508,3 +508,42 @@ Criaçao e ediçao de questao
 #pesquisa-ordem {
 	flex: 2;
 }
+
+/*
+	Admin - Etiquetas
+*/
+#admin-etiquetas {
+	margin: 10px 40px;
+}
+
+.admin-etiqueta-card {
+	margin: 10px;
+	display: inline-flex;
+	flex-flow: column nowrap;
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding: 10px;
+	width: 15vw;
+	min-width: 225px;
+	gap: 15px;
+}
+
+.admin-etiqueta-card p {
+	word-wrap: break-word;
+	flex: 1;
+}
+
+.admin-etiqueta-card div {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+#admin-etiqueta-elimina {
+	width: 100px;
+}
+
+#admin-etiqueta-edita {
+	width: 100px;
+}

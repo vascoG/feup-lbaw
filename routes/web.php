@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 // Home
 
-Route::view('/', 'teste')->name('home');
+Route::get('/', 'Admin\EtiquetaController@mostraEtiquetas')->name('home');
 
 #M01
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -38,6 +38,7 @@ Route::view('/sobrenos', 'pages.sobrenos');
 Route::view('/contactos', 'pages.contactos');
 Route::view('/faq', 'pages.faq');
 Route::view('/servicos', 'pages.servicos');
+Route::get('/etiquetas', 'Admin/EtiquetaController@mostraEtiquetas')->name('etiquetas');
 Route::get('/admin/moderadores','AdminController@showModerador');
 Route::put('/admin/moderadores','AdminController@createModerador');
 Route::get('/admin/banimento','AdminController@showApelo');

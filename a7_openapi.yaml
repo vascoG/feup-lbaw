@@ -606,7 +606,7 @@ paths:
                   description: 'Bloqueio de conta rejeitado. Redirecionando o perfil.' 
                   value: '/perfil/{idUtilizador}'
 
-  /etiqueta:
+  /etiquetas:
     get: 
       operationId: R211
       summary: 'R210: Apresenta a pagina de manuseio de etiquetas'
