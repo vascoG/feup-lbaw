@@ -40,10 +40,13 @@ function atualizaMostrador(element) {
 }
 
 function inicializaMostrador() {
-    let etiquetasAMostrar = document.getElementById('etiqueta-secreta').value.split(',');
-    for(let i = 0; i < etiquetasAMostrar.length; i++) {
-        let etiqueta = document.getElementById(`filtro-etiqueta-${etiquetasAMostrar[i]}`);
-        atualizaMostrador(etiqueta);
+    let valorEtiqueta = document.getElementById('etiqueta-secreta').value;
+    if (valorEtiqueta.length) {
+        let etiquetasAMostrar = document.getElementById('etiqueta-secreta').value.split(',');
+        for(let i = 0; i < etiquetasAMostrar.length; i++) {
+            let etiqueta = document.getElementById(`filtro-etiqueta-${etiquetasAMostrar[i]}`);
+            atualizaMostrador(etiqueta);
+        }
     }
 }
 
