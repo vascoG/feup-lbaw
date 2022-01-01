@@ -547,3 +547,7 @@ Criaçao e ediçao de questao
 #admin-etiqueta-edita {
 	width: 100px;
 }
+
+#admin-etiqueta-text-feedback {
+	display: none;
+}

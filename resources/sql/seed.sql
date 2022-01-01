@@ -140,11 +140,11 @@ CREATE TABLE resposta_avaliada(
 
 CREATE TABLE etiqueta(
   id SERIAL PRIMARY KEY,
-  nome TEXT NOT NULL
+  nome TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE questao_etiqueta(
-  id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE,
+  id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE ON DELETE CASCADE,
   id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE,
   PRIMARY KEY (id_questao, id_etiqueta)
 );
