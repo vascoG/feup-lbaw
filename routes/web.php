@@ -55,4 +55,7 @@ Route::delete('questao/{idQuestao}/eliminar','QuestaoController@delete')->name('
 Route::get('questao/{idQuestao}/editar-resposta/{idResposta}','RespostaController@showEditForm')->name('editar-resposta');
 Route::put('questao/{idQuestao}/editar-resposta/{idResposta}','RespostaController@edit')->name('edit-resposta');
 Route::delete('questao/{idQuestao}/eliminar-resposta/{idResposta}','RespostaController@delete')->name('eliminar-resposta');
+Route::get('questao/{idQuestao}/editar-comentario/{idComentario}','ComentarioController@showEditForm')->name('editar-comentario');
+Route::put('questao/{idQuestao}/editar-comentario/{idComentario}','ComentarioController@edit')->name('edit-comentario');
+Route::delete('questao/{idQuestao}/eliminar-comentario/{idComentario}','ComentarioController@delete')->name('eliminar-comentario');
 

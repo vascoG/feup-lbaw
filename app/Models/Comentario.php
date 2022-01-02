@@ -16,11 +16,11 @@ class Comentario extends Model {
     }
 
     public function questao() {
-        return $this->belongsTo('App\Model\Questao', 'id_questao', 'id');
+        return $this->belongsTo('App\Models\Questao', 'id_questao', 'id');
     }
 
     public function resposta() {
-        return $this->belongsTo('App\Model\Resposta', 'id_resposta', 'id');
+        return $this->belongsTo('App\Models\Resposta', 'id_resposta', 'id');
     }
 
     public function notificacoes() {

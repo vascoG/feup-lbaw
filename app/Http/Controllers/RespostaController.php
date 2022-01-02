@@ -68,6 +68,6 @@ class RespostaController extends Controller
         if(!$questao->respostas->contains($resposta))
             return abort(404);
         $resposta->delete();
-        return redirect()->route('/');
+        return redirect()->route('questao',[$questao]);
     }
 }
