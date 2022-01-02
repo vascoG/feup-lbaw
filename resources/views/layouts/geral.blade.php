@@ -27,7 +27,7 @@
 
 <body>
   <div class="altura-max">
-    <header id="geral-header" class="shadow-lg">
+    <header class="shadow-lg">
       <div class="hstack gap-3">
         @include('layouts.logo-text')
         <div class="ms-auto">

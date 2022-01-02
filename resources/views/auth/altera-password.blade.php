@@ -31,7 +31,7 @@
         <input type="text" class="d-none" name="token" value={{ $token }} required>
 
         <div class="campo-form-autenticacao" id="botoes-login">
-            <button type="submit" class="btn btn-primary px-4 autenticacao-primario">Submeter</button>
+            <button type="submit" class="btn btn-primary px-4 btn-primary">Submeter</button>
         </div>
     </form>
 </div>

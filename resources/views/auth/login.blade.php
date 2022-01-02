@@ -34,7 +34,7 @@
             <a class="text-danger" href="{{ route('recupera-password') }}">Esqueci-me da palavra-passe</a>
             <div id="botoes-login">
                 <a class="btn btn-secondary px-2 autenticacao-secundario" href="{{ route('registo') }}">Registe-se</a>
-                <button type="submit" class="btn btn-primary px-4 autenticacao-primario">Login</button>
+                <button type="submit" class="btn btn-primary px-4 btn-primary">Login</button>
             </div>
         </div>
     </form>

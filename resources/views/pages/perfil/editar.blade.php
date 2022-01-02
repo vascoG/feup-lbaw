@@ -73,7 +73,7 @@
 
     <div class="campo-form-autenticacao" id="botoes-login">
         <a class="btn btn-secondary px-4 autenticacao-secundario" href="{{ route('perfil', $nomeUtilizador) }}">Voltar</a>
-        <button type="submit" class="btn btn-primary px-2 autenticacao-primario">Guardar</button>
+        <button type="submit" class="btn btn-primary px-2 btn-primary">Guardar</button>
     </div>
 </form>
 @endsection

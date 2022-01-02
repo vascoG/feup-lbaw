@@ -65,6 +65,25 @@ lable {
     user-select: none;
 }
 
+.btn-primary, .btn-primary:visited, .btn-primary:active, .btn-primary:enabled {
+	border: 1px solid #B88F27 !important;
+	background-color: #DAA520 !important;
+    border-color: #D2691E !important;
+	color: black;
+}
+
+.btn-primary:link, .btn-primary:hover, 
+.btn-primary:focus {
+	border: 1px solid #DAA520 !important;
+	background-color: #b88f27 !important;
+	border-color: #D2691E !important;
+	color: black;
+}
+
+.btn-primary:focus {
+	box-shadow: 0 0 0 0.25rem rgb(218 165 32 / 50%) !important;
+}
+
 /* 
 	Estilos para altura maxima
 */
@@ -74,6 +93,9 @@ lable {
 
 .altura-max main {
 	flex-grow: 1;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: stretch;
 }
 
 .altura-max {
@@ -89,10 +111,6 @@ lable {
 
 #header-vr {
 	color: #4A7C59;
-}
-
-#geral-header {
-	margin-bottom: 15px;
 }
 
 .geral-footer-paragrafo {
@@ -163,16 +181,6 @@ lable {
 
 .autenticacao-secundario {
 	color: #F7FEEF;
-}
-
-.autenticacao-primario {
-	background-color: #DAA520;
-	color: black;
-}
-
-.autenticacao-primario:hover {
-	background-color: #b88f27;
-	color: #241C1C;
 }
 
 /*
@@ -518,7 +526,7 @@ Criaçao e ediçao de questao
 }
 
 #admin-etiquetas {
-	margin: 10px 40px;
+	margin: 20px 40px;
 }
 
 .admin-etiqueta-card {
@@ -560,3 +568,11 @@ Criaçao e ediçao de questao
 #admin-etiqueta-text-feedback {
 	display: none;
 }
+
+#admin-etiqueta-card-container {
+	gap: 2vw;
+}
+
+/*
+	Estilos homepage
+*/
