@@ -9,6 +9,7 @@ use Validator;
 
 class EtiquetaController extends Controller {
     public function mostraEtiquetas() {
+        $this->authorize('admin', Etiqueta::class);
         $etiquetas = Etiqueta::query();
         if (request('query')) {
             $etiquetas->whereRaw("tsvectors @@ to_tsquery('portuguese', ?)", request('query'));
@@ -21,6 +22,7 @@ class EtiquetaController extends Controller {
     }
 
     public function criaEtiqueta(Request $request) {
+        $this->authorize('admin', Etiqueta::class);
         $validator = Validator::make($request->all(), [
             'nome' => 'required|unique:etiqueta'
         ]);
@@ -41,6 +43,7 @@ class EtiquetaController extends Controller {
     }
 
     public function alteraEtiqueta(Request $request, $id) {
+        $this->authorize('admin', Etiqueta::class);
         $validator = Validator::make($request->all(), [
             'nome' => 'required|unique:etiqueta'
         ]);
@@ -67,6 +70,7 @@ class EtiquetaController extends Controller {
     }
 
     public function apagaEtiqueta(Request $request, $id) {
+        $this->authorize('admin', Etiqueta::class);
         $etiqueta = Etiqueta::find($id);
         if (is_null($etiqueta)) {
             return response('Etiqueta nao encontrada', 404)

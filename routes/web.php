@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 // Home
 
-Route::get('/', 'Admin\EtiquetaController@mostraEtiquetas')->name('home');
+Route::view('/', 'teste')->name('home');
 
 #M01
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -38,6 +38,7 @@ Route::view('/sobrenos', 'pages.sobrenos');
 Route::view('/contactos', 'pages.contactos');
 Route::view('/faq', 'pages.faq');
 Route::view('/servicos', 'pages.servicos');
+Route::redirect('/admin', '/etiquetas')->name('admin');
 Route::get('/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name('etiquetas');
 Route::post('/etiquetas', 'Admin\EtiquetaController@criaEtiqueta');
 Route::put('/etiqueta/{id}', 'Admin\EtiquetaController@alteraEtiqueta');

@@ -538,6 +538,10 @@ Criaçao e ediçao de questao
 	flex: 1;
 }
 
+.admin-etiqueta-loading-acao {
+	display: none;
+}
+
 .admin-etiqueta-card div {
 	display: flex;
 	flex-flow: row nowrap;

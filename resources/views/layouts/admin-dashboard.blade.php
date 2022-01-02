@@ -33,7 +33,7 @@
         <div class="ms-auto">
             <nav class="nav nav-pills flex-column flex-sm-row">
                 <a class="flex-sm-fill text-sm-center nav-link" href="{{ route('home') }}">Página Inicial</a>
-                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'etiquetas' ? "active" : "" }}" href="#">Etiquetas</a>
+                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'etiquetas' ? "active" : "" }}" href="{{ route('etiquetas') }}">Etiquetas</a>
                 <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'moderadores' ? "active" : "" }}" href="#">Moderadores</a>
                 <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'ban' ? "active" : "" }}" href="#">Apelos de Desbloqueio</a>
             </nav>
@@ -47,6 +47,9 @@
                 {{ Auth::user()->nome }}
               </button>
               <ul class="dropdown-menu" aria-labelledby="navbar-paginas-utilizador">
+                @can('admin', App\Models\Utilizador::class)
+                  <li><a class="dropdown-item" href="{{ route('admin') }}">Página de Administração</a></li>
+                @endcan
                 <li><a class="dropdown-item" href="{{ route('perfil', ['nomeUtilizador' => Auth::user()->nome_utilizador]) }}">Perfil</a></li>
                 <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
               </ul>

@@ -47,6 +47,9 @@
                 {{ Auth::user()->nome }}
               </button>
               <ul class="dropdown-menu" aria-labelledby="navbar-paginas-utilizador">
+                @can('admin', App\Models\Utilizador::class)
+                  <li><a class="dropdown-item" href="{{ route('admin') }}">Página de Administração</a></li>
+                @endcan
                 <li><a class="dropdown-item" href="{{ route('perfil', ['nomeUtilizador' => Auth::user()->nome_utilizador]) }}">Perfil</a></li>
                 <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
               </ul>

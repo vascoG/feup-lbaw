@@ -21,7 +21,11 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" id="admin-etiqueta-cria-btn" class="btn btn-primary">Criar</button>
+              <button type="button" id="admin-etiqueta-cria-btn" class="btn btn-primary admin-etiqueta-submete-acao">Criar</button>
+              <button type="button" class="btn btn-primary admin-etiqueta-loading-acao" disabled>
+                <span class="spinner-border spinner-border-sm" role="status"></span>
+                <span>A criar...</span>
+              </button>
             </div>
           </div>
         </div>
@@ -36,7 +40,11 @@
             <div class="modal-body" id="admin-etiqueta-apaga-txt"></div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" id="admin-etiqueta-apaga-btn" class="btn btn-danger">Eliminar</button>
+              <button type="button" id="admin-etiqueta-apaga-btn" class="btn btn-danger admin-etiqueta-submete-acao">Eliminar</button>
+              <button type="button" class="btn btn-danger admin-etiqueta-loading-acao" disabled>
+                <span class="spinner-border spinner-border-sm" role="status"></span>
+                <span>A eliminar...</span>
+              </button>
             </div>
           </div>
         </div>
@@ -54,7 +62,11 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" id="admin-etiqueta-edita-guarda" class="btn btn-primary">Guardar</button>
+              <button type="button" id="admin-etiqueta-edita-guarda" class="btn btn-primary admin-etiqueta-submete-acao">Guardar</button>
+              <button type="button" class="btn btn-primary admin-etiqueta-loading-acao" disabled>
+                <span class="spinner-border spinner-border-sm" role="status"></span>
+                <span>A guardar...</span>
+              </button>
             </div>
           </div>
         </div>
@@ -70,7 +82,7 @@
             'placeholder' => 'Nome da etiqueta...'
         ])
     </div>
-    <div class="mt-4">
+    <div class="d-flex justify-content-around flex-wrap mt-4">
         @each('pages.admin.etiqueta', $etiquetas, 'etiqueta')
     </div>
     <div id="admin-etiqueta-conexao-erro" class="toast position-absolute start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
