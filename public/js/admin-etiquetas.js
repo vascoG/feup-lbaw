@@ -45,7 +45,7 @@ function ativaEventosAtualizaDadosModais() {
 function ativaEventosSubmissao() {
   document.getElementById('admin-etiqueta-edita-guarda').addEventListener('click', (e) => {
     let terminaLoadFn = fnRetomaSubmissao.get('admin-edita-etiqueta-modal');
-    fetch(`${window.location.origin}/etiqueta/${e.target.getAttribute('data-bs-id')}`, {
+    fetch(`${window.location.origin}/admin/etiqueta/${e.target.getAttribute('data-bs-id')}`, {
       method: 'PUT',
       credentials: "same-origin",
       headers: {
@@ -78,7 +78,7 @@ function ativaEventosSubmissao() {
   
   document.getElementById('admin-etiqueta-apaga-btn').addEventListener('click', (e) => {
     let terminaLoadFn = fnRetomaSubmissao.get('admin-elimina-etiqueta-modal');
-    fetch(`${window.location.origin}/etiqueta/${e.target.getAttribute('data-bs-id')}`, {
+    fetch(`${window.location.origin}/admin/etiqueta/${e.target.getAttribute('data-bs-id')}`, {
       method: 'DELETE',
       credentials: "same-origin",
       headers: {
@@ -99,7 +99,7 @@ function ativaEventosSubmissao() {
   
   document.getElementById('admin-etiqueta-cria-btn').addEventListener('click', (_) => {
     let terminaLoadFn = fnRetomaSubmissao.get('admin-cria-etiqueta-modal');
-    fetch(`${window.location.origin}/etiquetas`, {
+    fetch(`${window.location.origin}/admin/etiquetas`, {
       method: 'POST',
       credentials: "same-origin",
       headers: {
