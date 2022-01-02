@@ -20,6 +20,26 @@ class EtiquetaController extends Controller {
         ]);
     }
 
+    public function criaEtiqueta(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'nome' => 'required|unique:etiqueta'
+        ]);
+        if ($validator->fails()) {
+            return response([
+                'sucesso' => false,
+                'erro' => $validator->errors()
+            ], 400)
+                ->header('Content-type', 'application/json');
+        }
+
+        $dadosValidados = $validator->validated();
+        Etiqueta::create($dadosValidados);
+
+        return response()->json([
+            'sucesso' => true
+        ]);
+    }
+
     public function alteraEtiqueta(Request $request, $id) {
         $validator = Validator::make($request->all(), [
             'nome' => 'required|unique:etiqueta'

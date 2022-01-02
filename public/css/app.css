@@ -512,6 +512,11 @@ Criaçao e ediçao de questao
 /*
 	Admin - Etiquetas
 */
+#admin-etiqueta-conexao-erro {
+	bottom: 10px;
+	z-index: 2000;
+}
+
 #admin-etiquetas {
 	margin: 10px 40px;
 }
@@ -541,11 +546,11 @@ Criaçao e ediçao de questao
 }
 
 #admin-etiqueta-elimina {
-	width: 100px;
+	width: 100%;
 }
 
 #admin-etiqueta-edita {
-	width: 100px;
+	width: 100%;
 }
 
 #admin-etiqueta-text-feedback {

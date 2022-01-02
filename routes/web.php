@@ -39,6 +39,7 @@ Route::view('/contactos', 'pages.contactos');
 Route::view('/faq', 'pages.faq');
 Route::view('/servicos', 'pages.servicos');
 Route::get('/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name('etiquetas');
+Route::post('/etiquetas', 'Admin\EtiquetaController@criaEtiqueta');
 Route::put('/etiqueta/{id}', 'Admin\EtiquetaController@alteraEtiqueta');
 Route::delete('/etiqueta/{id}', 'Admin\EtiquetaController@apagaEtiqueta');
 Route::get('/admin/moderadores','AdminController@showModerador');
