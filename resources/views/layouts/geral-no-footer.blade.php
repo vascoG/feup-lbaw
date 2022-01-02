@@ -27,16 +27,16 @@
 
 <body>
   <div class="altura-max">
-    <header id="geral-header" class="shadow-lg">
+    <header class="shadow-lg">
       <div class="hstack gap-3">
         @include('layouts.logo-text')
         <div class="ms-auto">
-            <nav class="nav nav-pills flex-column flex-sm-row">
-                <a class="flex-sm-fill text-sm-center nav-link" href="{{ route('home') }}">Página Inicial</a>
-                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'etiquetas' ? "active" : "" }}" href="{{ route('admin-etiquetas') }}">Etiquetas</a>
-                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'moderadores' ? "active" : "" }}" href="#">Moderadores</a>
-                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'ban' ? "active" : "" }}" href="#">Apelos de Desbloqueio</a>
-            </nav>
+          <nav id="geral-header-navbar">
+            <a class="link-header" href="https://www.google.com">Sobre nós</a>
+            <a class="link-header" href="https://www.google.com">Serviços</a>
+            <a class="link-header" href="https://www.google.com">FAQ</a>
+            <a class="link-header" href="https://www.google.com">Contactos</a>
+          </nav>
         </div>
         <div class="vr" id="header-vr"></div>
         <div>
@@ -63,7 +63,7 @@
     <main id="conteudo">
       @yield('conteudo')
     </main>
-    @include('layouts.footer')
+    @stack('footer')
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

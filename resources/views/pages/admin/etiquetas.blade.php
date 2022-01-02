@@ -77,7 +77,7 @@
           Criar etiqueta
         </button>
         @include('partials.barra-pesquisa', [
-            'acaoPesquisa' => route('etiquetas'),
+            'acaoPesquisa' => route('admin-etiquetas'),
             'query' => $query,
             'placeholder' => 'Nome da etiqueta...'
         ])

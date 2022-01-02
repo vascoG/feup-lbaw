@@ -12,9 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Home
 
-Route::view('/', 'teste')->name('home');
+// Home
+Route::get('/', 'Homepage\HomepageController@mostraHomepage')->name('home');
+Route::get('/para-si', 'Homepage\ParaSiController@mostraParaSi')->name('para-si');
+Route::get('/tendencias', 'Homepage\TendenciasController@mostraTendencias')->name('tendencias');
+Route::get('/etiquetas', 'Homepage\EtiquetasController@mostraEtiquetas')->name('homepage-etiquetas');
 
 #M01
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -39,7 +42,7 @@ Route::view('/contactos', 'pages.contactos');
 Route::view('/faq', 'pages.faq');
 Route::view('/servicos', 'pages.servicos');
 Route::redirect('/admin', '/admin/etiquetas')->name('admin');
-Route::get('/admin/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name('etiquetas');
+Route::get('/admin/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name('admin-etiquetas');
 Route::post('/admin/etiquetas', 'Admin\EtiquetaController@criaEtiqueta');
 Route::put('/admin/etiqueta/{id}', 'Admin\EtiquetaController@alteraEtiqueta');
 Route::delete('/admin/etiqueta/{id}', 'Admin\EtiquetaController@apagaEtiqueta');
