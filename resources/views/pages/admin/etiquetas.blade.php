@@ -83,7 +83,7 @@
         ])
     </div>
     <div id="admin-etiqueta-card-container" class="d-flex justify-content-start flex-wrap mt-4">
-        @each('pages.admin.etiqueta', $etiquetas, 'etiqueta')
+        @each('partials.cards.admin.etiqueta', $etiquetas, 'etiqueta')
     </div>
     <div id="admin-etiqueta-conexao-erro" class="toast position-absolute start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-header bg-warning text-dark">

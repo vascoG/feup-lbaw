@@ -1,5 +1,7 @@
 @extends('layouts.homepage')
 
 @section('homepage-conteudo')
-asdfjashdfk
+@include('partials.cards.home.etiqueta', [
+    'etiqueta' => App\Models\Etiqueta::find(1)
+])
 @endsection
