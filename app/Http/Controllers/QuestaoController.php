@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Questao;
+use App\Models\Utilizador;
 
 class QuestaoController extends Controller
 {
@@ -113,4 +114,14 @@ class QuestaoController extends Controller
 
     }
 
+    /**
+    * 
+    */
+    public function show(Request $request, $idQuestao){
+        $this->authorize('notBanned',Questao::class);
+        $questao = Questao::findOrFail($idQuestao);
+        $criador=Utilizador::find($questao->criador->id_utilizador);
+        return view('pages.questao',['questao'=>$questao,'criador'=>$criador]);
+
+    }
 }

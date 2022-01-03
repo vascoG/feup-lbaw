@@ -47,6 +47,8 @@ Route::get('/admin/moderadores','AdminController@showModerador');
 Route::put('/admin/moderadores','AdminController@createModerador');
 Route::get('/admin/banimento','AdminController@showApelo');
 
+#M03
+Route::get('/questao/{idQuestao}','QuestaoController@show')->name('questao');
 
 #M03
 Route::get('/questoes', 'PesquisaController@mostraPesquisa')->name('pesquisa');

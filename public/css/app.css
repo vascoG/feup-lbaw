@@ -403,7 +403,55 @@ Criaçao e ediçao de questao
 	background-color: #2F2D2E;
 	color:#EAEAEA;
 }
+.media img {
+    width: 160px;
+    height: 160px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
+.corpo-questao{
+	margin-top: 10px;
+	padding-bottom: 10px;
+	border-left: #DAA520;
+	border-width: 5px;
+	border-left-style: solid;
+}
+
+.badge-tag{
+	background-color: lightslategrey;
+	color: snow;
+}
+
+
+.corpo-comentario{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-left: #DAA520;
+	border-width: 3px;
+	border-left-style: solid;
+	font-size: small;
+
+}
+.media-comentario img{
+	width: 80px;
+	height: 80px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.media-comentario{
+	font-size: small;	
+}
+.nome{
+	overflow:hidden;
+}
+
+.texto-interacoes
+{
+	white-space:pre;
+}
 /*
 	Ecra de pesquisa
 */
