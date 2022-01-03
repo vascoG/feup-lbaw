@@ -606,6 +606,93 @@ paths:
                   description: 'Bloqueio de conta rejeitado. Redirecionando o perfil.' 
                   value: '/perfil/{idUtilizador}'
 
+  /etiquetas:
+    get: 
+      operationId: R211
+      summary: 'R210: Apresenta a pagina de manuseio de etiquetas'
+      description: 'Apresenta a página de manuseio de etiquetas.'
+      tags:
+        - 'M02: Administração de utilizadores e páginas estáticas'
+      responses:
+        '200': 
+          description: 'Ok. Realiza as operações descritas'
+        '403':
+          description: 'O utilizador não tem permissoes para manusear etiquetas.'
+
+    post:
+      operationId: R210
+      summary: 'R210: Regista uma nova etiqueta'
+      description: 'Permite criar uma nova etiqueta. Acesso: ADM'
+      tags:
+        - 'M02: Administração de utilizadores e páginas estáticas'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+              required:
+                - nome    
+      responses:
+        '200': 
+          description: 'Ok. Realiza as operações descritas'
+        '403':
+          description: 'O utilizador não tem permissoes para manusear etiquetas.'
+
+  /etiqueta/{id}:
+    put: 
+      operationId: R211
+      summary: 'R211: Altera a etiqueta referenciada no path.'
+      description: 'Permite alterar o texto de uma etiqueta existente. Acesso: ADM'
+      tags:
+        - 'M02: Administração de utilizadores e páginas estáticas'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true 
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+              required:
+                - nome
+      responses:
+        '200': 
+          description: 'Ok. Realiza as operações descritas'
+        '403':
+          description: 'O utilizador não tem permissoes para manusear etiquetas.'
+        '404':
+          description: 'A etiqueta referida não foi encontrada.'
+
+    delete:
+        operationId: R212
+        summary: 'R212: Apaga a etiqueta referenciada no path.'
+        description: 'Permite apagar uma etiqueta existente. Acesso: ADM'
+        tags:
+          - 'M02: Administração de utilizadores e páginas estáticas'
+        parameters:
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true 
+        responses:
+          '200': 
+            description: 'Ok. Realiza as operações descritas'
+          '403':
+            description: 'O utilizador não tem permissoes para manusear etiquetas.'
+          '404':
+            description: 'A etiqueta referida não foi encontrada.'
 #M03
   /questao/{idQuestao}:
     get:
@@ -668,7 +755,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json: #checkbox?
+          application/json:
             schema:
               type: object
               properties:
@@ -969,7 +1056,7 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página de edição de questões.'
-    post:
+    put:
       operationId: R404
       summary: 'R404: Edita uma questão'
       description: 'Edita uma questão. Acesso: OWN'
@@ -1196,7 +1283,7 @@ paths:
             description: 'ID não existe. Mostra página de erro.'
           '403':
             description: 'O utilizador não tem permissões suficientes.'
-  /questao/{idQuestao}/{idResposta}/eliminar: 
+  /questao/{idQuestao}/eliminar-resposta/{idResposta}: 
       delete:
         operationId: R410
         summary: 'R410: Eliminar resposta'
@@ -1234,7 +1321,7 @@ paths:
             description: 'ID não existe. Mostra página de erro.'
           '403':
             description: 'O utilizador não tem permissões suficientes.'
-  /questao/{idQuestao}/{idComentario}/eliminar: 
+  /questao/{idQuestao}/eliminar-comentario/{idComentario}: 
         delete:
           operationId: R411
           summary: 'R411: Eliminar comentário'

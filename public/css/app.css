@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:wght@500;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Nunito:ital,wght@0,500;0,600;0,800;1,300&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -54,6 +54,15 @@ hr {
 
 lable {
 	user-select: none;
+}
+
+.nao-selecionavel {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* 
@@ -368,13 +377,15 @@ Criaçao e ediçao de questao
 	width: 70vw;
 	margin:10px;
 	resize:none;
+	position: relative;
+	left: 10vw;
 }
 
 .questao-texto
 {	text-align: left;
 	width: 70vw;
 	height: 20vw;
-	margin: 10px;
+	margin-top: 10px;
 	resize:none;
 }
 
@@ -383,6 +394,8 @@ Criaçao e ediçao de questao
 	border-style: outset;
 	border-color: #2F2D2E;
 	border-width: 1px;
+	position: relative;
+	left: 75vw;
 }
 
 .questao-button:hover
@@ -411,6 +424,7 @@ Criaçao e ediçao de questao
 	color: snow;
 }
 
+
 .corpo-comentario{
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -437,4 +451,160 @@ Criaçao e ediçao de questao
 .texto-interacoes
 {
 	white-space:pre;
+}
+/*
+	Ecra de pesquisa
+*/
+#conteudo-lista-questoes {
+	padding-top: 10px;
+	margin: 0 auto;
+	width: 60%;
+}
+
+.card-questao {
+	cursor: pointer;
+	background-color: #DCDCDC;
+}
+
+.card-questao-dados * {
+	font-weight: 300;
+	font-style: italic;
+	color: #19323C;
+	font-size: 0.90rem;
+}
+
+.card-questao-dados a, .card-questao-dados a:link, 
+.card-questao-dados a:visited, .card-questao-dados a:hover, 
+.card-questao-dados a:active {
+	color: #19323C;
+} 
+
+.card-questao-dados a:hover {
+	text-decoration: underline;
+}
+
+.card-questao-body h1 {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.card-questao-body hr {
+	margin: 5px 0;
+}
+
+.card-questao-body p {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 4;
+	overflow: hidden;
+}
+
+.etiqueta-pill {
+	cursor: pointer;
+	color: #C0C0C0;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	overflow: hidden;
+	background-color: #011936;
+	max-width: 10vw;
+	min-width: 100px;
+	border-radius: 20px;
+	padding: 0 10px;
+}
+
+/*
+	Estilos do filtro de pesquisa
+*/
+.pesquisa-header-filtro {
+	margin: 0 auto;
+	padding-bottom: 10px;
+}
+
+.cm-ativa-checkbox input {
+	pointer-events: none;
+	opacity: 1 !important;
+}
+
+.pesquisa-avancada-item {
+	margin: 10px 20px;
+}
+
+#filtros-avancados {
+	margin-top: 20px;
+}
+
+#mostrador-etiquetas {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 10px;
+}
+
+#pesquisa-query {
+	margin: 0 auto;
+	width: 60%;
+}
+
+#pesquisa-contentor-etiquetas {
+	flex: 4;
+}
+
+#pesquisa-ordem-atributo {
+	flex: 2;
+}
+
+#pesquisa-ordem {
+	flex: 2;
+}
+
+/*
+	Admin - Etiquetas
+*/
+#admin-etiqueta-conexao-erro {
+	bottom: 10px;
+	z-index: 2000;
+}
+
+#admin-etiquetas {
+	margin: 10px 40px;
+}
+
+.admin-etiqueta-card {
+	margin: 10px;
+	display: inline-flex;
+	flex-flow: column nowrap;
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding: 10px;
+	width: 15vw;
+	min-width: 225px;
+	gap: 15px;
+}
+
+.admin-etiqueta-card p {
+	word-wrap: break-word;
+	flex: 1;
+}
+
+.admin-etiqueta-loading-acao {
+	display: none;
+}
+
+.admin-etiqueta-card div {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+#admin-etiqueta-elimina {
+	width: 100%;
+}
+
+#admin-etiqueta-edita {
+	width: 100%;
+}
+
+#admin-etiqueta-text-feedback {
+	display: none;
 }

@@ -13,18 +13,20 @@ class QuestaoPolicy{
     
     use HandlesAuthorization;
 
-    public function notBanned(UtilizadorAtivo $utilizadorAtivo)
+    public function notBanned(?Utilizador $user)
     {   
-        if ($utilizadorAtivo==null)
-        return true;
-        $user_banned = UtilizadorBanido::find($utilizadorAtivo->id_utilizador);
+        if ($user==null)
+            return true;
+        $user_banned = UtilizadorBanido::find($user->id);
         return ($user_banned==null);
     }
 
-    public function editar(UtilizadorAtivo $utilizadorAtivo, Questao $questao)
+    public function editar(Utilizador $user, Questao $questao)
     {   
-        $user = Utilizador::find($utilizadorAtivo->id_utilizador);
-        return $utilizadorAtivo->id_utilizador == $questao->autor || $user->administrador;
+        $user_banned = UtilizadorBanido::find($user->id);
+        if($user_banned!=null)
+            return false;
+        return $user->id == $questao->autor || $user->administrador || $user->moderador;
     }
 
 }

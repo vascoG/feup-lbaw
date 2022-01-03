@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 // Home
 
 Route::view('/', 'teste')->name('home');
-Route::get('/mail', function(){
-    return new \App\Mail\RecuperaConta(App\Models\Utilizador::find(1011), 'meu token');
-});
 
 #M01
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -41,6 +38,11 @@ Route::view('/sobrenos', 'pages.sobrenos');
 Route::view('/contactos', 'pages.contactos');
 Route::view('/faq', 'pages.faq');
 Route::view('/servicos', 'pages.servicos');
+Route::redirect('/admin', '/admin/etiquetas')->name('admin');
+Route::get('/admin/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name('etiquetas');
+Route::post('/admin/etiquetas', 'Admin\EtiquetaController@criaEtiqueta');
+Route::put('/admin/etiqueta/{id}', 'Admin\EtiquetaController@alteraEtiqueta');
+Route::delete('/admin/etiqueta/{id}', 'Admin\EtiquetaController@apagaEtiqueta');
 Route::get('/admin/moderadores','AdminController@showModerador');
 Route::put('/admin/moderadores','AdminController@createModerador');
 Route::get('/admin/banimento','AdminController@showApelo');
@@ -48,8 +50,19 @@ Route::get('/admin/banimento','AdminController@showApelo');
 #M03
 Route::get('/questao/{idQuestao}','QuestaoController@show')->name('questao');
 
+#M03
+Route::get('/questoes', 'PesquisaController@mostraPesquisa')->name('pesquisa');
+
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm')->name('criarquestao');
 Route::post('/criarquestao','QuestaoController@create');
 Route::get('/questao/{idQuestao}/editar','QuestaoController@showEditForm')->name('editar-questao');
 Route::put('questao/{idQuestao}/editar','QuestaoController@edit')->name('edit-questao');
+Route::delete('questao/{idQuestao}/eliminar','QuestaoController@delete')->name('eliminar-questao');
+Route::get('questao/{idQuestao}/editar-resposta/{idResposta}','RespostaController@showEditForm')->name('editar-resposta');
+Route::put('questao/{idQuestao}/editar-resposta/{idResposta}','RespostaController@edit')->name('edit-resposta');
+Route::delete('questao/{idQuestao}/eliminar-resposta/{idResposta}','RespostaController@delete')->name('eliminar-resposta');
+Route::get('questao/{idQuestao}/editar-comentario/{idComentario}','ComentarioController@showEditForm')->name('editar-comentario');
+Route::put('questao/{idQuestao}/editar-comentario/{idComentario}','ComentarioController@edit')->name('edit-comentario');
+Route::delete('questao/{idQuestao}/eliminar-comentario/{idComentario}','ComentarioController@delete')->name('eliminar-comentario');
+
