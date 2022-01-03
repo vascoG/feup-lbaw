@@ -4,6 +4,10 @@
     <script src="{{ asset('js/editar-perfil.js') }}"></script>
 @endpush
 
+@section('titulo')
+Editar perfil de {{ $nomeUtilizador }}
+@endsection
+
 @section('conteudo')
 <form method="POST" action="{{ route('editar-perfil-imagem', $nomeUtilizador) }}" enctype="multipart/form-data">
     @csrf

@@ -4,12 +4,16 @@
     <script src="{{ asset('js/perfil.js') }}"></script>
 @endpush
 
+@section('titulo')
+Perfil de {{ $usr->nome_utilizador }}
+@endsection
+
 @section('conteudo')
 <div id="corpo-perfil">
     <h1 id="perfil-nome-utilizador">{{ $usr->nome }}</h1>
     <div id="perfil-caracterizacao">
         <div id="perfil-avatar-container">
-            <img id="perfil-avatar" src="{{ asset($usr->imagem_perfil) }}">
+            <img id="perfil-avatar" src="{{ asset($usr->imagem_perfil) }}" alt="Imagem de perfil">
         </div>
         <div class="vr"></div>
         <div id="perfil-caracterização-texto">

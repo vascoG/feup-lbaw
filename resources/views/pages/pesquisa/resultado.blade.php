@@ -4,6 +4,14 @@
     <script src={{ asset('js/lista-questoes.js') }}></script>
 @endpush
 
+@section('titulo')
+    @if ($query)
+        {{ $query }}
+    @else
+        Pesquisa de questões
+    @endif
+@endsection
+
 @section('conteudo')
 @include('partials.pesquisa-filtro', [
     'ordenarAtributo' => $ordenarAtributo,

@@ -6,6 +6,10 @@
     <script src="{{ asset('js/admin-etiquetas.js') }}"></script>
 @endpush
 
+@section('titulo')
+Administração de etiquetas
+@endsection
+
 @section('conteudo')
     <div id="admin-etiquetas">
       <div class="modal fade" id="admin-cria-etiqueta-modal" tabindex="-1" aria-labelledby="admin-cria-etiqueta-modal-label" aria-hidden="true">
@@ -16,7 +20,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <input type="text" id="admin-cria-etiqueta-text" class="form-control" placeholder="Escreva aqui o nome da etiqueta">
+              <div class="form-group">
+                <label for="admin-cria-etiqueta-text" class="form-label">Nome da etiqueta:</label>
+                <input type="text" id="admin-cria-etiqueta-text" class="form-control" placeholder="Escreva aqui o nome da etiqueta">
+              </div>
               <div id="admin-cria-etiqueta-text-feedback" class="invalid-feedback"></div>
             </div>
             <div class="modal-footer">
@@ -57,7 +64,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <input type="text" id="admin-etiqueta-text" class="form-control" placeholder="Escreva aqui o nome da etiqueta">
+              <div class="form-group">
+                <label for="admin-cria-etiqueta-text" class="form-label">Nome da etiqueta:</label>
+                <input type="text" id="admin-etiqueta-text" class="form-control" placeholder="Escreva aqui o nome da etiqueta">
+              </div>
               <div id="admin-etiqueta-text-feedback" class="invalid-feedback"></div>
             </div>
             <div class="modal-footer">

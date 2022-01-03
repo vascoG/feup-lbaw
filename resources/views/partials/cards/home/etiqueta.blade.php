@@ -1,4 +1,4 @@
-<article>
+<article class="homepage-etiqueta-card">
     <p>{{ $etiqueta->nome }}</p>
     @auth
         <div>
