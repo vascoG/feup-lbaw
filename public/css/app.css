@@ -392,7 +392,10 @@ Criaçao e ediçao de questao
 }
 .media img {
     width: 160px;
-    height: 160px
+    height: 160px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .corpo-questao{
@@ -410,14 +413,28 @@ Criaçao e ediçao de questao
 
 .corpo-comentario{
 	margin-top: 5px;
+	margin-bottom: 5px;
 	border-left: #DAA520;
 	border-width: 3px;
 	border-left-style: solid;
+	font-size: small;
+
 }
 .media-comentario img{
 	width: 80px;
 	height: 80px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.media-comentario{
+	font-size: small;	
 }
 .nome{
 	overflow:hidden;
+}
+
+.texto-interacoes
+{
+	white-space:pre;
 }

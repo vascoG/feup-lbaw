@@ -13,7 +13,7 @@ class QuestaoPolicy{
     
     use HandlesAuthorization;
 
-    public function notBanned(?UtilizadorAtivo $utilizadorAtivo)
+    public function notBanned(UtilizadorAtivo $utilizadorAtivo)
     {   
         if ($utilizadorAtivo==null)
         return true;

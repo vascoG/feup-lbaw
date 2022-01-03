@@ -9,8 +9,7 @@
             <p class="text-muted">{{date('d/m/y H:i:s',strtotime($comentario->data_publicacao))}}</p>
         </div>
         </div>
-        <div class="col-7 corpo-comentario">
-        {{$comentario->texto}}
+        <div class="col-7 corpo-comentario texto-interacoes">{{$comentario->texto}}
         <hr>
         </div>
   </div> 

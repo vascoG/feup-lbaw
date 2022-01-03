@@ -2,8 +2,8 @@
 
 @section('conteudo')
 
-<div class="container">
-  <div class="row">
+<div class="container ">
+  <div class="row ">
     <div class="col-3">
       <div class="media">
         <img class="mr-3 rounded-circle" src="{{$criador->imagem_perfil}}"></img>
@@ -13,14 +13,14 @@
     </div>
     <div class="col-9 corpo-questao">
       <h3>{{$questao->titulo}}</h3>
-      {{$questao->texto}}
+      <div class= "texto-interacoes">{{$questao->texto}}</div>
       <hr>
       @foreach ($questao->etiquetas as $etiqueta)
       <span class="badge badge-pill badge-tag">
       {{$etiqueta->nome}}
       </span>
       @endforeach
-      <button type="button" class="btn questao-button btn-sm float-end m-2">Responder</button>
+      <button type="button" class="btn questao-button btn-sm float-end m-2" >Responder</button>
       <button type="button" class="btn questao-button btn-sm float-end m-2">Comentar</button>
     </div>
   </div> 
