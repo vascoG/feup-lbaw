@@ -65,7 +65,7 @@ paths:
                   description: 'Autenticação falhou. Redirecção para a página de login'
                   value: '/login'
   
-  /login/recuperacao:
+  /recuperacao:
     get:
       operationId: 'R103'
       summary: 'R103: Formulário de recuperação de password'
@@ -213,8 +213,8 @@ paths:
           description: 'ID não existe. Mostra página de erro'
     
     patch:
-      operationId: R111
-      summary: 'R111: Submete dados editados'
+      operationId: R109
+      summary: 'R109: Submete dados editados'
       description: 'Processa os dados de perfil que foram editados pelo utilizador. Acesso: OWN'
       tags:
         - 'M01: Autenticação e perfil individual'
@@ -263,8 +263,8 @@ paths:
           description: 'O utilizador autenticado não tem permissões suficientes.'
 
     delete:
-          operationId: R109
-          summary: 'R109: Eliminar perfil'
+          operationId: R110
+          summary: 'R110: Eliminar perfil'
           description: 'Elimina o perfil. Acesso: OWN, ADM'
           tags:
             - 'M01: Autenticação e perfil individual'
@@ -294,8 +294,8 @@ paths:
               description: 'O utilizador não tem permissões suficientes.'
   /perfil/{nomeUtilizador}/editar:
     get:
-      operationId: R110
-      summary: 'R110: Edição do perfil do utilizador'
+      operationId: R111
+      summary: 'R111: Edição do perfil do utilizador'
       description: 'Mostra a página de edição do perfil de um utilizador. Acesso: OWN'
       tags:
         - 'M01: Autenticação e perfil individual'
@@ -420,8 +420,8 @@ paths:
   /seguidos/etiqueta/{idEtiqueta}:
     patch: 
       operationId: R116
-      summary: 'R116: Altera o estado da etiqueta em relação a um utilizador. Acesso: OWN (em relação ao perfil)'
-      description: 'Se o utilizador referido seguir a etiqueta então deixará de a seguir, se não a seguir acontece o contrário'
+      summary: 'R116: Altera o estado da etiqueta em relação a um utilizador'
+      description: 'Se o utilizador referido seguir a etiqueta então deixará de a seguir, se não a seguir acontece o contrário. Acesso: OWN (em relação ao perfil)'
       tags:
         - 'M01: Autenticação e perfil individual'
       parameters:
@@ -450,7 +450,8 @@ paths:
   /perfil/{nomeUtilizador}/etiquetas:
     get:
       operationId: R117
-      summary: 'R117: Mostra a lista completa de etiquetas de um utilizador. Acesso: USR'
+      summary: 'R117: Mostra a lista completa de etiquetas de um utilizador'
+      description: 'Mostra uma página com as etiquetas seguidas por um utilizador. Acesso: USR'
       tags:
         - 'M01: Autenticação e perfil individual'
       parameters:
@@ -658,7 +659,7 @@ paths:
 
   /admin/etiquetas:
     get: 
-      operationId: R211
+      operationId: R210
       summary: 'R210: Apresenta a pagina de manuseio de etiquetas'
       description: 'Apresenta a página de manuseio de etiquetas.'
       parameters:
@@ -676,8 +677,8 @@ paths:
           description: 'O utilizador não tem permissoes para manusear etiquetas.'
 
     post:
-      operationId: R210
-      summary: 'R210: Regista uma nova etiqueta'
+      operationId: R211
+      summary: 'R211: Regista uma nova etiqueta'
       description: 'Permite criar uma nova etiqueta. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -724,8 +725,8 @@ paths:
 
   /admin/etiqueta/{id}:
     patch: 
-      operationId: R211
-      summary: 'R211: Altera a etiqueta referenciada no path.'
+      operationId: R212
+      summary: 'R212: Altera a etiqueta referenciada no path.'
       description: 'Permite alterar o texto de uma etiqueta existente. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -779,8 +780,8 @@ paths:
           description: 'A etiqueta referida não foi encontrada.'
 
     delete:
-        operationId: R212
-        summary: 'R212: Apaga a etiqueta referenciada no path.'
+        operationId: R213
+        summary: 'R213: Apaga a etiqueta referenciada no path.'
         description: 'Permite apagar uma etiqueta existente. Acesso: ADM'
         tags:
           - 'M02: Administração de utilizadores e páginas estáticas'
