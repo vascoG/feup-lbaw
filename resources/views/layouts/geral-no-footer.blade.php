@@ -32,10 +32,10 @@
         @include('layouts.logo-text')
         <div class="ms-auto">
           <nav id="geral-header-navbar">
-            <a class="link-header" href="https://www.google.com">Sobre nós</a>
-            <a class="link-header" href="https://www.google.com">Serviços</a>
-            <a class="link-header" href="https://www.google.com">FAQ</a>
-            <a class="link-header" href="https://www.google.com">Contactos</a>
+            <a class="link-header" href="{{ route('sobre-nos') }}">Sobre nós</a>
+            <a class="link-header" href="{{ route('servicos') }}">Serviços</a>
+            <a class="link-header" href="{{ route('faq') }}">FAQ</a>
+            <a class="link-header" href="{{ route('contactos') }}">Contactos</a>
           </nav>
         </div>
         <div class="vr" id="header-vr"></div>

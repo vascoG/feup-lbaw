@@ -13,7 +13,6 @@ class AdminController extends Controller
     {
         if(!Auth::check()) return redirect('/login');
         $this->authorize('admin');
-        return $user->toJson();
-
+        
     }
 }

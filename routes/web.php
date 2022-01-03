@@ -39,10 +39,10 @@ Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem')
 Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mudaEstado');
 
 #M02
-Route::view('/sobrenos', 'pages.sobrenos');
-Route::view('/contactos', 'pages.contactos');
-Route::view('/faq', 'pages.faq');
-Route::view('/servicos', 'pages.servicos');
+Route::view('/sobrenos', 'pages.estaticas.sobrenos')->name('sobre-nos');
+Route::view('/contactos', 'pages.estaticas.contactos')->name('contactos');
+Route::view('/faq', 'pages.estaticas.faq')->name('faq');
+Route::view('/servicos', 'pages.estaticas.servicos')->name('servicos');
 Route::redirect('/admin', '/admin/etiquetas')->name('admin');
 Route::get('/admin/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name('admin-etiquetas');
 Route::post('/admin/etiquetas', 'Admin\EtiquetaController@criaEtiqueta');
