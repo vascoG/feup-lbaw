@@ -6,7 +6,7 @@
   <div class="row ">
     <div class="col-3">
       <div class="media">
-        <img class="mr-3 rounded-circle" src="{{$criador->imagem_perfil}}"></img>
+        <img class="mr-3 rounded-circle" src="{{asset($criador->imagem_perfil)}}"></img>
         <p class="nome">{{$criador->nome}}</p>
         <p class="text-muted">{{date('d/m/y H:i:s',strtotime($questao->data_publicacao))}}</p>
       </div>
