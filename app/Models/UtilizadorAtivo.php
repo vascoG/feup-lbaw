@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 
 class UtilizadorAtivo extends Model {
-    public $timestamp = false;
+    public $timestamps = false;
 
     public $table = 'utilizador_ativo';
 
