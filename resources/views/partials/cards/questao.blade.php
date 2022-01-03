@@ -12,8 +12,8 @@
         @endforeach
     </div>
     <div class="d-flex card-questao-dados">
-        <a class="card-questao-usr-link" href="{{ route('perfil', $autor->nome_utilizador) }}">
-            {{ $autor->nome_utilizador }}
+        <a class="card-questao-usr-link" href="{{ route('perfil', $questao->criador->utilizador->nome_utilizador) }}">
+            {{ $questao->criador->utilizador->nome_utilizador }}
         </a>
         <div class="vr mx-1"></div>
         <p>{{ $questao->data_publicacao->setTimezone('Europe/Lisbon')->format('d/m/Y h:i') }}</p>

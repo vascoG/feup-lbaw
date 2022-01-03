@@ -26,7 +26,6 @@
         @foreach ($questoes as $questao)
             @include('partials.cards.questao', [
                 'questao' => $questao,
-                'autor' => $questao->criador->utilizador
             ])
         @endforeach
     @endif

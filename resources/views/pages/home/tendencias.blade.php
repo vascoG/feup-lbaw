@@ -1,5 +1,9 @@
 @extends('layouts.homepage')
 
+@section('titulo')
+Tendencias
+@endsection
+
 @section('barra-pesquisa')
     @include('partials.barra-pesquisa', [
         'acaoPesquisa' => route('pesquisa'),
@@ -8,7 +12,5 @@
 @endsection
 
 @section('homepage-conteudo')
-<div style="border: 5px solid red">
-    asdfasdf
-</div>
+    @each('partials.cards.questao', $questoes, 'questao')
 @endsection
