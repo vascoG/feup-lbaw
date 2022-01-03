@@ -407,3 +407,17 @@ Criaçao e ediçao de questao
 	background-color: lightslategrey;
 	color: snow;
 }
+
+.corpo-comentario{
+	margin-top: 5px;
+	border-left: #DAA520;
+	border-width: 3px;
+	border-left-style: solid;
+}
+.media-comentario img{
+	width: 80px;
+	height: 80px;
+}
+.nome{
+	overflow:hidden;
+}

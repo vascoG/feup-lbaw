@@ -7,7 +7,7 @@
     <div class="col-3">
       <div class="media">
         <img class="mr-3 rounded-circle" src="{{$criador->imagem_perfil}}"></img>
-        <p>{{$criador->nome}}</p>
+        <p class="nome">{{$criador->nome}}</p>
         <p class="text-muted">{{date('d/m/y H:i:s',strtotime($questao->data_publicacao))}}</p>
       </div>
     </div>
@@ -24,6 +24,15 @@
       <button type="button" class="btn questao-button btn-sm float-end m-2">Comentar</button>
     </div>
   </div> 
+  @foreach ($questao->comentarios as $comentario)
+      @include('partials.lista-comentario',['comentario'=>$comentario])
+  @endforeach
+    @foreach ($questao->respostas as $resposta)
+      @include('partials.lista-resposta',['resposta'=>$resposta])
+      @foreach ($resposta->comentarios as $comentario)
+        @include('partials.lista-comentario',['comentario'=>$comentario])
+      @endforeach
+    @endforeach
 </div>
 
 
