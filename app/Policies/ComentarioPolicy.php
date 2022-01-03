@@ -2,23 +2,23 @@
 
 namespace App\Policies;
 
-use App\Models\Resposta;
-use App\Models\Utilizador;
+use App\Models\Comentario;
 use App\Models\UtilizadorBanido;
+use App\Models\Utilizador;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 
-class RespostaPolicy{
+class ComentarioPolicy{
     
     use HandlesAuthorization;
 
 
-    public function editar(Utilizador $user, Resposta $resposta)
+    public function editar(Utilizador $user, Comentario $comentario)
     {   
         $user_banned = UtilizadorBanido::find($user->id);
         if($user_banned!=null)
             return false;
-        return $user->id == $resposta->autor || $user->administrador || $user->moderador;
+        return $user->id == $comentario->autor || $user->administrador || $user->moderador;
     }
 
 }
