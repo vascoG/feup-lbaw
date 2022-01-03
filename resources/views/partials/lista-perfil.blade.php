@@ -6,6 +6,6 @@
         @endforeach
     </ul>
     @if ($total > 4)
-        <a href="#">Ver todas...</a>
+        <a href="{{ route('perfil-etiquetas', ['nomeUtilizador' => $nomeUtilizador]) }}">Ver todas...</a>
     @endif
 </article>

@@ -21,10 +21,7 @@
         </div>
         <div id="homepage-conteudo" class="d-flex flex-column flex-grow-1">
             <div class="d-flex justify-content-end mb-3">
-                @include('partials.barra-pesquisa', [
-                    'acaoPesquisa' => route('pesquisa'),
-                    'placeholder' => 'Procurar questões...'
-                ])
+                @yield('barra-pesquisa')
             </div>
             <main>
               @yield('homepage-conteudo')

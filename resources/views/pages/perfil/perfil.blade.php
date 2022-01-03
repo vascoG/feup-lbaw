@@ -53,6 +53,7 @@ Perfil de {{ $usr->nome_utilizador }}
             @endif
             @if ($usr->ativo->etiquetasSeguidas->count())
                 @include('partials.lista-perfil', [
+                    'nomeUtilizador' => $usr->nome_utilizador,
                     'titulo' => 'Etiquetas seguidas',
                     'colecao' => $colecaoEtiquetas,
                     'total' =>  $totalEtiquetas

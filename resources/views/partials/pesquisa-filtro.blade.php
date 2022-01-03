@@ -2,7 +2,7 @@
     <script src="{{ asset('js/filtro-pesquisa.js') }}"></script>
 @endpush
 
-<div>
+<div class="pt-4">
     <form method="GET" action={{ route('pesquisa') }}>
         <div id="pesquisa-query" class="input-group">
             <input class="form-control" name="query" value="{{ $query }}" placeholder="Procurar questões..."></input>

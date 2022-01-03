@@ -3,21 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Etiqueta;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\PesquisaEtiquetaController;
 use Illuminate\Http\Request;
 use Validator;
 
-class EtiquetaController extends Controller {
+class EtiquetaController extends PesquisaEtiquetaController {
     public function mostraEtiquetas() {
         $this->authorize('admin', Etiqueta::class);
-        $etiquetas = Etiqueta::query();
-        if (request('query')) {
-            $etiquetas->whereRaw("tsvectors @@ to_tsquery('portuguese', ?)", request('query'));
-        }
+        $etiquetas = $this->pesquisaEtiquetas(request('query'));
 
         return view('pages.admin.etiquetas', [
             'query' => request('query'),
-            'etiquetas' => $etiquetas->get()
+            'etiquetas' => $etiquetas
         ]);
     }
 

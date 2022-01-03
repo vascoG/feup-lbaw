@@ -143,4 +143,19 @@ class PerfilController extends Controller {
             'localizacao' => route('home')
         ]);
     }
+
+    public function mostraEtiquetas(Request $request, String $nomeUtilizador) {
+        $utilizador = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        if (is_null($utilizador)) {
+            return $this->viewNaoEncontrada();
+        }
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        return view('pages.perfil.etiquetas', [
+            'nomeUtilizador' => $nomeUtilizador,
+            'etiquetas' => $utilizador->ativo->etiquetasSeguidas
+        ]);
+    }
 }

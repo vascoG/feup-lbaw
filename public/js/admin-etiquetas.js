@@ -46,7 +46,7 @@ function ativaEventosSubmissao() {
   document.getElementById('admin-etiqueta-edita-guarda').addEventListener('click', (e) => {
     let terminaLoadFn = fnRetomaSubmissao.get('admin-edita-etiqueta-modal');
     fetch(`${window.location.origin}/admin/etiqueta/${e.target.getAttribute('data-bs-id')}`, {
-      method: 'PUT',
+      method: 'PATCH',
       credentials: "same-origin",
       headers: {
           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -135,7 +135,6 @@ for(let i = 0; i < modais.length; i++) {
   let botaoSubmete = modais[i].getElementsByClassName('admin-etiqueta-submete-acao')[0];
   let botaoSpinner = modais[i].getElementsByClassName('admin-etiqueta-loading-acao')[0];
   botaoSubmete.addEventListener('click', (_) => {
-    console.log('Clicou', botaoSpinner, botaoSubmete);
     botaoSpinner.style.display = "block";
     botaoSubmete.style.display = "none";
   });

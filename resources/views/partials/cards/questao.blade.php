@@ -6,7 +6,7 @@
     </div>
     <div class="d-flex justify-content-end card-questao-etiquetas gap-3 mb-2 mt-3">
         @foreach ($questao->etiquetas->slice(0, 4) as $etiqueta)
-            @include('partials.cards.etiqueta', [
+            @include('partials.cards.pill-etiqueta', [
                 'etiqueta' => $etiqueta
             ])
         @endforeach

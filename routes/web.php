@@ -34,7 +34,9 @@ Route::patch('/perfil/{nomeUtilizador}', 'PerfilController@alteraDados');
 Route::delete('/perfil/{nomeUtilizador}', 'PerfilController@apagaPerfil');
 Route::get('/perfil/{nomeUtilizador}/editar', 'PerfilController@mostraEditar')->name('editar-perfil');
 Route::put('/perfil/{nomeUtilizador}/imagem', 'PerfilController@alteraImagem')->name('editar-perfil-imagem');
+Route::get('/perfil/{nomeUtilizador}/etiquetas', 'PerfilController@mostraEtiquetas')->name('perfil-etiquetas');
 Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
+Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mudaEstado');
 
 #M02
 Route::view('/sobrenos', 'pages.sobrenos');
@@ -44,7 +46,7 @@ Route::view('/servicos', 'pages.servicos');
 Route::redirect('/admin', '/admin/etiquetas')->name('admin');
 Route::get('/admin/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name('admin-etiquetas');
 Route::post('/admin/etiquetas', 'Admin\EtiquetaController@criaEtiqueta');
-Route::put('/admin/etiqueta/{id}', 'Admin\EtiquetaController@alteraEtiqueta');
+Route::patch('/admin/etiqueta/{id}', 'Admin\EtiquetaController@alteraEtiqueta');
 Route::delete('/admin/etiqueta/{id}', 'Admin\EtiquetaController@apagaEtiqueta');
 Route::get('/admin/moderadores','AdminController@showModerador');
 Route::put('/admin/moderadores','AdminController@createModerador');

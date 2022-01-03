@@ -288,7 +288,7 @@ lable {
 }
 
 .lista-perfil {
-	border: 5px solid red;
+	border: 1px solid gray;
 	padding: 20px;
 	min-width: 300px;
 	max-width: 30vw;
@@ -607,8 +607,34 @@ Criaçao e ediçao de questao
 }
 
 /*
-	Estilos homepage - Etiquetas
+	Etiquetas Gerais
 */
-.homepage-etiqueta-card {
-	
+.etiqueta-card {
+	margin: 10px;
+	display: inline-flex;
+	flex-flow: column nowrap;
+	background-color: #AEC1C2;
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding: 10px;
+	width: 15vw;
+	min-width: 225px;
+	gap: 15px;
+}
+
+.etiqueta-card:hover {
+	background-color: #A2B8B9;
+	cursor: pointer;
+}
+
+.etiqueta-card p {
+	font-size: 1.05rem;
+	word-wrap: break-word;
+}
+
+/*
+	Homepage - Etiquetas
+*/
+.homepage-etiqueta-acao-espera {
+	display: none;
 }

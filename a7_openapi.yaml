@@ -417,6 +417,56 @@ paths:
                   description: 'Não são permitidos mais apelos'
                   value: '/perfil/{nomeUtilizador}/apelos'
 
+  /seguidos/etiqueta/{idEtiqueta}:
+    patch: 
+      operationId: R116
+      summary: 'R116: Altera o estado da etiqueta em relação a um utilizador. Acesso: OWN (em relação ao perfil)'
+      description: 'Se o utilizador referido seguir a etiqueta então deixará de a seguir, se não a seguir acontece o contrário'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: idEtiqueta
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: 'A requisição foi processada com sucesso.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  novoEstado:
+                    type: string
+                    enum: [SEGUE, NAO_SEGUE]
+                    description: 'Retorna o novo estado após processamento da requisição'
+        403:
+          description: 'A requisição foi rejeitada porque o utilizador não está autenticado.'
+        404:
+          description: 'A etiqueta não foi encontrada.'
+  
+  /perfil/{nomeUtilizador}/etiquetas:
+    get:
+      operationId: R117
+      summary: 'R117: Mostra a lista completa de etiquetas de um utilizador. Acesso: USR'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: 'Ok. A página é mostrada.'
+        403:
+          description: 'A requisição foi rejeitada porque o utilizador não está autenticado.'
+        404:
+          description: 'O utilizador não foi encontrado'
+
 #M02 
   /sobrenos:
     get:
@@ -606,11 +656,17 @@ paths:
                   description: 'Bloqueio de conta rejeitado. Redirecionando o perfil.' 
                   value: '/perfil/{idUtilizador}'
 
-  /etiquetas:
+  /admin/etiquetas:
     get: 
       operationId: R211
       summary: 'R210: Apresenta a pagina de manuseio de etiquetas'
       description: 'Apresenta a página de manuseio de etiquetas.'
+      parameters:
+        - in: query
+          name: query
+          description: 'Pesquisa de etiquetas por full-text search do seu nome'
+          schema:
+            type: string
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
       responses:
@@ -628,7 +684,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
@@ -639,11 +695,35 @@ paths:
       responses:
         '200': 
           description: 'Ok. Realiza as operações descritas'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                    description: 'Descreve se a ação foi bem sucedida. Neste caso é sempre verdade.'
+        '400':
+          description: 'Os dados de input enviados são inválidos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                    description: 'Descreve se a ação foi bem sucedida. Neste caso é sempre falso.'
+                  erro:
+                    type: object
+                    properties:
+                      nome:
+                        type: array
+                        description: 'Lista com strings que informam o utilizador dos erros que ocorreram na validação.'
         '403':
           description: 'O utilizador não tem permissoes para manusear etiquetas.'
 
-  /etiqueta/{id}:
-    put: 
+  /admin/etiqueta/{id}:
+    patch: 
       operationId: R211
       summary: 'R211: Altera a etiqueta referenciada no path.'
       description: 'Permite alterar o texto de uma etiqueta existente. Acesso: ADM'
@@ -658,7 +738,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
@@ -669,6 +749,30 @@ paths:
       responses:
         '200': 
           description: 'Ok. Realiza as operações descritas'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                    description: 'Descreve se a ação foi bem sucedida. Neste caso é sempre verdade.'
+        '400':
+          description: 'Os dados de input enviados são inválidos'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                    description: 'Descreve se a ação foi bem sucedida. Neste caso é sempre falso.'
+                  erro:
+                    type: object
+                    properties:
+                      nome:
+                        type: array
+                        description: 'Lista com strings que informam o utilizador dos erros que ocorreram na validação.'
         '403':
           description: 'O utilizador não tem permissoes para manusear etiquetas.'
         '404':
@@ -689,6 +793,14 @@ paths:
         responses:
           '200': 
             description: 'Ok. Realiza as operações descritas'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    sucesso:
+                      type: boolean
+                      description: 'Descreve se a ação foi bem sucedida. Neste caso é sempre verdade.'
           '403':
             description: 'O utilizador não tem permissoes para manusear etiquetas.'
           '404':
@@ -955,7 +1067,7 @@ paths:
         parameters:
         - in: query
           name: query
-          description: 'Pesquisa exata'
+          description: 'Pesquisa de questões por full-text search do seu titulo e corpo'
           schema:
             type: string
           required: false
