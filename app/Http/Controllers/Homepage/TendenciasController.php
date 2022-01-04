@@ -9,10 +9,7 @@ use Auth;
 
 class TendenciasController extends Controller {
     public function mostraTendencias() {
-        $questoes = Questao::query()
-            ->orderByDesc('questao.data_publicacao')
-            ->take(20)
-            ->get();
+        $questoes = Questao::emAlta()->take(20)->get();
         
         return view('pages.home.tendencias', [
             'selecionado' => 'tendencias',

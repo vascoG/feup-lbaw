@@ -54,7 +54,7 @@ class UtilizadorAtivo extends Model {
     }
 
     public function segueEtiqueta(Etiqueta $etiqueta) {
-        return DB::table('utilizador_ativo_etiqueta')
+        return $query = DB::table('utilizador_ativo_etiqueta')
             ->where('id_utilizador', $this->id)
             ->where('id_etiqueta', $etiqueta->id)
             ->exists();
