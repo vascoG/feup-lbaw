@@ -75,7 +75,7 @@ CREATE TABLE resposta(
   texto TEXT NOT NULL,
   data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_publicacao <= now()),
   autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
-  id_questao INTEGER NOT NULL REFERENCES questao(id),
+  id_questao INTEGER NOT NULL REFERENCES questao(id) ON DELETE CASCADE,
   resposta_aceite BOOLEAN NOT NULL
 );
 
@@ -84,32 +84,32 @@ CREATE TABLE comentario(
   texto TEXT NOT NULL,
   data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_publicacao <= now()),
   autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
-  id_questao INTEGER REFERENCES questao(id),
-  id_resposta INTEGER REFERENCES resposta(id)
+  id_questao INTEGER REFERENCES questao(id) ON DELETE CASCADE,
+  id_resposta INTEGER REFERENCES resposta(id) ON DELETE CASCADE
 );
 
 CREATE TABLE notificacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
   data_emissao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_emissao <= now()),
-  id_questao INTEGER REFERENCES questao(id),
-  id_comentario INTEGER REFERENCES comentario(id),
-  id_resposta INTEGER REFERENCES resposta(id)
+  id_questao INTEGER REFERENCES questao(id) ON DELETE CASCADE,
+  id_comentario INTEGER REFERENCES comentario(id) ON DELETE CASCADE,
+  id_resposta INTEGER REFERENCES resposta(id) ON DELETE CASCADE
 );
 
 CREATE TABLE historico_interacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
   data_edicao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_edicao <= now()),
-  id_questao INTEGER REFERENCES questao(id),
-  id_comentario INTEGER REFERENCES comentario(id),
-  id_resposta INTEGER REFERENCES resposta(id)
+  id_questao INTEGER REFERENCES questao(id) ON DELETE CASCADE,
+  id_comentario INTEGER REFERENCES comentario(id) ON DELETE CASCADE,
+  id_resposta INTEGER REFERENCES resposta(id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE utilizador_ativo_notificacao(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  id_notificacao INTEGER NOT NULL REFERENCES notificacao(id) ON UPDATE CASCADE,
+  id_notificacao INTEGER NOT NULL REFERENCES notificacao(id) ON UPDATE CASCADE ON DELETE CASCADE,
   data_lida TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_lida <= now()),
   PRIMARY KEY (id_utilizador, id_notificacao)
 );
@@ -122,7 +122,7 @@ CREATE TABLE utilizador_ativo_medalha(
 
 CREATE TABLE questao_seguida(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE,
+  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_utilizador, id_questao)
 );
 
@@ -145,7 +145,7 @@ CREATE TABLE etiqueta(
 
 CREATE TABLE questao_etiqueta(
   id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE,
+  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_questao, id_etiqueta)
 );
 
