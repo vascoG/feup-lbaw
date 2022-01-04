@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@push('scripts')
+    <script src="{{ asset('js/questao.js') }}"></script>
+@endpush
+
 @section('conteudo')
 
 <div class="container ">
@@ -34,6 +38,14 @@
       @endforeach
     @endforeach
 </div>
+  <div id=pubForm class="hidden">
+    <form>
+      <textarea class="form-group questao-texto questao-titulo"></textarea>
+      <div>
+      <button type="button" class="btn publicar-button btn-sm" >Publicar</button>
+      </div>
+    </form>
+  </div>
 
 
 

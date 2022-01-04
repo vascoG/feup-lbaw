@@ -419,7 +419,22 @@ Criaçao e ediçao de questao
 
 	left: 75vw;
 }
+.hidden{
+	visibility: hidden;
+}
 
+.publicar-button
+{
+	border-style: outset;
+	border-color: #2F2D2E;
+	border-width: 1px;
+	margin-left: 80%;
+}
+.publicar-button:hover
+{
+	background-color: #2F2D2E;
+	color:#EAEAEA;
+}
 .eliminar-button
 {
 	border-style: outset;
