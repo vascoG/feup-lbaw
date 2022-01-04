@@ -2,7 +2,7 @@
 
 @section('controlos')
     <div class="d-flex flex-row flex-nowrap">
-        @if ($users->moderador)
+        @if ($users->moderador==true)
             <button type="button" class="flex-grow-1 btn btn-primary admin-moderador-acao" data-id="{{ $users->id_utilizador }}">Remover Moderador</button>
         @else
             <button type="button" class="flex-grow-1 btn btn-primary admin-moderador-acao" data-id="{{$users->id_utilizador}}">Adicionar Moderador</button>

@@ -12,12 +12,7 @@ Administração de moderadores
 
 
 @section('conteudo') 
-<div class="card-body card-questao">
-        @foreach ($users as $user)
-        <img class="mr-3 rounded-circle media" src="{{asset($user->utilizador->imagem_perfil)}}"></img>
-        <p class="nome">{{$user->utilizadornome}}</p>
-        @endforeach
-</div>
+
 <div class="d-flex flex-wrap justify-content-start gap-3 ps-4">
         @each('partials.moderador-completo', $users, 'users')
     </div>
