@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Etiqueta;
 use App\Http\Controllers\PesquisaEtiquetaController;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class EtiquetaController extends PesquisaEtiquetaController {
     public function mostraEtiquetas() {

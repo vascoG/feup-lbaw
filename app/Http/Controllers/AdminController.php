@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\ApeloDesbloqueio;
+use App\Models\UtilizadorAtivo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -11,8 +12,9 @@ class AdminController extends Controller
 {
     public function showModerador()
     {
-        if(!Auth::check()) return redirect('/login');
-        $this->authorize('admin');
-        
+        //if(!Auth::check()) return redirect('/login');
+        //$this->authorize('admin');
+        $users = UtilizadorAtivo::all();
+        return view('pages.admin.moderadores',['users'=>$users]);
     }
 }
