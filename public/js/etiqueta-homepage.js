@@ -18,6 +18,7 @@ Array.from(etiquetas).forEach((etiqueta) => {
             })
             .then((response) => response.json())
             .then((jsonData) => {
+                console.log(jsonData);
                 esperaResposta.style.display = 'none';
                 submete.style.display = 'block';
                 if (jsonData.novoEstado == "SEGUE") {

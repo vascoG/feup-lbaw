@@ -26,7 +26,8 @@ class PerfilController extends Controller {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        return view('pages.perfil.perfil', ['usr' => $utilizador, 
+        return view('pages.perfil.perfil', [
+            'usr' => $utilizador, 
             'colecaoQuestoes' => $this->questoesMaisRecentes($utilizador->ativo->id),
             'totalQuestoes' => $utilizador->ativo->questoes->count(),
             'colecaoEtiquetas' => $utilizador->ativo->etiquetasSeguidas->slice(0, 4)
@@ -156,6 +157,21 @@ class PerfilController extends Controller {
         return view('pages.perfil.etiquetas', [
             'nomeUtilizador' => $nomeUtilizador,
             'etiquetas' => $utilizador->ativo->etiquetasSeguidas
+        ]);
+    }
+
+    public function mostraQuestoes(Request $request, String $nomeUtilizador) {
+        $utilizador = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        if (is_null($utilizador)) {
+            return $this->viewNaoEncontrada();
+        }
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        return view('pages.perfil.questoes', [
+            'nomeUtilizador' => $nomeUtilizador,
+            'questoes' => $utilizador->ativo->questoes
         ]);
     }
 }

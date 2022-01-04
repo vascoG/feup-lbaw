@@ -46,9 +46,13 @@ Perfil de {{ $usr->nome_utilizador }}
         <div id="perfil-listagens">
             @if ($usr->ativo->questoes->count())
                 @include('partials.lista-perfil', [
+                    'nomeUtilizador' => $usr->nome_utilizador,
                     'titulo' => 'As minhas questões',
                     'colecao' => $colecaoQuestoes,
-                    'total' => $totalQuestoes
+                    'total' => $totalQuestoes,
+                    'rotaVerMais' => route('perfil-questoes', [
+                        'nomeUtilizador' => $usr->nome_utilizador
+                    ])
                 ])
             @endif
             @if ($usr->ativo->etiquetasSeguidas->count())
@@ -56,7 +60,10 @@ Perfil de {{ $usr->nome_utilizador }}
                     'nomeUtilizador' => $usr->nome_utilizador,
                     'titulo' => 'Etiquetas seguidas',
                     'colecao' => $colecaoEtiquetas,
-                    'total' =>  $totalEtiquetas
+                    'total' =>  $totalEtiquetas,
+                    'rotaVerMais' => route('perfil-etiquetas', [
+                        'nomeUtilizador' => $usr->nome_utilizador
+                    ])
                 ])
             @endif
         </div>

@@ -35,6 +35,7 @@ Route::delete('/perfil/{nomeUtilizador}', 'PerfilController@apagaPerfil');
 Route::get('/perfil/{nomeUtilizador}/editar', 'PerfilController@mostraEditar')->name('editar-perfil');
 Route::put('/perfil/{nomeUtilizador}/imagem', 'PerfilController@alteraImagem')->name('editar-perfil-imagem');
 Route::get('/perfil/{nomeUtilizador}/etiquetas', 'PerfilController@mostraEtiquetas')->name('perfil-etiquetas');
+Route::get('/perfil/{nomeUtilizador}/questoes', 'PerfilController@mostraQuestoes')->name('perfil-questoes');
 Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
 Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mudaEstado');
 
