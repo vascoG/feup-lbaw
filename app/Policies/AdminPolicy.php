@@ -11,8 +11,7 @@ class AdminPolicy{
 
     use HandlesAuthorization;
 
-    public function admin(UtilizadorAtivo $utilizadorAtivo){
-        $user = Utilizador::find($utilizadorAtivo->id_utilizador);
+    public function admin(Utilizador $user){
         return $user->administrador;
     }
 
