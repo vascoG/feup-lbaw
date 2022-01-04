@@ -50,8 +50,10 @@ class QuestaoController extends Controller
         ]);
         $questao->save();
         $etiquetas = $request->get('etiqueta');
+        if($etiquetas!=null){
         foreach($etiquetas as $tag)
             $questao->etiquetas()->attach($tag);
+        }
         return redirect()->route('questao',[$questao]);
     }
 
@@ -96,8 +98,11 @@ class QuestaoController extends Controller
 
         $questao->etiquetas()->detach();
         $etiquetas = $request->get('etiqueta');
+        if($etiquetas!=null)
+        {
         foreach($etiquetas as $tag)
             $questao->etiquetas()->attach($tag);
+        }
         return redirect()->route('questao',[$questao]);
     }
     /**
@@ -110,7 +115,7 @@ class QuestaoController extends Controller
         $questao = Questao::findOrFail($idQuestao);
         $this->authorize('editar',$questao);
         $questao->delete();
-        return redirect()->route('/');
+        return redirect()->route('home');
 
     }
 

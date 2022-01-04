@@ -8,13 +8,24 @@
         <label for="texto">Corpo da resposta</label>
         <textarea required class="form-control questao-texto" id="textoResposta" name="texto" >{{$resposta->texto}}</textarea>
     </div>
-        <button class="btn clearfix rounded-pill questao-button" type="submit" id="submit_button">
+    <div>
+        <button class="btn clearfix rounded-pill questao-button float-end" type="submit" id="submit_button">
             <b>
                 EDITAR RESPOSTA
             </b>
         </button>
+        </form>
+        <form method = "POST" action="{{route('eliminar-resposta',[$questao->id, $resposta->id])}}" id="questao-eliminar-form">
+        {{ csrf_field() }}
+        @method('DELETE')
+        <button class="btn clearfix rounded-pill eliminar-button float-end" type="submit" id="submit_button">
+            <b>
+                ELIMINAR RESPOSTA
+            </b>
+        </button>
+        </form>
+</div>
 
-</form>
 
 
 @endsection

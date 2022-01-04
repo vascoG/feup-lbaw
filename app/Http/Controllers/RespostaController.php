@@ -67,6 +67,11 @@ class RespostaController extends Controller
         $this->authorize('editar',$resposta);
         if(!$questao->respostas->contains($resposta))
             return abort(404);
+        if($resposta->comentarios!=null)
+        {
+            foreach($resposta->comentarios as $comentario)
+                $comentario->delete();
+        }
         $resposta->delete();
         return redirect()->route('questao',[$questao]);
     }

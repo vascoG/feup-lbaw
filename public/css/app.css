@@ -396,18 +396,19 @@ Criaçao e ediçao de questao
 .questao-titulo
 {
 	width: 70vw;
-	margin:10px;
-	resize:none;
+	margin-top:10px;
+	text-align: left;
 	position: relative;
 	left: 10vw;
+
 }
 
 .questao-texto
-{	text-align: left;
-	width: 70vw;
+{
 	height: 20vw;
-	margin-top: 10px;
 	resize:none;
+	margin-bottom:10px;
+
 }
 
 .questao-button
@@ -415,8 +416,26 @@ Criaçao e ediçao de questao
 	border-style: outset;
 	border-color: #2F2D2E;
 	border-width: 1px;
-	position: relative;
+
 	left: 75vw;
+}
+
+.eliminar-button
+{
+	border-style: outset;
+	border-color: #2F2D2E;
+	border-width: 1px;
+
+	margin-right: 10px;
+	margin-left: 10px;
+
+	left: 75vw;
+}
+
+.eliminar-button:hover
+{
+	background-color: red;
+	color: white;
 }
 
 .questao-button:hover
@@ -472,6 +491,22 @@ Criaçao e ediçao de questao
 .texto-interacoes
 {
 	white-space:pre;
+}
+
+.publicacao
+{
+	height: 20vw;
+	resize:none;
+	margin-bottom:10px;
+	margin-top:20px
+}
+.hidden-row
+{
+	visibility: hidden;
+}
+.shown-row
+{
+	visibility: visible;
 }
 /*
 	Ecra de pesquisa

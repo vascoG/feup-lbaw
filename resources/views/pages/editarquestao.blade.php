@@ -27,14 +27,23 @@
        
     </div>
     <div >
-        <button class="btn clearfix rounded-pill questao-button" type="submit" id="submit_button">
+        <button class="btn clearfix rounded-pill questao-button float-end" id="submit_button">
             <b>
                 EDITAR QUESTÃO
             </b>
         </button>
+        </form>
+        <form method = "POST" action="{{route('eliminar-questao',$questao->id)}}" id="questao-eliminar-form">
+        {{ csrf_field() }}
+        @method('DELETE')
+        <button class="btn clearfix rounded-pill eliminar-button float-end" type="submit" id="submit_button">
+            <b>
+                ELIMINAR QUESTÃO
+            </b>
+        </button>
+        </form>
     </div>
 
-</form>
 
 
 @endsection
