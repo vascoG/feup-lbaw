@@ -555,6 +555,7 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página Contactos'
+
   /faq:
     get:
       operationId: R203
@@ -565,21 +566,11 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página FAQ'
-  /servicos:
-    get:
-      operationId: R204
-      summary: 'R204: Serviços'
-      description: 'Mostra a página Serviços. Acesso: PUB'
-      tags:
-      - 'M02: Administração de utilizadores e páginas estáticas'
-      responses:
-        '200':
-          description: 'Ok. Mostra a página Serviços.'
 
   /admin/moderadores:
     get:
-      operationId: R205
-      summary: 'R205: Administração de moderadores do sistema'
+      operationId: R204
+      summary: 'R204: Administração de moderadores do sistema'
       description: 'Mostra a página de administração de moderadores do sistema. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
@@ -598,8 +589,8 @@ paths:
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
     put:
-      operationId: R206
-      summary: 'R206: Alteração de permissões de moderador'
+      operationId: R205
+      summary: 'R205: Alteração de permissões de moderador'
       description: 'Adiciona ou remove moderadores ao sistema. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
@@ -636,8 +627,8 @@ paths:
 
   /admin/banimento:
     get:
-      operationId: R207
-      summary: 'R207: Administração de moderadores do sistema'
+      operationId: R206
+      summary: 'R206: Administração de moderadores do sistema'
       description: 'Mostra a página de apelos de banimento. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
@@ -656,8 +647,8 @@ paths:
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
     put:
-      operationId: R208
-      summary: 'R208: Desbloqueia contas'
+      operationId: R207
+      summary: 'R207: Desbloqueia contas'
       description: 'Desbloqueia contas. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -690,8 +681,8 @@ paths:
 
   /bloqueio/{idUtilizador}:
     put:
-      operationId: R209
-      summary: '209: Bane um utilizador.'
+      operationId: R208
+      summary: '208: Bane um utilizador.'
       description: 'Quando é feita com sucesso, o utilizador é banido. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -720,8 +711,8 @@ paths:
                   description: 'Bloqueio de conta rejeitado. Redirecionando o perfil.' 
                   value: '/perfil/{idUtilizador}'
     delete:
-      operationId: R210
-      summary: 'R210: Desbloqueia utilizador'
+      operationId: R209
+      summary: 'R209: Desbloqueia utilizador'
       description: 'Quando é feito o pedido, o utilizador anteriormente banido é desbloqueado.'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -752,8 +743,8 @@ paths:
 
   /admin/etiquetas:
     get: 
-      operationId: R211
-      summary: 'R211: Apresenta a pagina de manuseio de etiquetas'
+      operationId: R210
+      summary: 'R210: Apresenta a pagina de manuseio de etiquetas'
       description: 'Apresenta a página de manuseio de etiquetas.'
       parameters:
         - in: query
@@ -770,8 +761,8 @@ paths:
           description: 'O utilizador não tem permissoes para manusear etiquetas.'
 
     post:
-      operationId: R212
-      summary: 'R212: Regista uma nova etiqueta'
+      operationId: R211
+      summary: 'R211: Regista uma nova etiqueta'
       description: 'Permite criar uma nova etiqueta. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -820,8 +811,8 @@ paths:
 
   /admin/etiqueta/{id}:
     patch: 
-      operationId: R213
-      summary: 'R213: Altera a etiqueta referenciada no path.'
+      operationId: R212
+      summary: 'R212: Altera a etiqueta referenciada no path.'
       description: 'Permite alterar o texto de uma etiqueta existente. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -877,8 +868,8 @@ paths:
           description: 'A etiqueta referida não foi encontrada.'
 
     delete:
-        operationId: R214
-        summary: 'R214: Apaga a etiqueta referenciada no path.'
+        operationId: R213
+        summary: 'R213: Apaga a etiqueta referenciada no path.'
         description: 'Permite apagar uma etiqueta existente. Acesso: ADM'
         tags:
           - 'M02: Administração de utilizadores e páginas estáticas'
