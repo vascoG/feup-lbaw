@@ -938,13 +938,19 @@ paths:
         '403':
           description: 'Voto foi inválido, o utilizador não tem permissão para votar'
 
-  /criar/resposta:
+  /questao/{idQuestao}/criar-resposta:
     post:
       operationId: R306
       summary: 'R306: Criação de Respostas.'
       description: 'Processa o pedido de criação de uma resposta a uma questão. Acesso: USR'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true 
       requestBody:
         required: true
         content:
@@ -970,13 +976,63 @@ paths:
         '403':
           description: 'Não foi possível criar a questão'
 
-  /criar/comentario:
+  /questao/{idQuestao}/criar-comentario:
     post:
       operationId: R307
-      summary: 'R307: Criação de Comentários.'
+      summary: 'R307: Criação de Comentários na questão.'
       description: 'Processa o pedido de criação de um comentário a uma questão ou resposta. Acesso: USR'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true 
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                texto:
+                  type: string
+                autor:
+                  description: 'ID do utilizador autenticado no momento do pedido'
+                  type: integer
+                idQuestao:
+                  description: 'ID da questão onde se pretende inserir o comentário'
+                  type: integer
+                idResposta:
+                  description: 'ID da resposta onde se pretende inserir o comentário'
+              required:
+                - texto
+                - autor
+      responses:
+        '200':
+          description: 'Resposta criada com sucesso'
+        '403':
+          description: 'Não foi possível criar a questão'
+
+  /questao/{idQuestao}/criar-comentario-resposta/{idResposta}:
+    post:
+      operationId: R308
+      summary: 'R308: Criação de Comentários numa resposta.'
+      description: 'Processa o pedido de criação de um comentário a uma questão ou resposta. Acesso: USR'
+      tags:
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true 
+        - in: path
+          name: idResposta
+          schema:
+            type: integer
+          required: true 
       requestBody:
         required: true
         content:
@@ -1005,8 +1061,8 @@ paths:
 
   /resposta-correta/{idQuestao}:
     get:
-      operationId: R308
-      summary: 'R308: Acesso à resposta correta.'
+      operationId: R309
+      summary: 'R309: Acesso à resposta correta.'
       description: 'Retorna o id da resposta correta a uma determinada questão. Acesso: PUB'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
@@ -1029,8 +1085,8 @@ paths:
                     idResposta:
                       type: integer
     post:
-      operationId: R309
-      summary: 'R309: Marca a resposta correta.'
+      operationId: R310
+      summary: 'R310: Marca a resposta correta.'
       description: 'Marca como correta a resposta de id enviado. Acesso: OWN'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
@@ -1060,8 +1116,8 @@ paths:
 
   /questoes:
       get:
-        operationId: R310
-        summary: 'R310: Lista de Questões'
+        operationId: R311
+        summary: 'R311: Lista de Questões'
         description: 'Mostra a lista de questões associadas a uma pesquisa. Acesso: PUB'
         tags:
           - 'M03: Visualização, votação, pesquisa e resposta a questões'

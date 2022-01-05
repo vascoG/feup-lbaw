@@ -56,6 +56,9 @@ Route::get('/admin/banimento','AdminController@showApelo');
 #M03
 Route::get('/questao/{idQuestao}','QuestaoController@show')->name('questao');
 Route::get('/questoes', 'PesquisaController@mostraPesquisa')->name('pesquisa');
+Route::post('questao/{idQuestao}/criar-comentario','ComentarioController@createOnQuestion')->name('criar-comentario');
+Route::post('questao/{idQuestao}/criar-comentario-resposta/{idResposta}','ComentarioController@createOnResponse')->name('criar-comentario-resposta');
+Route::post('questao/{idQuestao}/criar-resposta','RespostaController@create')->name('criar-resposta');
 
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm')->name('criarquestao');
@@ -65,13 +68,10 @@ Route::put('questao/{idQuestao}/editar','QuestaoController@edit')->name('edit-qu
 Route::delete('questao/{idQuestao}/eliminar','QuestaoController@delete')->name('eliminar-questao');
 Route::get('questao/{idQuestao}/editar-resposta/{idResposta}','RespostaController@showEditForm')->name('editar-resposta');
 Route::put('questao/{idQuestao}/editar-resposta/{idResposta}','RespostaController@edit')->name('edit-resposta');
-Route::post('questao/{idQuestao}/criar-resposta','RespostaController@create')->name('criar-resposta');
 Route::delete('questao/{idQuestao}/eliminar-resposta/{idResposta}','RespostaController@delete')->name('eliminar-resposta');
 Route::get('questao/{idQuestao}/editar-comentario/{idComentario}','ComentarioController@showEditForm')->name('editar-comentario');
 Route::put('questao/{idQuestao}/editar-comentario/{idComentario}','ComentarioController@edit')->name('edit-comentario');
 Route::delete('questao/{idQuestao}/eliminar-comentario/{idComentario}','ComentarioController@delete')->name('eliminar-comentario');
-Route::post('questao/{idQuestao}/criar-comentario','ComentarioController@createOnQuestion')->name('criar-comentario');
-Route::post('questao/{idQuestao}/criar-comentario-resposta/{idResposta}','ComentarioController@createOnResponse')->name('criar-comentario-resposta');
 
 
 
