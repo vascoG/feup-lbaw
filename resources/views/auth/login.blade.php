@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@section('titulo')
+Login
+@endsection
+
 @section('conteudo')
 <div class="d-flex justify-content-center pt-4">
     <form method="POST" action="{{ route('login') }}" class="form-autenticacao">
@@ -30,9 +34,12 @@
             <input type="checkbox" name="remember" id="login-lembrar" class="form-check-input shadow-none cb-cor-diferente" {{ old('remember') ? 'checked' : '' }}>
         </div>
 
-        <div class="campo-form-autenticacao" id="botoes-login">
-            <a class="btn btn-secondary px-2 autenticacao-secundario" href="{{ route('registo') }}">Registe-se</a>
-            <button type="submit" class="btn btn-primary px-4 autenticacao-primario">Login</button>
+        <div class="d-flex align-items-end justify-content-between campo-form-autenticacao">
+            <a class="text-danger" href="{{ route('recupera-password') }}">Esqueci-me da palavra-passe</a>
+            <div id="botoes-login">
+                <a class="btn btn-secondary px-2 autenticacao-secundario" href="{{ route('registo') }}">Registe-se</a>
+                <button type="submit" class="btn btn-primary px-4 btn-primary">Login</button>
+            </div>
         </div>
     </form>
 </div>

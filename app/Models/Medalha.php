@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Medalha extends Model {
-    public $timestamp = false;
+    public $timestamps = false;
 
     public $table = 'utilizador_banido';
 

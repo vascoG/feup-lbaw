@@ -7,14 +7,26 @@ use App\Models\UtilizadorBanido;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticable;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RecuperaConta;
+use Illuminate\Contracts\Auth\CanResetPassword;
 
-class Utilizador extends Authenticable {
+class Utilizador extends Authenticable implements CanResetPassword{
+    use Notifiable;
+
     public $timestamps = false;
 
     protected $table = 'utilizador';
     
     protected $fillable = [
-        'imagem_perfil', 'nome_utilizador', 'nome', 'e_mail', 'data_nascimento', 'palavra_passe'
+        'imagem_perfil',
+        'nome_utilizador',
+        'nome',
+        'e_mail',
+        'data_nascimento',
+        'descricao',
+        'palavra_passe'
     ];
 
     protected $attributes = [
@@ -25,12 +37,6 @@ class Utilizador extends Authenticable {
     protected $hidden = [
         'palavra_passe', 'imagem_perfil'
     ];
-
-    protected $dates = [
-        'data_nascimento',
-    ];
-
-    protected $dateFormat = 'U';
 
     public function getAuthPassword() {
         return $this->palavra_passe;
@@ -51,8 +57,16 @@ class Utilizador extends Authenticable {
 
     public function getImagemPerfilAttribute($value) {
         if (is_null($value)) {
-            return 'storage/avatar/default.png';
+            return 'storage/avatar-default.png';
         }
         return $value;
+    }
+
+    public function getEmailForPasswordReset() {
+        return $this->e_mail;
+    }
+
+    public function sendPasswordResetNotification($token) {
+        Mail::to($this->e_mail)->send(new RecuperaConta($this, $token));
     }
 }

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Etiqueta;
-use App\Models\HistoricoInteracao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Questao;
+use App\Models\Utilizador;
 
 class QuestaoController extends Controller
 {
@@ -21,7 +21,8 @@ class QuestaoController extends Controller
     {
         if(!Auth::check()) return redirect('/login');
         $this->authorize('notBanned',Questao::class);
-        return view('pages.criarquestao');
+        $tags = Etiqueta::all();
+        return view('pages.criarquestao', ['tags'=>$tags]);
     }
 
     /**
@@ -34,9 +35,8 @@ class QuestaoController extends Controller
         $this->authorize('notBanned',Questao::class);
         $validator = Validator::make($request->all(),
             [
-                'titulo' => 'required|max:100',
+                'titulo' => 'required',
                 'texto' => 'required',
-                'etiqueta' => 'required',
             ]);
         if($validator->fails())
         {
@@ -44,14 +44,17 @@ class QuestaoController extends Controller
         }
 
         $questao = new Questao([
-            'autor' => Auth::user()->id,
+            'autor' => Auth::id(),
             'titulo' => $request->get('titulo'),
             'texto' => $request->get('texto'),
         ]);
-        //se nao existir a etiqueta que ele escreveu?
-        $questao->etiquetas()->attach(Etiqueta::where('nome',$request->get('etiqueta'))->first()->id);
         $questao->save();
-        return redirect()->route('questao',[$questao->id]);
+        $etiquetas = $request->get('etiqueta');
+        if($etiquetas!=null){
+        foreach($etiquetas as $tag)
+            $questao->etiquetas()->attach($tag);
+        }
+        return redirect()->route('questao',[$questao]);
     }
 
     /**
@@ -61,9 +64,11 @@ class QuestaoController extends Controller
     public function showEditForm($idQuestao)
     {
         if(!Auth::check()) return redirect('/login');
-        $questao = Questao::find($idQuestao);
+        $questao = Questao::findOrFail($idQuestao);
         $this->authorize('editar',$questao);
-        return view('pages.editarQuestao',['questao'=>$questao]);
+        $tags = Etiqueta::all();
+
+        return view('pages.editarquestao',['questao'=>$questao, 'tags'=>$tags]);
     }
     /**
      * Edita uma questão
@@ -72,29 +77,56 @@ class QuestaoController extends Controller
     public function edit(Request $request, $idQuestao)
     {
         if(!Auth::check()) return redirect('/login');
-        $questao = Questao::find($idQuestao);
+        $questao = Questao::findOrFail($idQuestao);
         $this->authorize('editar',$questao);
+
         $validator = Validator::make($request->all(),
             [
-                'titulo' => 'required|max:100',
+                'titulo' => 'required',
                 'texto' => 'required',
-                'etiqueta' => 'required',
             ]);
+
         if($validator->fails())
         {
             return redirect()->route('editar-questao',[$idQuestao])->withErrors($validator);
         }
-        
-        $questao->etiquetas()->attach(Etiqueta::where('nome',$request->get('etiqueta'))->first()->id);
 
-        //caso nao edite nada, nao deve adicionar historico
-        $historicoQuestao = new HistoricoInteracao([
-            'texto' => $questao->texto,
-            'id_questao' => $idQuestao,
-        ]);
-        $historicoQuestao->save();
-        $questao->save();
-        return redirect()->route('questao',[$idQuestao]);
+
+        Questao::where('id',$idQuestao)->update([
+            'titulo'=>$request->get('titulo'),
+            'texto' => $request->get('texto')]);
+
+        $questao->etiquetas()->detach();
+        $etiquetas = $request->get('etiqueta');
+        if($etiquetas!=null)
+        {
+        foreach($etiquetas as $tag)
+            $questao->etiquetas()->attach($tag);
+        }
+        return redirect()->route('questao',[$questao]);
+    }
+    /**
+     * Apaga uma questão
+     * @return Response
+     */
+    public function delete($idQuestao)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $questao = Questao::findOrFail($idQuestao);
+        $this->authorize('editar',$questao);
+        $questao->delete();
+        return redirect()->route('home');
+
     }
 
+    /**
+    * 
+    */
+    public function show(Request $request, $idQuestao){
+        $this->authorize('notBanned',Questao::class);
+        $questao = Questao::findOrFail($idQuestao);
+        $criador=Utilizador::find($questao->criador->id_utilizador);
+        return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'user'=>Auth::user()]);
+
+    }
 }

@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@section('titulo')
+Registar
+@endsection
+
 @section('conteudo')
 <div class="d-flex justify-content-center pt-4">
   <form id="login-form" class="form-autenticacao" method="POST" action="{{ route('registo') }}">
@@ -38,6 +42,11 @@
     <div class="form-group campo-form-autenticacao">
       <label for="data-nascimento" class="form-label">Data de nascimento</label>
       <input id="data-nascimento" class="form-control" type="date" name="data_nascimento" value="{{ old('data_nascimento') }}"required>
+      @if ($errors->has('data_nascimento'))
+        <span class="error">
+          {{ $errors->first('data_nascimento') }}
+        </span>
+      @endif
     </div>
 
     <div class="form-group campo-form-autenticacao">
@@ -57,7 +66,7 @@
 
     <div class="campo-form-autenticacao" id="botoes-login">
       <a class="btn btn-secondary px-4 autenticacao-secundario" href="{{ route('login') }}">Login</a>
-      <button type="submit" class="btn btn-primary px-2 autenticacao-primario">Registar</button>
+      <button type="submit" class="btn btn-primary px-2 btn-primary">Registar</button>
     </div>
   </form>
 </div>

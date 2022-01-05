@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS resposta_avaliada CASCADE;
 DROP TABLE IF EXISTS etiqueta CASCADE;
 DROP TABLE IF EXISTS questao_etiqueta CASCADE;
 DROP TABLE IF EXISTS utilizador_ativo_etiqueta CASCADE;
+DROP TABLE IF EXISTS password_resets CASCADE;
 
 CREATE TABLE utilizador(
   id SERIAL PRIMARY KEY,
@@ -74,7 +75,7 @@ CREATE TABLE resposta(
   texto TEXT NOT NULL,
   data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_publicacao <= now()),
   autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
-  id_questao INTEGER NOT NULL REFERENCES questao(id),
+  id_questao INTEGER NOT NULL REFERENCES questao(id) ON DELETE CASCADE,
   resposta_aceite BOOLEAN NOT NULL
 );
 
@@ -83,32 +84,32 @@ CREATE TABLE comentario(
   texto TEXT NOT NULL,
   data_publicacao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_publicacao <= now()),
   autor INTEGER REFERENCES utilizador_ativo(id) ON DELETE SET NULL,
-  id_questao INTEGER REFERENCES questao(id),
-  id_resposta INTEGER REFERENCES resposta(id)
+  id_questao INTEGER REFERENCES questao(id) ON DELETE CASCADE,
+  id_resposta INTEGER REFERENCES resposta(id) ON DELETE CASCADE
 );
 
 CREATE TABLE notificacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
   data_emissao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_emissao <= now()),
-  id_questao INTEGER REFERENCES questao(id),
-  id_comentario INTEGER REFERENCES comentario(id),
-  id_resposta INTEGER REFERENCES resposta(id)
+  id_questao INTEGER REFERENCES questao(id) ON DELETE CASCADE,
+  id_comentario INTEGER REFERENCES comentario(id) ON DELETE CASCADE,
+  id_resposta INTEGER REFERENCES resposta(id) ON DELETE CASCADE
 );
 
 CREATE TABLE historico_interacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
   data_edicao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_edicao <= now()),
-  id_questao INTEGER REFERENCES questao(id),
-  id_comentario INTEGER REFERENCES comentario(id),
-  id_resposta INTEGER REFERENCES resposta(id)
+  id_questao INTEGER REFERENCES questao(id) ON DELETE CASCADE,
+  id_comentario INTEGER REFERENCES comentario(id) ON DELETE CASCADE,
+  id_resposta INTEGER REFERENCES resposta(id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE utilizador_ativo_notificacao(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  id_notificacao INTEGER NOT NULL REFERENCES notificacao(id) ON UPDATE CASCADE,
+  id_notificacao INTEGER NOT NULL REFERENCES notificacao(id) ON UPDATE CASCADE ON DELETE CASCADE,
   data_lida TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_lida <= now()),
   PRIMARY KEY (id_utilizador, id_notificacao)
 );
@@ -121,7 +122,7 @@ CREATE TABLE utilizador_ativo_medalha(
 
 CREATE TABLE questao_seguida(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE,
+  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_utilizador, id_questao)
 );
 
@@ -139,12 +140,12 @@ CREATE TABLE resposta_avaliada(
 
 CREATE TABLE etiqueta(
   id SERIAL PRIMARY KEY,
-  nome TEXT NOT NULL
+  nome TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE questao_etiqueta(
-  id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE,
-  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE,
+  id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  id_questao INTEGER NOT NULL REFERENCES questao(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_questao, id_etiqueta)
 );
 
@@ -152,6 +153,12 @@ CREATE TABLE utilizador_ativo_etiqueta(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
   id_etiqueta INTEGER NOT NULL REFERENCES etiqueta(id) ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (id_utilizador, id_etiqueta)
+);
+
+CREATE TABLE password_resets(
+  email VARCHAR(255),
+  token VARCHAR(255),
+  created_at TIMESTAMP WITHOUT TIME ZONE
 );
 
 /*
@@ -167,14 +174,22 @@ DROP MATERIALIZED VIEW IF EXISTS historico_resposta;
 DROP MATERIALIZED VIEW IF EXISTS historico_comentario;
 
 CREATE MATERIALIZED VIEW gosto_questoes AS
-  SELECT id_questao, COUNT(*) AS n_gosto
-  FROM questao_avaliada
-  GROUP BY id_questao;
+  SELECT COALESCE(questao.id, gosto_existente.id_questao) AS id_questao, 
+    COALESCE(n_gosto, 0) AS n_gosto
+  FROM questao LEFT JOIN (
+    SELECT id_questao, COUNT(*) AS n_gosto
+    FROM questao_avaliada
+    GROUP BY id_questao
+  ) AS gosto_existente ON gosto_existente.id_questao=questao.id;
 
 CREATE MATERIALIZED VIEW gosto_respostas AS
-  SELECT id_resposta, COUNT(*) AS n_gosto
-  FROM resposta_avaliada
-  GROUP BY id_resposta;
+  SELECT COALESCE(resposta.id, gosto_existente.id_resposta) AS id_resposta, 
+	  COALESCE(n_gosto, 0) AS n_gosto
+  FROM resposta LEFT JOIN (
+    SELECT id_resposta, COUNT(*) AS n_gosto
+    FROM resposta_avaliada
+    GROUP BY id_resposta
+  ) AS gosto_existente ON gosto_existente.id_resposta=resposta.id;
 
 CREATE MATERIALIZED VIEW historico_questao AS
   SELECT id, texto, data_edicao, id_questao
@@ -190,6 +205,47 @@ CREATE MATERIALIZED VIEW historico_comentario AS
   SELECT id, texto, data_edicao, id_comentario
   FROM historico_interacao
   WHERE id_comentario IS NOT NULL;
+
+DROP VIEW IF EXISTS reputacao;
+
+CREATE VIEW reputacao AS
+    SELECT usr_pont_res.id_utilizador AS id_utilizador,
+	    (pontuacao_respostas+n_gosto_resposta+n_gosto_questao) AS reputacao
+    FROM (
+      SELECT id AS id_utilizador, 
+        COALESCE(respostas_aceites.n_repostas_aceites * 10, 0) AS pontuacao_respostas
+      FROM utilizador_ativo LEFT JOIN (
+        SELECT autor, count(*) AS n_repostas_aceites 
+        FROM resposta 
+        WHERE resposta_aceite
+        GROUP BY autor
+      ) AS respostas_aceites 
+      ON id=respostas_aceites.autor
+    ) AS usr_pont_res 
+    JOIN (
+      SELECT COALESCE(gosto_resposta_usr.id_utilizador, utilizador_ativo.id) AS id_utilizador,
+        COALESCE (n_gosto_resposta, 0) AS n_gosto_resposta
+      FROM utilizador_ativo LEFT JOIN (
+        SELECT autor AS id_utilizador, 
+          SUM(n_gosto) AS n_gosto_resposta 
+        FROM gosto_respostas JOIN 
+          resposta 
+        ON id_resposta=resposta.id
+        GROUP BY id_utilizador
+      ) AS gosto_resposta_usr ON gosto_resposta_usr.id_utilizador=utilizador_ativo.id
+    ) as usr_gst_res ON usr_gst_res.id_utilizador=usr_pont_res.id_utilizador
+    JOIN (
+      SELECT COALESCE(gosto_questao_usr.id_utilizador, utilizador_ativo.id) AS id_utilizador,
+        COALESCE (n_gosto_questao, 0) AS n_gosto_questao
+      FROM utilizador_ativo LEFT JOIN (
+        SELECT autor AS id_utilizador,
+          SUM(n_gosto) AS n_gosto_questao
+        FROM gosto_questoes JOIN 
+          questao 
+        ON id_questao=questao.id
+        GROUP BY id_utilizador
+      ) AS gosto_questao_usr ON gosto_questao_usr.id_utilizador=utilizador_ativo.id
+    ) AS usr_gst_quest ON usr_gst_quest.id_utilizador=usr_pont_res.id_utilizador;
 
 /*
 
@@ -695,6 +751,8 @@ DROP INDEX IF EXISTS data_publicacao_questao;
 DROP INDEX IF EXISTS agrupa_historico_questao;
 DROP INDEX IF EXISTS agrupa_historico_resposta;
 DROP INDEX IF EXISTS agrupa_historico_comentario;
+DROP INDEX IF EXISTS password_resets_email_index;
+DROP INDEX IF EXISTS password_resets_token_index;
 
 CREATE INDEX pesquisa_questao ON questao USING GIN (tsvectors);
 CREATE INDEX pesquisa_etiqueta ON etiqueta USING GIN (tsvectors);
@@ -710,6 +768,9 @@ CLUSTER historico_resposta USING agrupa_historico_resposta;
 
 CREATE INDEX agrupa_historico_comentario ON historico_comentario USING BTREE(id_comentario);
 CLUSTER historico_comentario USING agrupa_historico_comentario;
+
+CREATE INDEX password_resets_email_index ON password_resets USING BTREE(email);
+CREATE INDEX password_resets_token_index ON password_resets USING BTREE(token);
 
 /*
   POPULAÇÃO DA BASE DE DADOS
@@ -742,7 +803,7 @@ VALUES (generate_series(1,1000),md5(random()::text),random()*199+1,md5(random():
 INSERT INTO questao_seguida(id_utilizador, id_questao)
 VALUES (generate_series(1,1010),random()*999+1);
 INSERT INTO resposta (id,texto,autor,id_questao,resposta_aceite)
-VALUES (generate_series(1,1000),md5(random()::text),random()*199+201,random()*999+1,FALSE);
+VALUES (generate_series(1,1000),md5(random()::text),random()*199+201,random()*999+1, RANDOM()::INT::BOOLEAN);
 INSERT INTO comentario (id,texto,autor,id_questao)
 VALUES (generate_series(1,500),md5(random()::text),random()*500+401,random()*999+1);
 INSERT INTO comentario (id,texto,autor,id_resposta)
@@ -801,4 +862,37 @@ INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_p
   TRUE,
   '
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus finibus neque sit amet commodo. Quisque odio dui, auctor at tellus a, fermentum accumsan sapien. Curabitur laoreet pretium elit, in pharetra neque vulputate ut. Maecenas vitae quam mattis, aliquet libero vitae, faucibus nisi. Vestibulum facilisis elit ac rutrum ultricies. Quisque ut euismod metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi semper a neque eu egestas erat curae.'
+);
+
+INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
+  'John Doe',
+  'john_doe',
+  'admin@lbaw.com',
+  '1971-05-13',
+  '$2y$10$rwClQ/VTJaYaY70VnRhF1OBb.ofm4eik/L.IDS6it7jQZYKzfFIVq',
+  FALSE,
+  TRUE,
+  'Administrador da FinJet'
+);
+
+INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
+  'Grace Goe',
+  'grace_goe',
+  'mod@lbaw.com',
+  '1980-06-12',
+  '$2y$10$.Da73Iz90YaCBcpmfnL0CukDtPTyqutsrYRWhq/cgAeXJj0Ge7B8i',
+  TRUE,
+  FALSE,
+  'Moderador da FinJet'
+);
+
+INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
+  'John Smith',
+  'john_smith',
+  'user@lbaw.com',
+  '1990-12-12',
+  '$2y$10$ZEbVfFMJozLDwar4nZbjtesnr1MpVZmAJTFfJOec2MLnEdDnHG2WO',
+  FALSE,
+  FALSE,
+  'Simples utilizador da FinJet'
 );

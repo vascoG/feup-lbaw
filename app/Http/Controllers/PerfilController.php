@@ -9,6 +9,7 @@ use Auth;
 use Image;
 use Storage;
 use Validator;
+use Carbon\Carbon;
 
 class PerfilController extends Controller {
     private function viewNaoEncontrada() {
@@ -25,7 +26,8 @@ class PerfilController extends Controller {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        return view('pages.perfil.perfil', ['usr' => $utilizador, 
+        return view('pages.perfil.perfil', [
+            'usr' => $utilizador, 
             'colecaoQuestoes' => $this->questoesMaisRecentes($utilizador->ativo->id),
             'totalQuestoes' => $utilizador->ativo->questoes->count(),
             'colecaoEtiquetas' => $utilizador->ativo->etiquetasSeguidas->slice(0, 4)
@@ -33,6 +35,11 @@ class PerfilController extends Controller {
                     return ['id' => $item->id, 'desc' => $item->nome];
                 }),
             'totalEtiquetas' => $utilizador->ativo->etiquetasSeguidas->count(),
+            'colecaoRespostas' => $utilizador->ativo->respostas->slice(0, 4)
+                ->map(function ($item, $chave) {
+                    return ['desc' => $item->questao->titulo, 'id' => $item->questao->id];
+                }),
+            'totalRespostas' => $utilizador->ativo->respostas->count(),
         ]);
     }
 
@@ -55,6 +62,7 @@ class PerfilController extends Controller {
         $this->authorize('editar', $perfil);
 
         return view('pages.perfil.editar', [
+            'descricaoTamanhoMax' => 1500, 
             'nomeUtilizador' => $nomeUtilizador,
             'imagem_perfil' => $perfil->imagem_perfil,
             'email' => $perfil->e_mail,
@@ -79,9 +87,9 @@ class PerfilController extends Controller {
             $picName = $perfil->id.'.jpg';
             $this->apagaImagem($request, $nomeUtilizador);
             $uploadedPic = $request->file('imagem_perfil');
-            Image::make($uploadedPic->path())->resize(320, 320)->encode('jpg', 60)->save(public_path('storage').'/'.$picName);
+            Image::make($uploadedPic->path())->resize(320, 320)->encode('jpg', 60)->save(public_path('storage').'/avatar-'.$picName);
             
-            $perfil->update(['imagem_perfil' => 'storage/'.$picName]);
+            $perfil->update(['imagem_perfil' => 'storage/avatar-'.$picName]);
             $perfil->save();
             return redirect()->route('editar-perfil', $nomeUtilizador);
         }
@@ -97,14 +105,14 @@ class PerfilController extends Controller {
         $this->authorize('editar', $perfil);
 
         if (!is_null($perfil->imagem_perfil)) {
-            Storage::disk('public')->delete($perfil->id.'.jpg');
+            Storage::disk('public')->delete('avatar-'.$perfil->id.'.jpg');
         }
 
         $perfil->update(['imagem_perfil' => null]);
         $perfil->save();
     }
 
-    public function publicaAlteracoesDados(Request $request, String $nomeUtilizador) {
+    public function alteraDados(Request $request, String $nomeUtilizador) {
         $perfil = Utilizador::procuraNomeUtilizador($nomeUtilizador);
         if (is_null($perfil)) {
             $this->viewNaoEncontrada();
@@ -113,18 +121,80 @@ class PerfilController extends Controller {
 
         $validator = Validator::make($request->all(), [
             'nome' => "required|string|max:512",
-            'data_nascimento' => 'required|date',
+            'data_nascimento' => 'required|date|before_or_equal:'.Carbon::parse(Carbon::now())->format('Y-m-d'),
             'e_mail' => 'required|string|email|max:512|unique:utilizador,e_mail,'.$perfil->id,
+            'descricao' => 'nullable|string|max: 1500',
             'palavra_passe' => 'nullable|string|min:8|confirmed',
         ]);
         $validator->validate();
 
-        $validated = $validator->safe()->only(['nome', 'data_nascimento', 'e_mail', 'palavra_passe']);
+        $validated = $validator->safe()->only(['nome', 'data_nascimento', 'e_mail', 'palavra_passe', 'descricao']);
         $validated['palavra_passe'] = is_null($validated['palavra_passe']) ? $perfil->palavra_passe : Hash::make($validated['palavra_passe']);
-        
+
         $perfil->update($validated);
         $perfil->save();
 
         return redirect()->route('perfil', $nomeUtilizador);
+    }
+
+    public function apagaPerfil(Request $request, String $nomeUtilizador) {
+        $perfil = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        if (is_null($perfil)) {
+            $this->viewNaoEncontrada();
+        }
+        $this->authorize('editar', $perfil);
+        $perfil->delete();
+        return response()->json([
+            'sucesso' => true,
+            'localizacao' => route('home')
+        ]);
+    }
+
+    public function mostraEtiquetas(Request $request, String $nomeUtilizador) {
+        $utilizador = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        if (is_null($utilizador)) {
+            return $this->viewNaoEncontrada();
+        }
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        return view('pages.perfil.etiquetas', [
+            'nomeUtilizador' => $nomeUtilizador,
+            'etiquetas' => $utilizador->ativo->etiquetasSeguidas
+        ]);
+    }
+
+    public function mostraQuestoes(Request $request, String $nomeUtilizador) {
+        $utilizador = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        if (is_null($utilizador)) {
+            return $this->viewNaoEncontrada();
+        }
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        return view('pages.perfil.questoes', [
+            'nomeUtilizador' => $nomeUtilizador,
+            'questoes' => $utilizador->ativo->questoes
+        ]);
+    }
+
+    public function mostraRespostas(Request $request, String $nomeUtilizador) {
+        $utilizador = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        if (is_null($utilizador)) {
+            return $this->viewNaoEncontrada();
+        }
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        return view('pages.perfil.respostas', [
+            'nomeUtilizador' => $nomeUtilizador,
+            'questoes' => $utilizador->ativo->respostas
+                ->map(function($resposta) {
+                    return $resposta->questao;
+                })
+        ]);
     }
 }

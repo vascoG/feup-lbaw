@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Etiqueta;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class UtilizadorAtivo extends Model {
-    public $timestamp = false;
+    public $timestamps = false;
 
     public $table = 'utilizador_ativo';
 
@@ -49,5 +51,12 @@ class UtilizadorAtivo extends Model {
 
     public function etiquetasSeguidas() {
         return $this->belongsToMany('App\Models\Etiqueta', 'utilizador_ativo_etiqueta', 'id_utilizador', 'id_etiqueta');
+    }
+
+    public function segueEtiqueta(Etiqueta $etiqueta) {
+        return $query = DB::table('utilizador_ativo_etiqueta')
+            ->where('id_utilizador', $this->id)
+            ->where('id_etiqueta', $etiqueta->id)
+            ->exists();
     }
 }

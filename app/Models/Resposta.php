@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Resposta extends Model {
-    public $timestamp = false;
+    public $timestamps = false;
 
     public $table = 'resposta';
 
@@ -16,7 +16,7 @@ class Resposta extends Model {
     }
 
     public function questao() {
-        return $this->belongsTo('App\Model\Questao', 'id_questao', 'id');
+        return $this->belongsTo('App\Models\Questao', 'id_questao', 'id');
     }
 
     public function comentarios() {
