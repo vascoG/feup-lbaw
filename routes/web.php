@@ -49,7 +49,7 @@ Route::get('/admin/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name
 Route::post('/admin/etiquetas', 'Admin\EtiquetaController@criaEtiqueta');
 Route::patch('/admin/etiqueta/{id}', 'Admin\EtiquetaController@alteraEtiqueta');
 Route::delete('/admin/etiqueta/{id}', 'Admin\EtiquetaController@apagaEtiqueta');
-Route::get('/admin/moderadores','AdminController@showModerador');
+Route::get('/admin/moderadores','AdminController@showModerador')->name('admin-moderadores');
 Route::get('/admin/banimento','AdminController@showApelo');
 Route::patch('/admin/moderadores/editar/{idUtilizador}','AdminController@alteraModerador');
 
