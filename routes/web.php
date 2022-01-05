@@ -55,8 +55,6 @@ Route::get('/admin/banimento','AdminController@showApelo');
 
 #M03
 Route::get('/questao/{idQuestao}','QuestaoController@show')->name('questao');
-
-#M03
 Route::get('/questoes', 'PesquisaController@mostraPesquisa')->name('pesquisa');
 
 #M04

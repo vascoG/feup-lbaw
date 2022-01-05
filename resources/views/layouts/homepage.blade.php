@@ -20,7 +20,8 @@
             </nav>
         </div>
         <div id="homepage-conteudo" class="d-flex flex-column flex-grow-1">
-            <div class="d-flex justify-content-end mb-3">
+            <div class="d-flex justify-content-between ms-3 mb-3">
+                @include('partials.botao-cria-questao')
                 @yield('barra-pesquisa')
             </div>
             <main>
