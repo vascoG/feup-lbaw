@@ -10,6 +10,9 @@
         </div>
         </div>
         <div class="col-7 corpo-comentario texto-interacoes">{{$comentario->texto}}
+        @if($user == $comentario->criador->id_utilizador)
+        <a href="{{route('editar-comentario',[$questao->id,$comentario->id])}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
+        @endif
         <hr>
         </div>
   </div> 

@@ -20,5 +20,12 @@ class ComentarioPolicy{
             return false;
         return $user->id == $comentario->autor || $user->administrador || $user->moderador;
     }
+    public function notBanned(?Utilizador $user)
+    {   
+        if ($user==null)
+            return true;
+        $user_banned = UtilizadorBanido::find($user->id);
+        return ($user_banned==null);
+    }
 
 }

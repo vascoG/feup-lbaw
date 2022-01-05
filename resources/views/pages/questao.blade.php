@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@push('scripts')
+    <script src="{{ asset('js/questao.js') }}"></script>
+@endpush
+
 @section('conteudo')
 
 <div class="container ">
@@ -20,20 +24,51 @@
       {{$etiqueta->nome}}
       </span>
       @endforeach
-      <button type="button" class="btn questao-button btn-sm float-end m-2" >Responder</button>
-      <button type="button" class="btn questao-button btn-sm float-end m-2">Comentar</button>
+      @if($user == $questao->criador->id_utilizador)
+      <a href="{{route('editar-questao',$questao->id)}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
+      @else
+      <button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button>
+      <button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button>
+      @endif
     </div>
   </div> 
   @foreach ($questao->comentarios as $comentario)
-      @include('partials.lista-comentario',['comentario'=>$comentario])
+      @include('partials.lista-comentario',['comentario'=>$comentario, 'user'=>$user])
   @endforeach
     @foreach ($questao->respostas as $resposta)
-      @include('partials.lista-resposta',['resposta'=>$resposta])
+      @include('partials.lista-resposta',['resposta'=>$resposta,'user'=>$user])
       @foreach ($resposta->comentarios as $comentario)
-        @include('partials.lista-comentario',['comentario'=>$comentario])
+        @include('partials.lista-comentario',['comentario'=>$comentario,'user'=>$user])
       @endforeach
     @endforeach
 </div>
+  <div>
+    <form method = "POST" action="{{route('criar-resposta',$questao->id)}}"  id="formResposta"  class="hidden">
+    {{ csrf_field() }}
+      <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
+      <div>
+      <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
+      </div>
+    </form>
+  </div>
+  <div>
+    <form method = "POST" action="{{route('criar-comentario',$questao->id)}}"  id="formComentario"  class="hidden">
+    {{ csrf_field() }}
+      <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
+      <div>
+      <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
+      </div>
+    </form>
+  </div>
+  <div>
+    <form method = "POST" action="{{route('criar-comentario-resposta', [$questao->id,0])}}"  id="formComentarioResposta"  class="hidden">
+    {{ csrf_field() }}
+      <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
+      <div>
+      <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
+      </div>
+    </form>
+  </div>
 
 
 
