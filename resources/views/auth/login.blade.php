@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@section('titulo')
+Login
+@endsection
+
 @section('conteudo')
 <div class="d-flex justify-content-center pt-4">
     <form method="POST" action="{{ route('login') }}" class="form-autenticacao">

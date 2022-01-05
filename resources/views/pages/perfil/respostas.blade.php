@@ -5,13 +5,13 @@
 @endpush
 
 @section('titulo')
-Questões de {{ $nomeUtilizador }}
+Respostas de {{ $nomeUtilizador }}
 @endsection
 
 @section('conteudo')
 <div class="mx-3 mt-3">
     <div class="d-flex justify-content-between align-items-center">
-        <h3>Questões de {{ $nomeUtilizador }}</h3>
+        <h3>Questões respondidas por {{ $nomeUtilizador }}</h3>
         <a class="btn btn-primary" href="{{ url()->previous() }}">Voltar para a página anterior</a>
     </div>
     <div class="w-75 m-auto d-flex flex-column justify-content-start mt-3">

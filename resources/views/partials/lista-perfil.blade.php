@@ -2,7 +2,7 @@
     <h1>{{ $titulo }} ({{ $total }})</h1>
     <ul>
         @foreach ($colecao as $item)
-            <li dara-id={{ $item['id'] }}>{{ $item['desc'] }}</li>
+            <li><a class="link-secondary" href="{{ $rotaMap($item) }}">{{ $item['desc'] }}</a></li>
         @endforeach
     </ul>
     @if ($total > 4)

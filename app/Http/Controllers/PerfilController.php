@@ -35,6 +35,11 @@ class PerfilController extends Controller {
                     return ['id' => $item->id, 'desc' => $item->nome];
                 }),
             'totalEtiquetas' => $utilizador->ativo->etiquetasSeguidas->count(),
+            'colecaoRespostas' => $utilizador->ativo->respostas->slice(0, 4)
+                ->map(function ($item, $chave) {
+                    return ['desc' => $item->questao->titulo, 'id' => $item->questao->id];
+                }),
+            'totalRespostas' => $utilizador->ativo->respostas->count(),
         ]);
     }
 
@@ -172,6 +177,24 @@ class PerfilController extends Controller {
         return view('pages.perfil.questoes', [
             'nomeUtilizador' => $nomeUtilizador,
             'questoes' => $utilizador->ativo->questoes
+        ]);
+    }
+
+    public function mostraRespostas(Request $request, String $nomeUtilizador) {
+        $utilizador = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        if (is_null($utilizador)) {
+            return $this->viewNaoEncontrada();
+        }
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        return view('pages.perfil.respostas', [
+            'nomeUtilizador' => $nomeUtilizador,
+            'questoes' => $utilizador->ativo->respostas
+                ->map(function($resposta) {
+                    return $resposta->questao;
+                })
         ]);
     }
 }

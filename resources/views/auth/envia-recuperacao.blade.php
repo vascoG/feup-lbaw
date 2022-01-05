@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@section('titulo')
+Recuperar Conta
+@endsection
+
 @section('conteudo')
 <div class="form-recuperacao">
     <form method="POST" action="{{ route('recupera-password') }}">

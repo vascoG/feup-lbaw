@@ -16,7 +16,7 @@ class Resposta extends Model {
     }
 
     public function questao() {
-        return $this->belongsTo('App\Model\Questao', 'id_questao', 'id');
+        return $this->belongsTo('App\Models\Questao', 'id_questao', 'id');
     }
 
     public function comentarios() {

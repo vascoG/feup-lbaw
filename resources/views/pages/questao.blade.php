@@ -4,8 +4,11 @@
     <script src="{{ asset('js/questao.js') }}"></script>
 @endpush
 
-@section('conteudo')
+@section('titulo')
+{{ $questao->titulo }}
+@endsection
 
+@section('conteudo')
 <div class="container ">
   <div class="row ">
     <div class="col-3">
