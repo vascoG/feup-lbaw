@@ -10,12 +10,12 @@
     <div class="col-9 corpo-questao">
     @if($user!=null)
     @if($user->moderador)
-      <form method = "POST" action="{{route('eliminar-comentario',[$questao->id,$comentario->id])}}" id="questao-eliminar-form">
+      <form method = "POST" action="{{route('eliminar-resposta',[$questao->id,$resposta->id])}}" id="questao-eliminar-form">
         {{ csrf_field() }}
         @method('DELETE')
         <button class="btn clearfix btn-sm eliminar-button float-end" type="submit" id="submit_button">
             <b>
-                ELIMINAR COMENTÁRIO
+                ELIMINAR RESPOSTA
             </b>
         </button>
         </form>

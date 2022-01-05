@@ -34,7 +34,7 @@
             <nav class="nav nav-pills flex-column flex-sm-row">
                 <a class="flex-sm-fill text-sm-center nav-link" href="{{ route('home') }}">Página Inicial</a>
                 <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'etiquetas' ? "active" : "" }}" href="{{ route('admin-etiquetas') }}">Etiquetas</a>
-                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'moderadores' ? "active" : "" }}" href="#">Moderadores</a>
+                <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'moderadores' ? "active" : "" }}" href="{{ route('admin-moderadores') }}">Moderadores</a>
                 <a class="flex-sm-fill text-sm-center nav-link {{ $selecionado == 'ban' ? "active" : "" }}" href="#">Apelos de Desbloqueio</a>
             </nav>
         </div>
