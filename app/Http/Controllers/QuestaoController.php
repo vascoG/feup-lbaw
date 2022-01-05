@@ -126,7 +126,7 @@ class QuestaoController extends Controller
         $this->authorize('notBanned',Questao::class);
         $questao = Questao::findOrFail($idQuestao);
         $criador=Utilizador::find($questao->criador->id_utilizador);
-        return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'user'=>Auth::id()]);
+        return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'user'=>Auth::user()]);
 
     }
 }
