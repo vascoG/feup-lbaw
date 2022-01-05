@@ -9,7 +9,11 @@
     </div>
     <div class="col-9 corpo-questao"><div class="texto-interacoes">{{$resposta->texto}}</div>
       <hr>
-      <button type="button" class="btn questao-button btn-sm float-end m-2">Comentar</button>
+      @if($user == $resposta->criador->id_utilizador)
+      <a href="{{route('editar-resposta',[$questao->id,$resposta->id])}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
+      @else
+      <button type="button" class="btn questao-button btn-sm float-end m-2 comentar-resposta" data-id="{{$resposta->id}}">Comentar</button>
+      @endif
     </div>
   </div> 
 </div>

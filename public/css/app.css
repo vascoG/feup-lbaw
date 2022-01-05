@@ -420,7 +420,7 @@ Criaçao e ediçao de questao
 	left: 75vw;
 }
 .hidden{
-	visibility: hidden;
+	display:none;
 }
 
 .publicar-button

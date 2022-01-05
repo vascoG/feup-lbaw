@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comentario;
+use App\Models\Resposta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -84,5 +85,55 @@ class ComentarioController extends Controller
             return abort(404);
         $comentario->delete();
         return redirect()->route('questao',[$questao]);
+    }
+    /**
+     * Cria um comentario a uma questão
+     * @return Comentario O novo comentário
+     */
+    public function createOnQuestion(Request $request, $idQuestao)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('notBanned',Comentario::class);
+        $validator = Validator::make($request->all(),
+            [
+                'texto' => 'required',
+            ]);
+        if($validator->fails())
+        {
+            return redirect()->route('questao',[$idQuestao])->withErrors($validator);
+        }
+
+        $comentario = new Comentario([
+            'autor' => Auth::id(),
+            'texto' => $request->get('texto'),
+            'id_questao' => $idQuestao,
+        ]);
+        $comentario->save();
+        return redirect()->route('questao',[$idQuestao]);
+    }
+     /**
+     * Cria um comentario a uma resposta
+     * @return Comentario O novo comentário
+     */
+    public function createOnResponse(Request $request, $idQuestao, $idResposta)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('notBanned',Comentario::class);
+        $validator = Validator::make($request->all(),
+            [
+                'texto' => 'required',
+            ]);
+        if($validator->fails())
+        {
+            return redirect()->route('questao',[$idQuestao])->withErrors($validator);
+        }
+
+        $comentario = new Comentario([
+            'autor' => Auth::id(),
+            'texto' => $request->get('texto'),
+            'id_resposta' => $idResposta,
+        ]);
+        $comentario->save();
+        return redirect()->route('questao',[$idQuestao]);
     }
 }
