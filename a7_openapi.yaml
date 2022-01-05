@@ -1255,7 +1255,7 @@ paths:
           description: 'Resposta ou Questão não encontradas.'
     delete:
       operationId: R311
-      summary: 'R310: Desmarca resposta correta'
+      summary: 'R311: Desmarca resposta correta'
       description: 'Remove a marcação da resposta correta da questão fornecida. Acesso: OWN'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
