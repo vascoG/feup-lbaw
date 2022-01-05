@@ -14,7 +14,7 @@ class AdminController extends Controller
     public function showModerador()
     {
         if(!Auth::check()) return redirect('/login');
-        $this->authorize('admin');
+        $this->authorize('admin', Utilizador::class);
         $users = UtilizadorAtivo::paginate(40);
         return view('pages.admin.moderadores',['users'=>$users]);
     }
@@ -26,7 +26,7 @@ class AdminController extends Controller
                 ->header('Content-type', 'text/plain');
         }
         if(!Auth::check()) return redirect('/login');
-        $this->authorize('admin');
+        $this->authorize('admin', Utilizador::class);
         $moderador = $utilizador->moderador;
         
         if ($moderador) {
