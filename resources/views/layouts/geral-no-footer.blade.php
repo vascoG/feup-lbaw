@@ -33,7 +33,6 @@
         <div class="ms-auto">
           <nav id="geral-header-navbar">
             <a class="link-header" href="{{ route('sobre-nos') }}">Sobre nós</a>
-            <a class="link-header" href="{{ route('servicos') }}">Serviços</a>
             <a class="link-header" href="{{ route('faq') }}">FAQ</a>
             <a class="link-header" href="{{ route('contactos') }}">Contactos</a>
           </nav>
