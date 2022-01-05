@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Home
+//M05
 Route::get('/', 'Homepage\HomepageController@mostraHomepage')->name('home');
 Route::get('/para-si', 'Homepage\ParaSiController@mostraParaSi')->name('para-si');
 Route::get('/tendencias', 'Homepage\TendenciasController@mostraTendencias')->name('tendencias');

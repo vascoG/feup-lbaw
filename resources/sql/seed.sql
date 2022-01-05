@@ -863,3 +863,36 @@ INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_p
   '
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus finibus neque sit amet commodo. Quisque odio dui, auctor at tellus a, fermentum accumsan sapien. Curabitur laoreet pretium elit, in pharetra neque vulputate ut. Maecenas vitae quam mattis, aliquet libero vitae, faucibus nisi. Vestibulum facilisis elit ac rutrum ultricies. Quisque ut euismod metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi semper a neque eu egestas erat curae.'
 );
+
+INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
+  'John Doe',
+  'john_doe',
+  'admin@lbaw.com',
+  '1971-05-13',
+  '$2y$10$rwClQ/VTJaYaY70VnRhF1OBb.ofm4eik/L.IDS6it7jQZYKzfFIVq',
+  FALSE,
+  TRUE,
+  'Administrador da FinJet'
+);
+
+INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
+  'Grace Goe',
+  'grace_goe',
+  'mod@lbaw.com',
+  '1980-06-12',
+  '$2y$10$.Da73Iz90YaCBcpmfnL0CukDtPTyqutsrYRWhq/cgAeXJj0Ge7B8i',
+  TRUE,
+  FALSE,
+  'Moderador da FinJet'
+);
+
+INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
+  'John Smith',
+  'john_smith',
+  'user@lbaw.com',
+  '1990-12-12',
+  '$2y$10$ZEbVfFMJozLDwar4nZbjtesnr1MpVZmAJTFfJOec2MLnEdDnHG2WO',
+  FALSE,
+  FALSE,
+  'Simples utilizador da FinJet'
+);

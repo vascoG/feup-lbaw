@@ -54,9 +54,8 @@ class ComentarioController extends Controller
                 'texto' => 'required',
             ]);
 
-        if($validator->fails())
-        {
-            return redirect()->route('editar-resposta',[$idQuestao, $idComentario])->withErrors($validator);
+        if($validator->fails()) {
+            return redirect()->route('edit-comentario',[$idQuestao, $idComentario])->withErrors($validator);
         }
 
 

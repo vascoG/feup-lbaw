@@ -364,10 +364,97 @@ paths:
         '403':
           description: 'ID encontrado, mas cliente não tem permissões de alteração'
 
-  /perfil/{nomeUtilizador}/apelos:
+  /perfil/{nomeUtilizador}/etiquetas:
     get:
       operationId: R114
-      summary: 'R114: Lista os apelos do utilizador.'
+      summary: 'R114: Mostra a lista completa de etiquetas de um utilizador'
+      description: 'Mostra uma página com as etiquetas seguidas por um utilizador. Acesso: USR'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: 'Ok. A página é mostrada.'
+        404:
+          description: 'O nome de utilizador referido não foi encontrado.'
+        302:
+          description: 'Redirecção ao verificar que utilizador não está autenticado'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Login:
+                  description: 'Página de Login'
+                  value: '/login'
+
+  /perfil/{nomeUtilizador}/questoes:
+    get:
+      operationId: R115
+      summary: 'R115: Mostra a lista completa de questões de um utilizador'
+      description: 'Mostra uma página com as questões publicadas por um utilizador. Acesso: USR'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: 'Ok. A página é mostrada.'
+        404:
+          description: 'O nome de utilizador referido não foi encontrado.'
+        302:
+          description: 'Redirecção ao verificar que utilizador não está autenticado'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Login:
+                  description: 'Página de Login'
+                  value: '/login'
+  
+  /perfil/{nomeUtilizador}/respostas:
+    get:
+      operationId: R116
+      summary: 'R116: Mostra a lista completa de questões respondidas por um utilizador'
+      description: 'Mostra uma página com as questões respondidas por um utilizador. Acesso: USR'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: nomeUtilizador
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: 'Ok. A página é mostrada.'
+        404:
+          description: 'O nome de utilizador referido não foi encontrado.'
+        302:
+          description: 'Redirecção ao verificar que utilizador não está autenticado'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Login:
+                  description: 'Página de Login'
+                  value: '/login'
+
+  /perfil/{nomeUtilizador}/apelos:
+    get:
+      operationId: R117
+      summary: 'R117: Lista os apelos do utilizador.'
       description: 'Mostra uma página com os apelos do utilizador. Se este puder fazer mais apelos é apresentado um formulário de apelos. Acesso: BAN'
       tags:
         - 'M01: Autenticação e perfil individual'
@@ -383,8 +470,8 @@ paths:
         '403': 
           description: 'O utilizador não está banido ou autenticado.'
     post:
-      operationId: R115
-      summary: 'R115: Cria um novo apelo de desbloqueio.'
+      operationId: R118
+      summary: 'R118: Cria um novo apelo de desbloqueio.'
       tags:
         - 'M01: Autenticação e perfil individual'
       parameters:
@@ -419,8 +506,8 @@ paths:
 
   /seguidos/etiqueta/{idEtiqueta}:
     patch: 
-      operationId: R116
-      summary: 'R116: Altera o estado da etiqueta em relação a um utilizador'
+      operationId: R119
+      summary: 'R119: Altera o estado da etiqueta em relação a um utilizador'
       description: 'Se o utilizador referido seguir a etiqueta então deixará de a seguir, se não a seguir acontece o contrário. Acesso: OWN (em relação ao perfil)'
       tags:
         - 'M01: Autenticação e perfil individual'
@@ -446,27 +533,6 @@ paths:
           description: 'A requisição foi rejeitada porque o utilizador não está autenticado.'
         404:
           description: 'A etiqueta não foi encontrada.'
-  
-  /perfil/{nomeUtilizador}/etiquetas:
-    get:
-      operationId: R117
-      summary: 'R117: Mostra a lista completa de etiquetas de um utilizador'
-      description: 'Mostra uma página com as etiquetas seguidas por um utilizador. Acesso: USR'
-      tags:
-        - 'M01: Autenticação e perfil individual'
-      parameters:
-        - in: path
-          name: nomeUtilizador
-          schema:
-            type: string
-          required: true
-      responses:
-        200:
-          description: 'Ok. A página é mostrada.'
-        403:
-          description: 'A requisição foi rejeitada porque o utilizador não está autenticado.'
-        404:
-          description: 'O utilizador não foi encontrado'
 
 #M02 
   /sobrenos:
@@ -489,6 +555,7 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página Contactos'
+
   /faq:
     get:
       operationId: R203
@@ -499,21 +566,11 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostra a página FAQ'
-  /servicos:
-    get:
-      operationId: R204
-      summary: 'R204: Serviços'
-      description: 'Mostra a página Serviços. Acesso: PUB'
-      tags:
-      - 'M02: Administração de utilizadores e páginas estáticas'
-      responses:
-        '200':
-          description: 'Ok. Mostra a página Serviços.'
 
   /admin/moderadores:
     get:
-      operationId: R205
-      summary: 'R205: Administração de moderadores do sistema'
+      operationId: R204
+      summary: 'R204: Administração de moderadores do sistema'
       description: 'Mostra a página de administração de moderadores do sistema. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
@@ -531,47 +588,41 @@ paths:
                         type: integer
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
-    put:
-      operationId: R206
-      summary: 'R206: Alteração de permissões de moderador'
+
+  /admin/moderadores/editar/{idUtilizador}:
+    patch:
+      operationId: R205
+      summary: 'R205: Alteração de permissões de moderador através do path'
       description: 'Adiciona ou remove moderadores ao sistema. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
-      
-      requestBody:
-        required: true
-        content:
-          application/json: #checkbox?
-            schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  moderador:
-                    type: boolean
-                  idUtilizador:
-                    type: integer
+      parameters:
+        - in: path
+          name: idUtilizador
+          schema:
+            type: integer
+          required: true 
       responses:
-        '302':
-          description: 'Redirecionando após alterar permissões de moderador'
-          headers:
-            Location:
-              schema:
-                type: string
-              examples:
-                302Sucesso:
-                  description: 'Alteração de permissão aceite. Redirecionando para a página de moderador'
-                  value: '/admin/moderadores'
-                302Erro:
-                  description: 'Alteração de permissão rejeitada. Redirecionando para a página de moderador' 
-                  value: '/admin/moderadores'
-        '403':
-          description: 'O utilizador autenticado não tem permissões suficientes.'
+              200:
+                description: 'A requisição foi processada com sucesso.'
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        novoEstado:
+                          type: string
+                          enum: [MODERADOR, NAO_MODERADOR]
+                          description: 'Retorna o novo estado após processamento da requisição'
+              403:
+                description: 'A requisição foi rejeitada porque o utilizador não tem permissão.'
+              404:
+                description: 'O utilizador não foi encontrado.'
 
   /admin/banimento:
     get:
-      operationId: R207
-      summary: 'R207: Administração de moderadores do sistema'
+      operationId: R206
+      summary: 'R206: Administração de moderadores do sistema'
       description: 'Mostra a página de apelos de banimento. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
@@ -590,8 +641,8 @@ paths:
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
     put:
-      operationId: R208
-      summary: 'R208: Desbloqueia contas'
+      operationId: R207
+      summary: 'R207: Desbloqueia contas'
       description: 'Desbloqueia contas. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -624,8 +675,8 @@ paths:
 
   /bloqueio/{idUtilizador}:
     put:
-      operationId: R209
-      summary: '209: Bane um utilizador.'
+      operationId: R208
+      summary: '208: Bane um utilizador.'
       description: 'Quando é feita com sucesso, o utilizador é banido. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -654,8 +705,8 @@ paths:
                   description: 'Bloqueio de conta rejeitado. Redirecionando o perfil.' 
                   value: '/perfil/{idUtilizador}'
     delete:
-      operationId: R210
-      summary: 'R210: Desbloqueia utilizador'
+      operationId: R209
+      summary: 'R209: Desbloqueia utilizador'
       description: 'Quando é feito o pedido, o utilizador anteriormente banido é desbloqueado.'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -686,8 +737,8 @@ paths:
 
   /admin/etiquetas:
     get: 
-      operationId: R211
-      summary: 'R211: Apresenta a pagina de manuseio de etiquetas'
+      operationId: R210
+      summary: 'R210: Apresenta a pagina de manuseio de etiquetas'
       description: 'Apresenta a página de manuseio de etiquetas.'
       parameters:
         - in: query
@@ -704,8 +755,8 @@ paths:
           description: 'O utilizador não tem permissoes para manusear etiquetas.'
 
     post:
-      operationId: R212
-      summary: 'R212: Regista uma nova etiqueta'
+      operationId: R211
+      summary: 'R211: Regista uma nova etiqueta'
       description: 'Permite criar uma nova etiqueta. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -754,8 +805,8 @@ paths:
 
   /admin/etiqueta/{id}:
     patch: 
-      operationId: R213
-      summary: 'R213: Altera a etiqueta referenciada no path.'
+      operationId: R212
+      summary: 'R212: Altera a etiqueta referenciada no path.'
       description: 'Permite alterar o texto de uma etiqueta existente. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -811,8 +862,8 @@ paths:
           description: 'A etiqueta referida não foi encontrada.'
 
     delete:
-        operationId: R214
-        summary: 'R214: Apaga a etiqueta referenciada no path.'
+        operationId: R213
+        summary: 'R213: Apaga a etiqueta referenciada no path.'
         description: 'Permite apagar uma etiqueta existente. Acesso: ADM'
         tags:
           - 'M02: Administração de utilizadores e páginas estáticas'
@@ -1024,6 +1075,16 @@ paths:
           description: 'Resposta criada com sucesso'
         '403':
           description: 'Não foi possível criar a questão'
+        '302':
+          description: 'Redirecção ao verificar que utilizador não está autenticado'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Login:
+                  description: 'Página de Login'
+                  value: '/login'
 
   /questao/{idQuestao}/criar-comentario:
     post:
@@ -1063,6 +1124,16 @@ paths:
           description: 'Resposta criada com sucesso'
         '403':
           description: 'Não foi possível criar a questão'
+        '302':
+          description: 'Redirecção ao verificar que utilizador não está autenticado'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Login:
+                  description: 'Página de Login'
+                  value: '/login'
 
   /questao/{idQuestao}/criar-comentario-resposta/{idResposta}:
     post:
@@ -1107,6 +1178,16 @@ paths:
           description: 'Resposta criada com sucesso'
         '403':
           description: 'Não foi possível criar a questão'
+        '302':
+          description: 'Redirecção ao verificar que utilizador não está autenticado'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Login:
+                  description: 'Página de Login'
+                  value: '/login'
 
   /resposta-correta/{idQuestao}:
     get:
@@ -1168,7 +1249,7 @@ paths:
           description: 'Resposta ou Questão não encontradas.'
     delete:
       operationId: R311
-      summary: 'R310: Desmarca resposta correta'
+      summary: 'R311: Desmarca resposta correta'
       description: 'Remove a marcação da resposta correta da questão fornecida. Acesso: OWN'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
@@ -1267,7 +1348,7 @@ paths:
     
       responses:
         '302':
-          description: 'Redirecionando após criar questão'
+          description: 'Redirecionando após criar questão ou se não estiver autenticado.'
           headers:
             Location:
               schema:
@@ -1277,8 +1358,11 @@ paths:
                   description: 'Criação de questão feito com sucesso. Redirecionando para a página da questão'
                   value: '/questao/{idQuestao}'
                 302Erro:
-                  description: 'Falha na criação da questão. Redirecionando para a homepage' 
-                  value: '/'
+                  description: 'Falha na criação da questão. Redirecionando para o formulário. Apresenta os erros ao utilizador' 
+                  value: '/criarquestao'
+                302Login:
+                  description: 'Página de Login'
+                  value: '/login'
 
   /questao/{idQuestao}/editar:
     get:
@@ -1332,7 +1416,7 @@ paths:
     
       responses:
         '302':
-          description: 'Redirecionando após editar questão'
+          description: 'Redirecionando após editar questão. Ou para a página de login se o utilizador não estiver autenticado,'
           headers:
             Location:
               schema:
@@ -1342,8 +1426,12 @@ paths:
                   description: 'Edição de questão feito com sucesso. Redirecionando para a página da questão'
                   value: '/questao/{idQuestao}'
                 302Erro:
-                  description: 'Falha na edição da questão. Redirecionando para a página da questão' 
-                  value: '/questao/{idQuestao}'
+                  description: 'Falha na edição da questão. Redirecionando o formulário. Apresenta os erros de input.' 
+                  value: '/questao/{idQuestao}/editar'
+                302Login:
+                  description: 'Página de Login'
+                  value: '/login'
+
   /questao/{idQuestao}/editar-resposta/{idResposta}: 
     get:
       operationId: R405
@@ -1412,12 +1500,16 @@ paths:
                   description: 'Edição de resposta feito com sucesso. Redirecionando para a página da questão'
                   value: '/questao/{idQuestao}'
                 302Erro:
-                  description: 'Falha na edição da resposta. Redirecionando para a página da questão' 
-                  value: '/questao/{idQuestao}'
+                  description: 'Falha na edição da resposta. Redirecionando para o formulário com erros apresentados' 
+                  value: '/questao/{idQuestao}/editar-resposta/{idResposta}'
+                302Login:
+                  description: 'Página de Login se o utilizador não estiver autenticado.'
+                  value: '/login'
         '403':
           description: 'O utilizador não tem permissões suficientes.'
         '404':
           description: 'ID não existe. Mostra página de erro.'
+
   /questao/{idQuestao}/editar-comentario/{idComentario}: 
       get:
         operationId: R407
@@ -1486,12 +1578,16 @@ paths:
                     description: 'Edição do comentário feito com sucesso. Redirecionando para a página da questão'
                     value: '/questao/{idQuestao}'
                   302Erro:
-                    description: 'Falha na edição do comentário. Redirecionando para a página da questão' 
-                    value: '/questao/{idQuestao}'
+                    description: 'Falha na edição do comentário. Redirecionando para o formulário com erros apresentados.' 
+                    value: '/questao/{idQuestao}/editar-comentario/{idComentario}'
+                  302Login:
+                    description: 'Página de Login se o utilizador não estiver autenticado.'
+                    value: '/login'
           '403':
             description: 'O utilizador não tem permissões suficientes.'
           '404':
             description: 'ID não existe. Mostra página de erro.'
+
   /questao/{idQuestao}/eliminar: 
       delete:
         operationId: R409
@@ -1520,10 +1616,14 @@ paths:
                   302Erro:
                     description: 'Falha na eliminação da questão. Redirecionando para a página da questão' 
                     value: '/questao/{idQuestao}'
+                  302Login:
+                    description: 'Página de Login se o utilizador não estiver autenticado.'
+                    value: '/login'
           '404':
             description: 'ID não existe. Mostra página de erro.'
           '403':
             description: 'O utilizador não tem permissões suficientes.'
+
   /questao/{idQuestao}/eliminar-resposta/{idResposta}: 
       delete:
         operationId: R410
@@ -1558,6 +1658,9 @@ paths:
                   302Erro:
                     description: 'Falha na eliminação da resposta. Redirecionando para a página da questão' 
                     value: '/questao/{idQuestao}'
+                  302Login:
+                    description: 'Página de Login se o utilizador não estiver autenticado.'
+                    value: '/login'
           '404':
             description: 'ID não existe. Mostra página de erro.'
           '403':
@@ -1596,11 +1699,67 @@ paths:
                     302Erro:
                       description: 'Falha na eliminação do comentário. Redirecionando para a página da questão' 
                       value: '/questao/{idQuestao}'
+                    302Login:
+                      description: 'Página de Login se o utilizador não estiver autenticado.'
+                      value: '/login'
             '404':
               description: 'ID não existe. Mostra página de erro.'
             '403':
               description: 'O utilizador não tem permissões suficientes.'
         
+#M05
+  /:
+    get:
+      operationId: R501
+      summary: 'R501: Homepage'
+      description: 'Redireciona o utilizador para a homepage adequada. Acesso: PUB'
+      tags:
+        - 'M05: Páginas da homepage'
+      responses:
+        '302':
+          description: 'Redirecionando após aceder à homepage.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Autenticado:
+                  description: 'O utilizador está autenticado e é redirecionado para a página que apresenta questões dirigidas ao mesmo.'
+                  value: '/para-si'
+                302Visitante:
+                  description: 'O utilizador não está autenticado e é redirecionado para a página que mostra as questões que são tendência.' 
+                  value: '/tendencias'
+  /para-si:
+    get:
+      operationId: R502
+      summary: 'R502: Questões dirigidas ao utilizador'
+      description: 'Apresenta as questões mais relevantes para o utilizador com base nas etiquetas que segue. Acesso: USR'
+      tags:
+        - 'M05: Páginas da homepage'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de questões dirigidas ao utilizador'
+        '403':
+          description: 'O utilizador não está autenticado'
 
+  /tendencias:
+    get:
+      operationId: R503
+      summary: 'R503: Questões que são tendencia'
+      description: 'Apresenta as questões mais recentemente publicadas. Acesso: PUB'
+      tags:
+        - 'M05: Páginas da homepage'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de questões que são tendência.'
 
-        
+  /etiquetas:
+    get:
+      operationId: R504
+      summary: 'R504: Aprenseta as etiquetas ao utilizador.'
+      description: 'Apresenta as etiquetas sobre as quais o utilizador poderá fazer pesquisas. Se estiver autenticado poderá também segui-las. Acesso: PUB'
+      tags:
+        - 'M05: Páginas da homepage'
+      responses:
+        '200':
+          description: 'Ok. Mostra a página de etiquetas.'
