@@ -67,7 +67,38 @@ class RespostaController extends Controller
         $this->authorize('editar',$resposta);
         if(!$questao->respostas->contains($resposta))
             return abort(404);
+        if($resposta->comentarios!=null)
+        {
+            foreach($resposta->comentarios as $comentario)
+                $comentario->delete();
+        }
         $resposta->delete();
         return redirect()->route('questao',[$questao]);
+    }
+     /**
+     * Cria uma resposta
+     * @return Resposta A novaresposta 
+     */
+    public function create(Request $request, $idQuestao)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('notBanned',Resposta::class);
+        $validator = Validator::make($request->all(),
+            [
+                'texto' => 'required',
+            ]);
+        if($validator->fails())
+        {
+            return redirect()->route('questao',[$idQuestao])->withErrors($validator);
+        }
+
+        $resposta = new Resposta([
+            'autor' => Auth::id(),
+            'texto' => $request->get('texto'),
+            'id_questao' => $idQuestao,
+            'resposta_aceite' => false,
+        ]);
+        $resposta->save();
+        return redirect()->route('questao',[$idQuestao]);
     }
 }

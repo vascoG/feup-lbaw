@@ -35,6 +35,8 @@ Route::delete('/perfil/{nomeUtilizador}', 'PerfilController@apagaPerfil');
 Route::get('/perfil/{nomeUtilizador}/editar', 'PerfilController@mostraEditar')->name('editar-perfil');
 Route::put('/perfil/{nomeUtilizador}/imagem', 'PerfilController@alteraImagem')->name('editar-perfil-imagem');
 Route::get('/perfil/{nomeUtilizador}/etiquetas', 'PerfilController@mostraEtiquetas')->name('perfil-etiquetas');
+Route::get('/perfil/{nomeUtilizador}/questoes', 'PerfilController@mostraQuestoes')->name('perfil-questoes');
+Route::get('/perfil/{nomeUtilizador}/respostas', 'PerfilController@mostraRespostas')->name('perfil-respostas');
 Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
 Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mudaEstado');
 
@@ -42,7 +44,6 @@ Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mu
 Route::view('/sobrenos', 'pages.estaticas.sobrenos')->name('sobre-nos');
 Route::view('/contactos', 'pages.estaticas.contactos')->name('contactos');
 Route::view('/faq', 'pages.estaticas.faq')->name('faq');
-Route::view('/servicos', 'pages.estaticas.servicos')->name('servicos');
 Route::redirect('/admin', '/admin/etiquetas')->name('admin');
 Route::get('/admin/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name('admin-etiquetas');
 Route::post('/admin/etiquetas', 'Admin\EtiquetaController@criaEtiqueta');
@@ -54,9 +55,10 @@ Route::patch('/admin/moderadores/editar/{idUtilizador}','AdminController@alteraM
 
 #M03
 Route::get('/questao/{idQuestao}','QuestaoController@show')->name('questao');
-
-#M03
 Route::get('/questoes', 'PesquisaController@mostraPesquisa')->name('pesquisa');
+Route::post('questao/{idQuestao}/criar-comentario','ComentarioController@createOnQuestion')->name('criar-comentario');
+Route::post('questao/{idQuestao}/criar-comentario-resposta/{idResposta}','ComentarioController@createOnResponse')->name('criar-comentario-resposta');
+Route::post('questao/{idQuestao}/criar-resposta','RespostaController@create')->name('criar-resposta');
 
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm')->name('criarquestao');
@@ -70,4 +72,6 @@ Route::delete('questao/{idQuestao}/eliminar-resposta/{idResposta}','RespostaCont
 Route::get('questao/{idQuestao}/editar-comentario/{idComentario}','ComentarioController@showEditForm')->name('editar-comentario');
 Route::put('questao/{idQuestao}/editar-comentario/{idComentario}','ComentarioController@edit')->name('edit-comentario');
 Route::delete('questao/{idQuestao}/eliminar-comentario/{idComentario}','ComentarioController@delete')->name('eliminar-comentario');
+
+
 

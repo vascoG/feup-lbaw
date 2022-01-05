@@ -622,27 +622,54 @@ paths:
                   description: 'Desbloqueio de conta rejeitado. Redirecionando para a página de banimento' 
                   value: '/admin/banimento'
 
-  /banir:
-    post: 
+  /bloqueio/{idUtilizador}:
+    put:
       operationId: R209
       summary: '209: Bane um utilizador.'
       description: 'Quando é feita com sucesso, o utilizador é banido. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
-      requestBody:
-        required: true
-        content:
-          application/json: #checkbox?
-            schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  idUtilizador: 
-                    type: integer
+      parameters:
+        - in: path
+          name: idUtilizador
+          schema:
+            type: integer
+          required: true 
       responses:
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
+        '404':
+          description: 'O utilizador fornecido não existe.'
+        '302':
+          description: 'Redirecionando após bloquear ou desbloquear a conta'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Sucesso:
+                  description: 'Bloqueio feito com sucesso. Redirecionando o perfil.'
+                  value: '/perfil/{idUtilizador}'
+                302Erro:
+                  description: 'Bloqueio de conta rejeitado. Redirecionando o perfil.' 
+                  value: '/perfil/{idUtilizador}'
+    delete:
+      operationId: R210
+      summary: 'R210: Desbloqueia utilizador'
+      description: 'Quando é feito o pedido, o utilizador anteriormente banido é desbloqueado.'
+      tags:
+        - 'M02: Administração de utilizadores e páginas estáticas'
+      parameters:
+        - in: path
+          name: idUtilizador
+          schema:
+            type: integer
+          required: true 
+      responses:
+        '403':
+          description: 'O utilizador autenticado não tem permissões suficientes.'
+        '404':
+          description: 'O utilizador fornecido não existe.'
         '302':
           description: 'Redirecionando após bloquear ou desbloquear a conta'
           headers:
@@ -659,8 +686,8 @@ paths:
 
   /admin/etiquetas:
     get: 
-      operationId: R210
-      summary: 'R210: Apresenta a pagina de manuseio de etiquetas'
+      operationId: R211
+      summary: 'R211: Apresenta a pagina de manuseio de etiquetas'
       description: 'Apresenta a página de manuseio de etiquetas.'
       parameters:
         - in: query
@@ -677,8 +704,8 @@ paths:
           description: 'O utilizador não tem permissoes para manusear etiquetas.'
 
     post:
-      operationId: R211
-      summary: 'R211: Regista uma nova etiqueta'
+      operationId: R212
+      summary: 'R212: Regista uma nova etiqueta'
       description: 'Permite criar uma nova etiqueta. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -719,14 +746,16 @@ paths:
                     properties:
                       nome:
                         type: array
-                        description: 'Lista com strings que informam o utilizador dos erros que ocorreram na validação.'
+                        items:
+                          type: string
+                          description: 'Lista com strings que informam o utilizador dos erros que ocorreram na validação.'
         '403':
           description: 'O utilizador não tem permissoes para manusear etiquetas.'
 
   /admin/etiqueta/{id}:
     patch: 
-      operationId: R212
-      summary: 'R212: Altera a etiqueta referenciada no path.'
+      operationId: R213
+      summary: 'R213: Altera a etiqueta referenciada no path.'
       description: 'Permite alterar o texto de uma etiqueta existente. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
@@ -773,15 +802,17 @@ paths:
                     properties:
                       nome:
                         type: array
-                        description: 'Lista com strings que informam o utilizador dos erros que ocorreram na validação.'
+                        items:
+                          type: string
+                          description: 'Lista com strings que informam o utilizador dos erros que ocorreram na validação.'
         '403':
           description: 'O utilizador não tem permissoes para manusear etiquetas.'
         '404':
           description: 'A etiqueta referida não foi encontrada.'
 
     delete:
-        operationId: R213
-        summary: 'R213: Apaga a etiqueta referenciada no path.'
+        operationId: R214
+        summary: 'R214: Apaga a etiqueta referenciada no path.'
         description: 'Permite apagar uma etiqueta existente. Acesso: ADM'
         tags:
           - 'M02: Administração de utilizadores e páginas estáticas'
@@ -806,6 +837,7 @@ paths:
             description: 'O utilizador não tem permissoes para manusear etiquetas.'
           '404':
             description: 'A etiqueta referida não foi encontrada.'
+
 #M03
   /questao/{idQuestao}:
     get:
@@ -851,12 +883,15 @@ paths:
                   properties:
                     nVotos:
                       type: integer
+                    votada:
+                      type: boolean
+                      description: 'Representa se determinado utilizador votou na questão. Se o utilizador não estiver autenticado é sempre falso.'
         '404':
           description: 'Erro. Questão com determinado id não encontrada'
-    put:
+    patch:
       operationId: R303
       summary: 'R303: Votação em questões.'
-      description: 'Processa um pedido de voto em determinada questão. Acesso: USR'
+      description: 'Processa um pedido de voto em determinada questão. Se a questão tiver o voto de quem fez o pedido o voto é retirado senão é colocado. Acesso: USR'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
       parameters:
@@ -865,22 +900,22 @@ paths:
           schema:
             type: integer
           required: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                voto:
-                  type: boolean
-                idUtilizador:
-                  type: integer
       responses:
         '200':
-          description: 'Voto pôde ser processado'
+          description: 'Voto pôde ser processado. Retorna o novo estado do voto na questão'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  novoEstado:
+                    type: string
+                    enum: [VOTADA, NAO_VOTADA]
+                    description: 'Representa o novo valor do estado da votação após a requisição'
         '403':
           description: 'Voto foi inválido, o utilizador não tem permissão para votar'
+        '404':
+          description: 'Erro. Questão com determinado id não encontrada'
 
   /votar/resposta/{idResposta}:
     get:
@@ -907,12 +942,15 @@ paths:
                   properties:
                     nVotos:
                       type: integer
+                    votada:
+                      type: boolean
+                      description: 'Representa se determinado utilizador votou na questão. Se o utilizador não estiver autenticado é sempre falso.'
         '404':
           description: 'Erro. Resposta com determinado id não encontrada'
-    put:
+    patch:
       operationId: R305
       summary: 'R305: Votação em resposta.'
-      description: 'Processa um pedido de voto em determinada resposta. Acesso: USR'
+      description: 'Processa um pedido de voto em determinada resposta. Se a resposta tiver o voto de quem fez o pedido o voto é retirado senão é colocado. Acesso: USR'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
       parameters:
@@ -934,17 +972,34 @@ paths:
                   type: integer
       responses:
         '200':
-          description: 'Voto pôde ser processado'
+          description: 'Voto pôde ser processado. Retorna o novo estado da votação'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  novoEstado:
+                    type: string
+                    enum: [VOTADA, NAO_VOTADA]
+                    description: 'Representa o novo valor do estado da votação após a requisição'
         '403':
           description: 'Voto foi inválido, o utilizador não tem permissão para votar'
+        '404':
+          description: 'Erro. Resposta com determinado id não encontrada'
 
-  /criar/resposta:
+  /questao/{idQuestao}/criar-resposta:
     post:
       operationId: R306
       summary: 'R306: Criação de Respostas.'
       description: 'Processa o pedido de criação de uma resposta a uma questão. Acesso: USR'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true 
       requestBody:
         required: true
         content:
@@ -970,13 +1025,63 @@ paths:
         '403':
           description: 'Não foi possível criar a questão'
 
-  /criar/comentario:
+  /questao/{idQuestao}/criar-comentario:
     post:
       operationId: R307
-      summary: 'R307: Criação de Comentários.'
+      summary: 'R307: Criação de Comentários na questão.'
       description: 'Processa o pedido de criação de um comentário a uma questão ou resposta. Acesso: USR'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true 
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                texto:
+                  type: string
+                autor:
+                  description: 'ID do utilizador autenticado no momento do pedido'
+                  type: integer
+                idQuestao:
+                  description: 'ID da questão onde se pretende inserir o comentário'
+                  type: integer
+                idResposta:
+                  description: 'ID da resposta onde se pretende inserir o comentário'
+              required:
+                - texto
+                - autor
+      responses:
+        '200':
+          description: 'Resposta criada com sucesso'
+        '403':
+          description: 'Não foi possível criar a questão'
+
+  /questao/{idQuestao}/criar-comentario-resposta/{idResposta}:
+    post:
+      operationId: R308
+      summary: 'R308: Criação de Comentários numa resposta.'
+      description: 'Processa o pedido de criação de um comentário a uma questão ou resposta. Acesso: USR'
+      tags:
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true 
+        - in: path
+          name: idResposta
+          schema:
+            type: integer
+          required: true 
       requestBody:
         required: true
         content:
@@ -1005,8 +1110,8 @@ paths:
 
   /resposta-correta/{idQuestao}:
     get:
-      operationId: R308
-      summary: 'R308: Acesso à resposta correta.'
+      operationId: R309
+      summary: 'R309: Acesso à resposta correta.'
       description: 'Retorna o id da resposta correta a uma determinada questão. Acesso: PUB'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
@@ -1028,9 +1133,11 @@ paths:
                   properties:
                     idResposta:
                       type: integer
+        '404':
+          description: 'Questão não encontrada'
     post:
-      operationId: R309
-      summary: 'R309: Marca a resposta correta.'
+      operationId: R310
+      summary: 'R310: Marca a resposta correta.'
       description: 'Marca como correta a resposta de id enviado. Acesso: OWN'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
@@ -1056,12 +1163,33 @@ paths:
         '200': 
           description: 'Resposta marcada com sucesso'
         '403':
+          description: 'Voto não permitido. Utilizador não é OWN.'
+        '404':
           description: 'Resposta ou Questão não encontradas.'
+    delete:
+      operationId: R311
+      summary: 'R310: Desmarca resposta correta'
+      description: 'Remove a marcação da resposta correta da questão fornecida. Acesso: OWN'
+      tags:
+        - 'M03: Visualização, votação, pesquisa e resposta a questões'
+      parameters:
+        - in: path
+          name: idQuestao
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Pedido efetuado com sucesso.'
+        '403':
+          description: 'O utilizador não é OWN da questão.'
+        '404':
+          description: 'A questão não foi encontrada.'
 
   /questoes:
       get:
-        operationId: R310
-        summary: 'R310: Lista de Questões'
+        operationId: R312
+        summary: 'R312: Lista de Questões'
         description: 'Mostra a lista de questões associadas a uma pesquisa. Acesso: PUB'
         tags:
           - 'M03: Visualização, votação, pesquisa e resposta a questões'

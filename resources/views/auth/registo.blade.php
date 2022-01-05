@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@section('titulo')
+Registar
+@endsection
+
 @section('conteudo')
 <div class="d-flex justify-content-center pt-4">
   <form id="login-form" class="form-autenticacao" method="POST" action="{{ route('registo') }}">

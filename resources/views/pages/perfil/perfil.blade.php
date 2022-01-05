@@ -46,9 +46,16 @@ Perfil de {{ $usr->nome_utilizador }}
         <div id="perfil-listagens">
             @if ($usr->ativo->questoes->count())
                 @include('partials.lista-perfil', [
+                    'nomeUtilizador' => $usr->nome_utilizador,
                     'titulo' => 'As minhas questões',
                     'colecao' => $colecaoQuestoes,
-                    'total' => $totalQuestoes
+                    'total' => $totalQuestoes,
+                    'rotaVerMais' => route('perfil-questoes', [
+                        'nomeUtilizador' => $usr->nome_utilizador
+                    ]),
+                    'rotaMap' => function($questao) {
+                        return route('questao', $questao['id']);
+                    }
                 ])
             @endif
             @if ($usr->ativo->etiquetasSeguidas->count())
@@ -56,7 +63,29 @@ Perfil de {{ $usr->nome_utilizador }}
                     'nomeUtilizador' => $usr->nome_utilizador,
                     'titulo' => 'Etiquetas seguidas',
                     'colecao' => $colecaoEtiquetas,
-                    'total' =>  $totalEtiquetas
+                    'total' =>  $totalEtiquetas,
+                    'rotaVerMais' => route('perfil-etiquetas', [
+                        'nomeUtilizador' => $usr->nome_utilizador
+                    ]),
+                    'rotaMap' => function($etiqueta) {
+                        return route('pesquisa', [
+                            'etiqueta' => $etiqueta['id']
+                        ]);
+                    }
+                ])
+            @endif
+            @if ($usr->ativo->respostas->count())
+                @include('partials.lista-perfil', [
+                    'nomeUtilizador' => $usr->nome_utilizador,
+                    'titulo' => 'Questões Que Respondi',
+                    'colecao' => $colecaoRespostas,
+                    'total' =>  $totalRespostas,
+                    'rotaVerMais' => route('perfil-respostas', [
+                        'nomeUtilizador' => $usr->nome_utilizador
+                    ]),
+                    'rotaMap' => function($resposta) {
+                        return route('questao', $resposta['id']);
+                    }
                 ])
             @endif
         </div>

@@ -1,5 +1,9 @@
 @extends('layouts.homepage')
 
+@push('scripts')
+    <script src={{ asset('js/lista-questoes.js') }}></script>
+@endpush
+
 @section('titulo')
 Tendencias
 @endsection

@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@section('titulo')
+Alteração de Password
+@endsection
+
 @section('conteudo')
 <div class="form-recuperacao">
     <form method="POST" action="{{ route('altera-password', $token) }}">

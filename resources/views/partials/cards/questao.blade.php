@@ -16,6 +16,6 @@
             {{ $questao->criador->utilizador->nome_utilizador }}
         </a>
         <div class="vr mx-1"></div>
-        <p>{{ $questao->data_publicacao->setTimezone('Europe/Lisbon')->format('d/m/Y h:i') }}</p>
+        <p>{{ $questao->data_publicacao->setTimezone('Europe/Lisbon')->format('d/m/Y H:i') }}</p>
     </div>
 </article>
