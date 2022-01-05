@@ -588,42 +588,36 @@ paths:
                         type: integer
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
-    put:
+
+  /admin/moderadores/editar/{idUtilizador}:
+    patch:
       operationId: R205
-      summary: 'R205: Alteração de permissões de moderador'
+      summary: 'R205: Alteração de permissões de moderador através do path'
       description: 'Adiciona ou remove moderadores ao sistema. Acesso: ADM'
       tags:
       - 'M02: Administração de utilizadores e páginas estáticas'
-      
-      requestBody:
-        required: true
-        content:
-          application/json: #checkbox?
-            schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  moderador:
-                    type: boolean
-                  idUtilizador:
-                    type: integer
+      parameters:
+        - in: path
+          name: idUtilizador
+          schema:
+            type: integer
+          required: true 
       responses:
-        '302':
-          description: 'Redirecionando após alterar permissões de moderador'
-          headers:
-            Location:
-              schema:
-                type: string
-              examples:
-                302Sucesso:
-                  description: 'Alteração de permissão aceite. Redirecionando para a página de moderador'
-                  value: '/admin/moderadores'
-                302Erro:
-                  description: 'Alteração de permissão rejeitada. Redirecionando para a página de moderador' 
-                  value: '/admin/moderadores'
-        '403':
-          description: 'O utilizador autenticado não tem permissões suficientes.'
+              200:
+                description: 'A requisição foi processada com sucesso.'
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        novoEstado:
+                          type: string
+                          enum: [MODERADOR, NAO_MODERADOR]
+                          description: 'Retorna o novo estado após processamento da requisição'
+              403:
+                description: 'A requisição foi rejeitada porque o utilizador não tem permissão.'
+              404:
+                description: 'O utilizador não foi encontrado.'
 
   /admin/banimento:
     get:
@@ -1255,7 +1249,7 @@ paths:
           description: 'Resposta ou Questão não encontradas.'
     delete:
       operationId: R311
-      summary: 'R310: Desmarca resposta correta'
+      summary: 'R311: Desmarca resposta correta'
       description: 'Remove a marcação da resposta correta da questão fornecida. Acesso: OWN'
       tags:
         - 'M03: Visualização, votação, pesquisa e resposta a questões'
