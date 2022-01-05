@@ -734,7 +734,9 @@ Criaçao e ediçao de questao
 .homepage-etiqueta-acao-espera {
 	display: none;
 }
-
+.admin-moderador-acao-espera {
+	display: none;
+}
 /*
 Página estáticas
 */
