@@ -19,6 +19,19 @@
       </div>
     </div>
     <div class="col-9 corpo-questao">
+      @if($user!=null)
+    @if($user->moderador)
+      <form method = "POST" action="{{route('eliminar-questao',$questao->id)}}" id="questao-eliminar-form">
+        {{ csrf_field() }}
+        @method('DELETE')
+        <button class="btn clearfix btn-sm eliminar-button float-end" type="submit" id="submit_button">
+            <b>
+                ELIMINAR QUESTÃO
+            </b>
+        </button>
+        </form>
+        @endif
+        @endif
       <h3>{{$questao->titulo}}</h3>
       <div class= "texto-interacoes">{{$questao->texto}}</div>
       <hr>
@@ -27,12 +40,15 @@
       {{$etiqueta->nome}}
       </span>
       @endforeach
-      @if($user == $questao->criador->id_utilizador)
+      @if($user!=null)
+      @if($user->id == $questao->criador->id_utilizador)
       <a href="{{route('editar-questao',$questao->id)}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
       @else
       <button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button>
       <button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button>
       @endif
+      @endif
+
     </div>
   </div> 
   @foreach ($questao->comentarios as $comentario)
