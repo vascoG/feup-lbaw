@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-3">
       <div class="media">
-        <img class="mr-3 rounded-circle" src="{{$resposta->criador->utilizador->imagem_perfil}}"></img>
+        <img class="mr-3 rounded-circle" src="{{ asset($resposta->criador->utilizador->imagem_perfil) }}"></img>
         <p class="nome">{{$resposta->criador->utilizador->nome}}</p>
         <p class="text-muted">{{date('d/m/y H:i:s',strtotime($resposta->data_publicacao))}}</p>
       </div>
