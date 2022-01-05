@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class EtiquetaController extends PesquisaEtiquetaController {
     public function mostraEtiquetas() {
-       // $this->authorize('admin', Etiqueta::class);
+        $this->authorize('admin', Etiqueta::class);
         $etiquetas = $this->pesquisaEtiquetas(request('query'));
 
         return view('pages.admin.etiquetas', [
@@ -19,7 +19,7 @@ class EtiquetaController extends PesquisaEtiquetaController {
     }
 
     public function criaEtiqueta(Request $request) {
-       // $this->authorize('admin', Etiqueta::class);
+        $this->authorize('admin', Etiqueta::class);
         $validator = Validator::make($request->all(), [
             'nome' => 'required|unique:etiqueta'
         ]);
@@ -40,7 +40,7 @@ class EtiquetaController extends PesquisaEtiquetaController {
     }
 
     public function alteraEtiqueta(Request $request, $id) {
-        //$this->authorize('admin', Etiqueta::class);
+        $this->authorize('admin', Etiqueta::class);
         $validator = Validator::make($request->all(), [
             'nome' => 'required|unique:etiqueta'
         ]);
@@ -67,7 +67,7 @@ class EtiquetaController extends PesquisaEtiquetaController {
     }
 
     public function apagaEtiqueta(Request $request, $id) {
-       // $this->authorize('admin', Etiqueta::class);
+        $this->authorize('admin', Etiqueta::class);
         $etiqueta = Etiqueta::find($id);
         if (is_null($etiqueta)) {
             return response('Etiqueta nao encontrada', 404)

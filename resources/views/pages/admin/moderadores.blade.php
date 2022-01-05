@@ -25,4 +25,7 @@ Administração de moderadores
           Verifique a sua ligação com a internet e tente novamente. 
         </div>
     </div>
+    <div class="d-flex justify-content-center my-3">
+    {{ $users->links() }}
+</div>
 @endsection

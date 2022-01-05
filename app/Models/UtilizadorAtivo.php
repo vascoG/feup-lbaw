@@ -52,11 +52,4 @@ class UtilizadorAtivo extends Model {
     public function etiquetasSeguidas() {
         return $this->belongsToMany('App\Models\Etiqueta', 'utilizador_ativo_etiqueta', 'id_utilizador', 'id_etiqueta');
     }
-
-    public function segueEtiqueta(Etiqueta $etiqueta) {
-        return DB::table('utilizador_ativo_etiqueta')
-            ->where('id_utilizador', $this->id)
-            ->where('id_etiqueta', $etiqueta->id)
-            ->exists();
-    }
 }

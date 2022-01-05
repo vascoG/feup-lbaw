@@ -8,7 +8,7 @@ Array.from(moderadores).forEach((user) => {
             e.stopPropagation();
             submete.style.display = 'none';
             esperaResposta.style.display = "block";
-            fetch(`${window.location.origin}/admin/moderadores`, {
+            fetch(`${window.location.origin}/admin/moderadores/editar/${submete.dataset.id}`, {
                 method: 'PATCH',
                 credentials: "same-origin",
                 headers: {
@@ -18,6 +18,7 @@ Array.from(moderadores).forEach((user) => {
             })
             .then((response) => response.json())
             .then((jsonData) => {
+                console.log(jsonData);
                 esperaResposta.style.display = 'none';
                 submete.style.display = 'block';
                 if (jsonData.novoEstado == "MODERADOR") {
@@ -35,8 +36,4 @@ Array.from(moderadores).forEach((user) => {
     }
 });
 
-for(let i = 0; i < moderadores.length; i++) {
-    moderadores[i].addEventListener('click', (_) => {
-        window.location.href = `${window.location.origin}/admin?moderadores=${moderadores[i].dataset.id}`;
-    })
-}
+
