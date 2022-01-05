@@ -2,6 +2,9 @@
 
 @section('conteudo')
 
+@section('titulo')
+FAQ
+@endsection
 
 <div class="pagina-estaticas">
     <h3 class="text-center mb-4 pb-2 text-faq fw-bold">Preguntas Frequentes</h3>

@@ -403,12 +403,10 @@ Criaçao e ediçao de questao
 
 }
 
-.questao-texto
-{
+.questao-texto {
 	height: 20vw;
 	resize:none;
 	margin-bottom:10px;
-
 }
 
 .questao-button
@@ -804,4 +802,8 @@ Página estáticas
 		width: 100%;
 		display: block;
 	}
+}
+
+#teste {
+	margin: 0 auto;
 }

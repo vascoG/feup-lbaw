@@ -1,7 +1,10 @@
 @extends('layouts.geral')
 
-@section('conteudo')
+@section('titulo')
+Sobre nós
+@endsection
 
+@section('conteudo')
 <div class="pagina-estaticas">
   <h1>Sobre nós</h1>
   <p>FinJet é um site que nasceu em 2021 de forma a ajudar os nossos utilizadores na área das finanças pessoais.</p>
