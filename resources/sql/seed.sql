@@ -853,18 +853,6 @@ LANGUAGE plpgsql;
 SELECT atualiza_ids();
 
 INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
-  'Francisco Oliveira',
-  'frpdoliv3',
-  'up201907361@edu.fe.up.pt',
-  '2001-09-02',
-  '$2y$10$Lxm.cac1TzyQReLN0PxOGevZCHP0hNVfB2HPP6PZRahcPJF47GqfG',
-  TRUE,
-  TRUE,
-  '
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus finibus neque sit amet commodo. Quisque odio dui, auctor at tellus a, fermentum accumsan sapien. Curabitur laoreet pretium elit, in pharetra neque vulputate ut. Maecenas vitae quam mattis, aliquet libero vitae, faucibus nisi. Vestibulum facilisis elit ac rutrum ultricies. Quisque ut euismod metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi semper a neque eu egestas erat curae.'
-);
-
-INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
   'John Doe',
   'john_doe',
   'admin@lbaw.com',
