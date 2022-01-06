@@ -9,7 +9,7 @@ function atualizaDescCharCnt() {
 function apagaImagem(e) {
     e.preventDefault();
     let nomeUtilizador = document.getElementById('edita-perfil-imagem').dataset.nomeUtilizador;
-    fetch(`${window.location.origin}/perfil/frpdoliv3/imagem`, {
+    fetch(`${window.location.origin}/perfil/${nomeUtilizador}/imagem`, {
         method: 'DELETE',
         credentials: "same-origin",
         headers: {
