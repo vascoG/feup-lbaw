@@ -15,6 +15,8 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 class Utilizador extends Authenticable implements CanResetPassword{
     use Notifiable;
 
+    private static $imagemPadrao = 'storage/avatar-default.png';
+
     public $timestamps = false;
 
     protected $table = 'utilizador';
@@ -57,7 +59,7 @@ class Utilizador extends Authenticable implements CanResetPassword{
 
     public function getImagemPerfilAttribute($value) {
         if (is_null($value)) {
-            return 'storage/avatar-default.png';
+            return self::$imagemPadrao;
         }
         return $value;
     }
@@ -68,5 +70,13 @@ class Utilizador extends Authenticable implements CanResetPassword{
 
     public function sendPasswordResetNotification($token) {
         Mail::to($this->e_mail)->send(new RecuperaConta($this, $token));
+    }
+
+    public static function apagado() {
+        $utilizador = collect(new Utilizador);
+        $utilizador->nome_utilizador = '[apagado]';
+        $utilizador->nome = '[apagado]';
+        $utilizador->imagem_perfil = self::$imagemPadrao;
+        return $utilizador;
     }
 }

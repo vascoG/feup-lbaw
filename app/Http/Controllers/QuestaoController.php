@@ -6,6 +6,7 @@ use App\Models\Etiqueta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Questao;
@@ -125,8 +126,7 @@ class QuestaoController extends Controller
     public function show(Request $request, $idQuestao){
         $this->authorize('notBanned',Questao::class);
         $questao = Questao::findOrFail($idQuestao);
-        $criador=Utilizador::find($questao->criador->id_utilizador);
+        $criador = $questao->criador ? $questao->criador->utilizador : Utilizador::apagado();
         return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'user'=>Auth::user()]);
-
     }
 }
