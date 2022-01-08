@@ -7,61 +7,61 @@ Registar
 @section('conteudo')
 <div class="d-flex justify-content-center pt-4">
   <form id="login-form" class="form-autenticacao" method="POST" action="{{ route('registo') }}">
-    {{ csrf_field() }}
+    @csrf
 
-    <div class="form-group campo-form-autenticacao">
+    <div class="campo-form-autenticacao">
       <label for="nome-utilizador" class="form-label">Nome de utilizador</label>
-      <input id="nome-utilizador" class="form-control" type="text" name="nome_utilizador" value="{{ old('nome_utilizador') }}" required autofocus>
+      <input id="nome-utilizador" class="form-control {{ $errors->has('nome_utilizador') ? "is-invalid" : "" }}" type="text" name="nome_utilizador" value="{{ old('nome_utilizador') }}" required autofocus>
       @if ($errors->has('nome_utilizador'))
-        <span class="error">
-            {{ $errors->first('nome_utilizador') }}
-        </span>
+        <div class="invalid-feedback d-block">
+          {{ $errors->first('nome_utilizador') }}
+        </div>
       @endif
     </div>
 
-    <div class="form-group campo-form-autenticacao">
+    <div class="campo-form-autenticacao">
       <label for="nome" class="form-label">Nome de apresentação</label>
-      <input id="nome" class="form-control" type="text" name="nome" value="{{ old('nome') }}" required autofocus>
+      <input id="nome" class="form-control {{ $errors->has('nome') ? "is-invalid" : "" }}" type="text" name="nome" value="{{ old('nome') }}" required autofocus>
       @if ($errors->has('nome'))
-        <span class="error">
-            {{ $errors->first('nome') }}
-        </span>
+        <div class="invalid-feedback d-block">
+          {{ $errors->first('nome') }}
+        </div>
       @endif
     </div>
 
-    <div class="form-group campo-form-autenticacao">
+    <div class="campo-form-autenticacao">
       <label for="email" class="form-label">Endereço de E-Mail</label>
-      <input id="email" class="form-control" type="email" name="e_mail" value="{{ old('e_mail') }}" required>
+      <input id="email" class="form-control {{ $errors->has('e_mail') ? "is-invalid" : "" }}" type="email" name="e_mail" value="{{ old('e_mail') }}" required>
       @if ($errors->has('e_mail'))
-        <span class="error">
-            {{ $errors->first('e_mail') }}
-        </span>
+        <div class="invalid-feedback d-block">
+          {{ $errors->first('e_mail') }}
+        </div>
       @endif
     </div>
 
-    <div class="form-group campo-form-autenticacao">
+    <div class="campo-form-autenticacao">
       <label for="data-nascimento" class="form-label">Data de nascimento</label>
-      <input id="data-nascimento" class="form-control" type="date" name="data_nascimento" value="{{ old('data_nascimento') }}"required>
+      <input id="data-nascimento" class="form-control {{ $errors->has('data_nascimento') ? "is-invalid" : "" }}" type="date" name="data_nascimento" value="{{ old('data_nascimento') }}"required>
       @if ($errors->has('data_nascimento'))
-        <span class="error">
+        <div class="invalid-feedback d-block">
           {{ $errors->first('data_nascimento') }}
-        </span>
+        </div>
       @endif
     </div>
 
-    <div class="form-group campo-form-autenticacao">
+    <div class="campo-form-autenticacao">
       <label for="palavra_passe" class="form-label">Palavra-passe</label>
-      <input id="palavra_passe" class="form-control" type="password" name="palavra_passe" required>
-      @if ($errors->has('palavra_passe'))
-        <span class="error">
-            {{ $errors->first('palavra_passe') }}
-        </span>
-      @endif
+      <input id="palavra_passe" class="form-control {{ $errors->has('palavra_passe') ? "is-invalid" : "" }}" type="password" name="palavra_passe" required>
     </div>
 
-    <div class="form-group campo-form-autenticacao">
+    <div class="campo-form-autenticacao">
       <label for="palavra-passe-confirmacao" class="form-label">Confirmação da palavra-passe</label>
-      <input id="palavra-passe-confirmacao" class="form-control" type="password" name="palavra_passe_confirmation" required>
+      <input id="palavra-passe-confirmacao" class="form-control {{ $errors->has('palavra_passe') ? "is-invalid" : "" }}" type="password" name="palavra_passe_confirmation" required>
+      @if ($errors->has('palavra_passe'))
+        <div class="invalid-feedback d-block">
+          {{ $errors->first('palavra_passe') }}
+        </div>
+      @endif
     </div>
 
     <div class="campo-form-autenticacao" id="botoes-login">

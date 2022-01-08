@@ -29,29 +29,29 @@ Editar perfil de {{ $nomeUtilizador }}
     @method('PATCH')
     <div class="form-group">
         <label for="nome" class="form-label">Nome</label>
-        <input id="nome" class="form-control" type="text" name="nome" value="{{ is_null(old('nome')) ? $nome : old('nome') }}">
+        <input id="nome" class="form-control {{ $errors->has('nome') ? "is-invalid" : "" }}" type="text" name="nome" value="{{ is_null(old('nome')) ? $nome : old('nome') }}">
         @if ($errors->has('nome'))
-            <span class="error">
+            <div class="invalid-feedback d-block">
                 {{ $errors->first('nome') }}
-            </span>
+            </div>
         @endif
     </div>
     <div class="form-group">
         <label for="email" class="form-label">Email</label>
-        <input id="email" class="form-control" type="email" name="e_mail" value="{{ is_null(old('e_mail')) ? $email : old('e_mail') }}">
+        <input id="email" class="form-control {{ $errors->has('e_mail') ? "is-invalid" : "" }}" type="email" name="e_mail" value="{{ is_null(old('e_mail')) ? $email : old('e_mail') }}">
         @if ($errors->has('e_mail'))
-            <span class="error">
+            <div class="invalid-feedback d-block">
                 {{ $errors->first('e_mail') }}
-            </span>
+            </div>
         @endif
     </div>
     <div class="form-group">
         <label for="data_nascimento" class="form-label">Data de nascimento</label>
-        <input id="data_nascimento" class="form-control" type="date" name="data_nascimento" value="{{ is_null(old('data_nascimento')) ? \Carbon\Carbon::parse($dataNascimento)->format('Y-m-d') : old('data_nascimento') }}">
+        <input id="data_nascimento" class="form-control {{ $errors->has('data_nascimento') ? "is-invalid" : "" }}" type="date" name="data_nascimento" value="{{ is_null(old('data_nascimento')) ? \Carbon\Carbon::parse($dataNascimento)->format('Y-m-d') : old('data_nascimento') }}">
         @if ($errors->has('data_nascimento'))
-            <span class="error">
+            <div class="invalid-feedback d-block">
                 {{ $errors->first('data_nascimento') }}
-            </span>
+            </div>
         @endif
     </div>
     <div class="form-group">
@@ -62,11 +62,11 @@ Editar perfil de {{ $nomeUtilizador }}
 
     <div class="form-group">
         <label for="palavra_passe" class="form-label">Palavra-passe</label>
-        <input id="palavra_passe" class="form-control" type="password" name="palavra_passe">
+        <input id="palavra_passe" class="form-control {{ $errors->has('palavra_passe') ? "is-invalid" : "" }}" type="password" name="palavra_passe">
         @if ($errors->has('palavra_passe'))
-        <span class="error">
-            {{ $errors->first('palavra_passe') }}
-        </span>
+            <div class="invalid-feedback d-block">
+                {{ $errors->first('palavra_passe') }}
+            </div>
         @endif
     </div>
 

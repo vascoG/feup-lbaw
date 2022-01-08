@@ -7,27 +7,28 @@ Login
 @section('conteudo')
 <div class="d-flex justify-content-center pt-4">
     <form method="POST" action="{{ route('login') }}" class="form-autenticacao">
-        {{ csrf_field() }}
+        @csrf
 
-        <div class="form-group campo-form-autenticacao">
+        <div class="campo-form-autenticacao">
             <label for="email" class="form-label">Email</label>
-            <input id="email" type="email" name="e_mail" value="{{ old('e_mail') }}" class="form-control" required autofocus>
+            <input id="email" type="email" name="e_mail" value="{{ old('e_mail') }}" class="form-control {{ $errors->has('password') || $errors->has('e_mail') ? "is-invalid" : "" }}" required autofocus>
         </div>
-        @if ($errors->has('e_mail'))
-            <span class="erro-input">
-            {{ $errors->first('e_mail') }}
-            </span>
-        @endif
         
-        <div class="form-group campo-form-autenticacao">
+        <div class="campo-form-autenticacao">
             <label for="palavra-passe" class="form-label">Palavra-passe</label>
-            <input id="palavra-passe" type="password" name="password" class="form-control" required>
-            @if ($errors->has('password'))
-                <span class="erro-input">
-                    {{ $errors->first('password') }}
-                </span>
-            @endif
+            <input id="palavra-passe" type="password" name="password" class="form-control {{ $errors->has('password') || $errors->has('e_mail') ? "is-invalid" : "" }}" required>
         </div>
+        
+        @if ($errors->has('e_mail'))
+            <div class="invalid-feedback d-block campo-form-autenticacao">
+                {{ $errors->first('e_mail') }}
+            </div>
+        @endif
+        @if ($errors->first('password'))
+            <div class="invalid-feedback d-block campo-form-autenticacao">
+                {{ $errors->first('password') }}
+            </div>
+        @endif
 
         <div class="form-check campo-form-autenticacao">
             <label for="login-lembrar" class="form-check-label">Lembrar-me</label>
