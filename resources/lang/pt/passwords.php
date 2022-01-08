@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 return [
 
@@ -13,10 +14,9 @@ return [
     |
     */
 
-    'password' => 'Passwords must be at least six characters and match the confirmation.',
-    'reset' => 'Your password has been reset!',
-    'sent' => 'We have e-mailed your password reset link!',
-    'token' => 'This password reset token is invalid.',
-    'user' => "We can't find a user with that e-mail address.",
-    'throttled' => 'Please wait before trying again.',
+    'reset' => 'A sua palavra-passe foi redefinida!',
+    'sent' => 'Enviámos um email com link para recuperação da palavra-passe!',
+    'token' => 'O token de recuperação já expirou.',
+    'user' => 'Não encontrámos o seu utilizador.',
+    'throttled' => 'Por favor aguarde antes de tentar novamente.',
 ];

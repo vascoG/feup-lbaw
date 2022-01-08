@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 return [
 
@@ -13,6 +14,7 @@ return [
     |
     */
 
-    'failed' => "We couldn't find an account with that credentials",
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'Utilizador ou palavra-passe errados.',
+    'throttle' => 'Muitas tentativas falhadas. Tente novamente daqui a :seconds segundos.',
+
 ];

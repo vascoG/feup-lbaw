@@ -11,20 +11,20 @@ Alteração de Password
 
         <div class="form-group campo-form-autenticacao">
             <label for="email" class="form-label">Email</label>
-            <input id="email" type="email" name="e_mail" value="{{ old('e_mail') }}" class="form-control" required autofocus>
+            <input id="email" type="email" name="e_mail" value="{{ old('e_mail') }}" class="form-control {{ $errors->has('e_mail') ? "is-invalid" : "" }}" required autofocus>
         </div>
         @if ($errors->has('e_mail'))
-            <span class="erro-input">
-            {{ $errors->first('e_mail') }}
-            </span>
+            <div class="invalid-feedback d-block">
+                {{ $errors->first('e_mail') }}
+            </div>
         @endif
         <div class="form-group campo-form-autenticacao">
             <label for="palavra_passe" class="form-label">Palavra-passe</label>
-            <input id="palavra_passe" class="form-control" type="password" name="password" required>
+            <input id="palavra_passe" class="form-control {{ $errors->has('password') ? "is-invalid" : "" }}" type="password" name="password" required>
             @if ($errors->has('password'))
-            <span class="error">
-                {{ $errors->first('password') }}
-            </span>
+                <div class="invalid-feedback d-block">
+                    {{ $errors->first('password') }}
+                </div>
             @endif
         </div>
     
