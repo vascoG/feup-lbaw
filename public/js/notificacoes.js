@@ -1,0 +1,1 @@
+document.getElementById('lista-notificacoes').addEventListener('click', (e) => e.stopPropagation());

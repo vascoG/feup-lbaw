@@ -11,12 +11,12 @@ DROP TABLE IF EXISTS utilizador_ativo CASCADE;
 DROP TABLE IF EXISTS utilizador_banido CASCADE;
 DROP TABLE IF EXISTS apelo_desbloqueio CASCADE;
 DROP TABLE IF EXISTS medalha CASCADE;
-DROP TABLE IF EXISTS notificacao CASCADE;
+--DROP TABLE IF EXISTS notificacao CASCADE;
 DROP TABLE IF EXISTS historico_interacao CASCADE;
 DROP TABLE IF EXISTS resposta CASCADE;
 DROP TABLE IF EXISTS comentario CASCADE;
 DROP TABLE IF EXISTS questao CASCADE;
-DROP TABLE IF EXISTS utilizador_ativo_notificacao CASCADE;
+--DROP TABLE IF EXISTS utilizador_ativo_notificacao CASCADE;
 DROP TABLE IF EXISTS utilizador_ativo_medalha CASCADE;
 DROP TABLE IF EXISTS questao_seguida CASCADE;
 DROP TABLE IF EXISTS questao_avaliada CASCADE;
@@ -88,14 +88,14 @@ CREATE TABLE comentario(
   id_resposta INTEGER REFERENCES resposta(id) ON DELETE CASCADE
 );
 
-CREATE TABLE notificacao(
+/*CREATE TABLE notificacao(
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
   data_emissao TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_emissao <= now()),
   id_questao INTEGER REFERENCES questao(id) ON DELETE CASCADE,
   id_comentario INTEGER REFERENCES comentario(id) ON DELETE CASCADE,
   id_resposta INTEGER REFERENCES resposta(id) ON DELETE CASCADE
-);
+);*/
 
 CREATE TABLE historico_interacao(
   id SERIAL PRIMARY KEY,
@@ -107,12 +107,12 @@ CREATE TABLE historico_interacao(
 );
 
 
-CREATE TABLE utilizador_ativo_notificacao(
+/*CREATE TABLE utilizador_ativo_notificacao(
   id_utilizador INTEGER NOT NULL REFERENCES utilizador_ativo(id) ON UPDATE CASCADE ON DELETE CASCADE,
   id_notificacao INTEGER NOT NULL REFERENCES notificacao(id) ON UPDATE CASCADE ON DELETE CASCADE,
   data_lida TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL CHECK (data_lida <= now()),
   PRIMARY KEY (id_utilizador, id_notificacao)
-);
+);*/
 
 CREATE TABLE utilizador_ativo_medalha(
   id_medalha INTEGER NOT NULL REFERENCES medalha(id) ON UPDATE CASCADE,
@@ -255,16 +255,16 @@ CREATE VIEW reputacao AS
 DROP TRIGGER IF EXISTS auto_interacao_resposta ON resposta;
 DROP TRIGGER IF EXISTS auto_interacao_comentario ON comentario;
 DROP TRIGGER IF EXISTS pesquisa_questao ON questao;
-DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
+--DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_questoes ON questao_avaliada;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta_avaliada;
 DROP TRIGGER IF EXISTS verifica_data_resposta ON resposta;
 DROP TRIGGER IF EXISTS verifica_data_comentario_resposta ON comentario;
 DROP TRIGGER IF EXISTS verifica_data_comentario_questao ON comentario;
 DROP TRIGGER IF EXISTS apenas_um_tipo_interacao ON historico_interacao;
-DROP TRIGGER IF EXISTS apenas_um_tipo_interacao ON notificacao;
+--DROP TRIGGER IF EXISTS apenas_um_tipo_interacao ON notificacao;
 DROP TRIGGER IF EXISTS valor_autor_insere ON questao;
-DROP TRIGGER IF EXISTS valor_autor_insere ON notificacao;
+--DROP TRIGGER IF EXISTS valor_autor_insere ON notificacao;
 DROP TRIGGER IF EXISTS valor_autor_insere ON comentario;
 DROP TRIGGER IF EXISTS valor_questao_atualiza ON questao;
 DROP TRIGGER IF EXISTS valor_resposta_atualiza ON resposta;
@@ -355,7 +355,7 @@ CREATE TRIGGER pesquisa_questao
   TRIGGER QUE NOTIFICA TODOS OS UTILIZADORES QUANDO UMA NOTIFICAÇÃO É CRIADA
 */
 
-CREATE OR REPLACE FUNCTION atualiza_lista_notificacoes() RETURNS TRIGGER AS $$
+/*CREATE OR REPLACE FUNCTION atualiza_lista_notificacoes() RETURNS TRIGGER AS $$
 BEGIN
   INSERT INTO utilizador_ativo_notificacao (id_utilizador, id_notificacao)
   SELECT questao_seguida.id_utilizador, NEW.id
@@ -370,7 +370,7 @@ CREATE TRIGGER notifica_utilizador
     AFTER INSERT ON notificacao
     FOR EACH ROW
     WHEN (NEW.id_questao IS NOT NULL)
-    EXECUTE PROCEDURE atualiza_lista_notificacoes();
+    EXECUTE PROCEDURE atualiza_lista_notificacoes();*/
 
 /*
   TRIGGER PARA ATUALIZAR VIEW MATERIALIZADA DOS LIKES EM QUESTOES
@@ -504,10 +504,10 @@ CREATE TRIGGER apenas_um_tipo_historico
   FOR EACH ROW
   EXECUTE PROCEDURE apenas_um_tipo_interacao();
 
-CREATE TRIGGER apenas_um_tipo_interacao
+/*CREATE TRIGGER apenas_um_tipo_interacao
   BEFORE INSERT ON notificacao
   FOR EACH ROW
-  EXECUTE PROCEDURE apenas_um_tipo_interacao();
+  EXECUTE PROCEDURE apenas_um_tipo_interacao();*/
 
 /*
   TRIGGER QUE VERIFICA SE O AUTOR DAS INTERAÇÕES NÃO É NULO DURANTE A CRIAÇÃO
@@ -808,8 +808,8 @@ INSERT INTO comentario (id,texto,autor,id_questao)
 VALUES (generate_series(1,500),md5(random()::text),random()*500+401,random()*999+1);
 INSERT INTO comentario (id,texto,autor,id_resposta)
 VALUES (generate_series(501,1000),md5(random()::text),random()*500+401,random()*999+1);
-INSERT INTO notificacao(id,texto,id_questao)
-VALUES (generate_series(1,1010),md5(random()::text),random()*999+1);
+/*INSERT INTO notificacao(id,texto,id_questao)
+VALUES (generate_series(1,1010),md5(random()::text),random()*999+1);*/
 INSERT INTO etiqueta(id,nome)
 VALUES (generate_series(1,10),md5(random()::text));
 INSERT INTO questao_etiqueta(id_etiqueta, id_questao)

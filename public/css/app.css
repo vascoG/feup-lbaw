@@ -806,6 +806,14 @@ Página estáticas
 	}
 }
 
-#teste {
-	margin: 0 auto;
+/*
+	Estilos notificacoes
+*/
+
+.notificacao p {
+	white-space: nowrap;
+}
+
+.notificacao-underline:hover {
+	text-decoration: underline;
 }

@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Models\Etiqueta;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use DB;
 
 class UtilizadorAtivo extends Model {
+    use Notifiable;
+
     public $timestamps = false;
 
     public $table = 'utilizador_ativo';
@@ -27,10 +30,6 @@ class UtilizadorAtivo extends Model {
 
     public function comentarios() {
         return $this->hasMany('App\Models\Comentario', 'autor', 'id');
-    }
-
-    public function notificacoes() {
-        return $this->belongsToMany('App\Models\Notificacao', 'utilizador_ativo_notificacao', 'id_utilizador', 'id_notificacao')->withPivot('data_lida');
     }
 
     public function medalhas() {

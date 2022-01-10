@@ -40,18 +40,36 @@
         <div class="vr" id="header-vr"></div>
         <div>
           @if (Auth::check())
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="navbar-paginas-utilizador"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                {{ Auth::user()->nome }}
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="navbar-paginas-utilizador">
-                @can('admin', App\Models\Utilizador::class)
-                  <li><a class="dropdown-item" href="{{ route('admin') }}">Página de Administração</a></li>
-                @endcan
-                <li><a class="dropdown-item" href="{{ route('perfil', ['nomeUtilizador' => Auth::user()->nome_utilizador]) }}">Perfil</a></li>
-                <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
-              </ul>
+            <div class="btn-group" role="group" aria-label="Dados do utilizador">
+              <div class="dropdown btn-group">
+                <button class="btn btn-secondary" type="button" id="navbar-notificacoes-utilizador" data-bs-toggle="dropdown" aria-expanded="false">
+                    @if(Auth::user()->ativo->unreadNotifications->count())
+                      <i class="bi bi-bell-fill"></i>
+                    @else
+                      <i class="bi bi-bell"></i>
+                    @endif
+                </button>
+                <ul id="lista-notificacoes" class="dropdown-menu" aria-labelledby="navbar-notificacoes-utilizador">
+                  @if(!Auth::user()->ativo->unreadNotifications->count())
+                    <li>Não há notificações a mostrar</li>
+                  @else
+                    @each('partials.cards.notificacoes.notificacao', Auth::user()->ativo->unreadNotifications, 'notificacao')
+                  @endif
+                </ul>
+              </div>
+              <div class="dropdown btn-group">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="navbar-paginas-utilizador"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ Auth::user()->nome }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="navbar-paginas-utilizador">
+                  @can('admin', App\Models\Utilizador::class)
+                    <li><a class="dropdown-item" href="{{ route('admin') }}">Página de Administração</a></li>
+                  @endcan
+                  <li><a class="dropdown-item" href="{{ route('perfil', ['nomeUtilizador' => Auth::user()->nome_utilizador]) }}">Perfil</a></li>
+                  <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                </ul>
+              </div>
             </div>
           @else
             <a class="link-header" href="{{ route('login') }}">Login</a>
@@ -67,6 +85,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
+  <script src="{{ asset('js/notificacoes.js') }}"></script>
   @stack('scripts')
 </body>
 

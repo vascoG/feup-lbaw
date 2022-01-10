@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
+use App\Notifications\RespostaQuestao;
 use App\Models\Resposta;
 use App\Models\Questao;
 
@@ -99,6 +100,7 @@ class RespostaController extends Controller
             'resposta_aceite' => false,
         ]);
         $resposta->save();
+        Questao::find($idQuestao)->criador->notify(new RespostaQuestao($resposta));
         return redirect()->route('questao',[$idQuestao]);
     }
 }
