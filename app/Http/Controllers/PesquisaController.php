@@ -15,7 +15,7 @@ class PesquisaController extends Controller {
             $ordem = request('ordenar-ordem');
         }
         if(request('query')) {
-            $questoes->whereRaw("tsvectors @@ to_tsquery('portuguese', ?)", request('query'));
+            $questoes->whereRaw("tsvectors @@ to_tsquery('portuguese', ?)", "'".request('query')."'");
         }
         if(request('etiqueta')) {
             $etiquetasSelecionadas = explode(',', request('etiqueta'));
@@ -48,6 +48,8 @@ class PesquisaController extends Controller {
                 }
             }
         }
+        //dump(request('query'));
+        //dd($questoes->toSql());
         return $questoes->paginate(10)->withQueryString();
     }
 

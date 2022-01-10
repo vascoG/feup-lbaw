@@ -9,7 +9,7 @@ class PesquisaEtiquetaController extends Controller {
     public function pesquisaEtiquetas(?String $queryString) {
         $etiquetas = Etiqueta::query();
         if (!is_null($queryString)) {
-            $etiquetas->whereRaw("tsvectors @@ to_tsquery('portuguese', ?)", $queryString);
+            $etiquetas->whereRaw("tsvectors @@ to_tsquery('portuguese', ?)", "'".$queryString."'");
         }
         return $etiquetas->get();
     }
