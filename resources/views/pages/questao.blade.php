@@ -46,6 +46,7 @@
       @else
       <button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button>
       <button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button>
+      <button type="button" class="bi bi-hand-thumbs-up btn questao-button votar btn-sm float-end m-2">Gosto</button>
       @endif
       @endif
 

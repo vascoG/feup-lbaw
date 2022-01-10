@@ -59,6 +59,7 @@ Route::get('/questoes', 'PesquisaController@mostraPesquisa')->name('pesquisa');
 Route::post('questao/{idQuestao}/criar-comentario','ComentarioController@createOnQuestion')->name('criar-comentario');
 Route::post('questao/{idQuestao}/criar-comentario-resposta/{idResposta}','ComentarioController@createOnResponse')->name('criar-comentario-resposta');
 Route::post('questao/{idQuestao}/criar-resposta','RespostaController@create')->name('criar-resposta');
+Route::get('votar/questao/{idQuestao}','VotacaoController@votar')->name('votar');
 
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm')->name('criarquestao');
