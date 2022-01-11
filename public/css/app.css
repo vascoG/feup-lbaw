@@ -810,7 +810,23 @@ Página estáticas
 	Estilos notificacoes
 */
 
+#spinner-notificacoes {
+	visibility: hidden;
+}
+
+.sem-notificacoes {
+	white-space: nowrap;
+}
+
+.notificacao {
+	border: 1px solid grey;
+	border-radius: 10px;
+	margin-top: 10px;
+	padding: 10px;
+}
+
 .notificacao p {
+	flex-grow: 1;
 	white-space: nowrap;
 }
 
