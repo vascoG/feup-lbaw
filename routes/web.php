@@ -39,6 +39,9 @@ Route::get('/perfil/{nomeUtilizador}/questoes', 'PerfilController@mostraQuestoes
 Route::get('/perfil/{nomeUtilizador}/respostas', 'PerfilController@mostraRespostas')->name('perfil-respostas');
 Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
 Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mudaEstado');
+Route::get('/notificacoes', 'NotificacaoController@mostraNotificacoes');
+Route::delete('notificacoes', 'NotificacaoController@marcaTodasLida');
+Route::delete('/notificacao/{idNotificacao}', 'NotificacaoController@marcaLida');
 
 #M02
 Route::view('/sobrenos', 'pages.estaticas.sobrenos')->name('sobre-nos');
