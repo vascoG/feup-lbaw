@@ -59,4 +59,10 @@ class UtilizadorAtivo extends Model {
             ->where('id_etiqueta', $etiqueta->id)
             ->exists();
     }
+    public function votaQuestao(Questao $questao) {
+        return $query = DB::table('questao_avaliada')
+            ->where('id_utilizador', $this->id)
+            ->where('id_questao', $questao->id)
+            ->exists();
+    }
 }

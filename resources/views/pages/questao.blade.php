@@ -2,6 +2,7 @@
 
 @push('scripts')
     <script src="{{ asset('js/questao.js') }}"></script>
+    <script src="{{ asset('js/questao-votos.js') }}"></script>
 @endpush
 
 @section('titulo')
@@ -46,7 +47,17 @@
       @else
       <button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button>
       <button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button>
-      <button type="button" class="bi bi-hand-thumbs-up btn questao-button votar btn-sm float-end m-2">Gosto</button>
+      @auth
+      @if (Auth::user()->ativo->votaQuestao($questao))
+            <button type="button" class="bi bi-hand-thumbs-up btn questao-button votar btn-sm float-end m-2" data-id="{{ $questao->id }}">Não Gosto</button>
+      @else
+            <button type="button" class="bi bi-hand-thumbs-up btn questao-button votar btn-sm float-end m-2" data-id="{{ $questao->id }}">Gosto</button>
+      @endif
+      <button type="button" class="flex-grow-1 btn btn-primary homepage-etiqueta-acao-espera" data-id="{{ $questao->id }}" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+           A processar
+      </button>
+      @endauth
       @endif
       @endif
 

@@ -129,4 +129,37 @@ class QuestaoController extends Controller
         $criador = $questao->criador ? $questao->criador->utilizador : Utilizador::apagado();
         return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'user'=>Auth::user()]);
     }
+
+    public function votar(Request $request, $idQuestao) {
+        $questao = Questao::find($idQuestao);
+        if (is_null($questao)) {
+            return response('Questao nao encontrada', 404)
+                ->header('Content-type', 'text/plain');
+        }
+        if (!Auth::check()) {
+            return response('Nao esta autenticado', 403)
+                ->header('Content-type', 'text/plain');
+        }
+        $utilizador = Auth::user()->ativo;
+        $voto = $utilizador->votaQuestao($questao);
+
+        if ($voto) {
+            $questao->num_votos++; $questao->save();
+            DB::table('questao_avaliada')
+                ->where('id_utilizador', $utilizador->id)
+                ->where('id_questao', $questao->id)
+                ->delete();
+        } else {
+            $questao->num_votos--;  $questao->save();
+            DB::table('questao_avaliada')->insert([
+                'id_utilizador' => $utilizador->id,
+                'id_questao' => $idQuestao
+            ]);
+        }
+        $voto = !$voto;
+        return response()->json([
+            'novoEstado' => $voto ? 'VOTO' : 'NAO_VOTO'
+        ]);
+    }
+
 }
