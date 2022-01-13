@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Resposta extends Model {
     public $timestamps = false;
@@ -21,6 +22,14 @@ class Resposta extends Model {
 
     public function comentarios() {
         return $this->hasMany('App\Models\Comentario', 'id_resposta', 'id');
+    }
+
+    public function getNumeroVotosAttribute() {
+        return DB::table('gosto_respostas')
+            ->where('id_resposta', $this->id)
+            ->get()
+            ->first()
+            ->n_gosto;
     }
 
     public function notificacoes() {

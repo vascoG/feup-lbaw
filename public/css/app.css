@@ -734,9 +734,6 @@ Criaçao e ediçao de questao
 .homepage-etiqueta-acao-espera {
 	display: none;
 }
-.admin-moderador-acao-espera {
-	display: none;
-}
 /*
 Página estáticas
 */
@@ -809,11 +806,6 @@ Página estáticas
 /*
 	Estilos notificacoes
 */
-
-#spinner-notificacoes {
-	visibility: hidden;
-}
-
 .sem-notificacoes {
 	white-space: nowrap;
 }
@@ -832,4 +824,10 @@ Página estáticas
 
 .notificacao-underline:hover {
 	text-decoration: underline;
+}
+/*
+	Votos
+*/
+.voto-acao-espera {
+	display: none;
 }
