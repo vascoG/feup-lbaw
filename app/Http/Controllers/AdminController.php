@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\ApeloDesbloqueio;
 use App\Models\UtilizadorAtivo;
 use App\Models\Utilizador;
+use App\Models\UtilizadorBanido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -37,5 +38,12 @@ class AdminController extends Controller
         return response()->json([
             'novoEstado' => $utilizador->moderador ?  'MODERADOR' : 'NAO_MODERADOR'
         ]);
+    }
+    public function showApelo()
+    {
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('admin',Utilizador::class);
+        $apelos=ApeloDesbloqueio::all();
+        return view('pages.admin.apelos',['apelos'=>$apelos]);
     }
 }
