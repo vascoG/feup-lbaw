@@ -50,6 +50,14 @@ class Questao extends Model {
         return $this->belongsToMany('App\Models\Etiqueta', 'questao_etiqueta', 'id_questao', 'id_etiqueta');
     }
 
+    public function getNumeroVotosAttribute() {
+        return DB::table('gosto_questoes')
+            ->where('id_questao', $this->id)
+            ->get()
+            ->first()
+            ->n_gosto;
+    }
+
     public function scopeEmAlta($query) {
         return $query->orderByDesc('questao.data_publicacao');
     }
