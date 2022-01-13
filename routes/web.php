@@ -43,7 +43,7 @@ Route::get('/notificacoes', 'NotificacaoController@mostraNotificacoes')->name('n
 Route::delete('notificacoes', 'NotificacaoController@marcaTodasLida');
 Route::delete('/notificacao/{idNotificacao}', 'NotificacaoController@marcaLida');
 Route::get('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('perfil-apelos');
-Route::post('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('criar-apelo');
+Route::post('/perfil/{nomeUtilizador}/apelos','PerfilController@create')->name('criar-apelo');
 
 #M02
 Route::view('/sobrenos', 'pages.estaticas.sobrenos')->name('sobre-nos');
