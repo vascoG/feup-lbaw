@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApeloDesbloqueio;
 use App\Models\Utilizador;
 use Illuminate\Http\Request;
 use DB;
@@ -10,6 +11,7 @@ use Image;
 use Storage;
 use Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class PerfilController extends Controller {
     private function viewNaoEncontrada() {
@@ -216,5 +218,26 @@ class PerfilController extends Controller {
             'nomeUtilizador' => $nomeUtilizador,
             'apelos' => $apelos,
         ]);
+    }
+    public function create(Request $request)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('verApelo',Utilizador::class);
+        $utilizador=Auth::user();
+        $validator = Validator::make($request->all(),
+            [
+                'motivo' => 'required',
+            ]);
+        if($validator->fails())
+        {
+            return redirect()->route('criar-apelo',[$utilizador->nome_utilizador])->withErrors($validator);
+        }
+
+        $apelo = new ApeloDesbloqueio([
+            'id_utilizador' => Auth::id(),
+            'motivo' => $request->get('motivo'),
+        ]);
+        $apelo->save();
+        return redirect()->route('perfil-apelos',[$utilizador->nome_utilizador]);
     }
 }

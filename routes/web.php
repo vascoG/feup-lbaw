@@ -40,7 +40,7 @@ Route::get('/perfil/{nomeUtilizador}/respostas', 'PerfilController@mostraRespost
 Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
 Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mudaEstado');
 Route::get('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('perfil-apelos');
-Route::post('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('criar-apelo');
+Route::post('/perfil/{nomeUtilizador}/apelos','PerfilController@create')->name('criar-apelo');
 
 #M02
 Route::view('/sobrenos', 'pages.estaticas.sobrenos')->name('sobre-nos');
