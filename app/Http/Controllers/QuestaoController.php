@@ -144,13 +144,11 @@ class QuestaoController extends Controller
         $voto = $utilizador->votaQuestao($questao);
 
         if ($voto) {
-            $questao->num_votos++; $questao->save();
             DB::table('questao_avaliada')
                 ->where('id_utilizador', $utilizador->id)
                 ->where('id_questao', $questao->id)
                 ->delete();
         } else {
-            $questao->num_votos--;  $questao->save();
             DB::table('questao_avaliada')->insert([
                 'id_utilizador' => $utilizador->id,
                 'id_questao' => $idQuestao

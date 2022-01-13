@@ -1,12 +1,12 @@
 let conexaoToast = document.getElementById('homepage-etiqueta-conexao-erro');
-Array.from(questoes).forEach((questao) => {
-    let submete = questao.getElementsByClassName('votar')[0];
-    let esperaResposta = questao.getElementsByClassName('homepage-etiqueta-acao-espera')[0];
+    let submete = document.getElementsByClassName('votar-questao')[0];
+    let esperaResposta = document.getElementsByClassName('voto-acao-espera')[0];
     if (submete && esperaResposta) {
         submete.addEventListener('click', (e) => {
             e.stopPropagation();
             submete.style.display = 'none';
             esperaResposta.style.display = "block";
+            console.log(submete.dataset.id);
             fetch(`${window.location.origin}/votar/questao/${submete.dataset.id}`, {
                 method: 'PATCH',
                 credentials: "same-origin",
@@ -21,9 +21,15 @@ Array.from(questoes).forEach((questao) => {
                 esperaResposta.style.display = 'none';
                 submete.style.display = 'block';
                 if (jsonData.novoEstado == "VOTO") {
-                    submete.classList.add(" voto-ativo");
+                    submete.classList.add("voto-ativo");
+                    submete.classList.remove("bi-hand-thumbs-up");
+                    submete.classList.add("bi-hand-thumbs-down");
+                    submete.innerText = ' Não Gosto';
                 } else if (jsonData.novoEstado == "NAO_VOTO") {
                     submete.classList.remove("voto-ativo");
+                    submete.classList.remove("bi-hand-thumbs-down");
+                    submete.classList.add("bi-hand-thumbs-up");
+                    submete.innerText = ' Gosto';
                 }
             })
             .catch((_) => {
@@ -32,7 +38,6 @@ Array.from(questoes).forEach((questao) => {
                 bootstrap.Toast.getOrCreateInstance(conexaoToast).show();
             })
         });
-    }
-});
+    };
 
 
