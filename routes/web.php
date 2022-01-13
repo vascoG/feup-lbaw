@@ -39,6 +39,8 @@ Route::get('/perfil/{nomeUtilizador}/questoes', 'PerfilController@mostraQuestoes
 Route::get('/perfil/{nomeUtilizador}/respostas', 'PerfilController@mostraRespostas')->name('perfil-respostas');
 Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
 Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mudaEstado');
+Route::get('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('perfil-apelos');
+Route::post('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('criar-apelo');
 
 #M02
 Route::view('/sobrenos', 'pages.estaticas.sobrenos')->name('sobre-nos');

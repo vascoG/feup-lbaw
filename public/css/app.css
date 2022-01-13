@@ -567,6 +567,25 @@ Criaçao e ediçao de questao
 	-webkit-line-clamp: 4;
 	overflow: hidden;
 }
+/*
+	Card apelos de desbloqueio
+*/
+.card-apelos {
+	background-color: #DCDCDC;
+}
+
+.card-apelos-dados * {
+	font-weight: 300;
+	font-style: italic;
+	color: #19323C;
+	font-size: 0.90rem;
+}
+.card-apelos-body p {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 4;
+	overflow: hidden;
+}
 
 .etiqueta-pill {
 	cursor: pointer;

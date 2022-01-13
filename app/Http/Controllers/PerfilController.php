@@ -197,4 +197,24 @@ class PerfilController extends Controller {
                 })
         ]);
     }
+    public function mostraApelos(Request $request, String $nomeUtilizador){
+        $utilizador = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        $apelos=$utilizador->banido->apelos;
+        if (is_null($utilizador)) {
+            return $this->viewNaoEncontrada();
+        }
+        if (!Auth::check()) {
+            return redirect()->route('login');
+       }
+        $this->authorize('verApelo',Utilizador::class);
+        if(is_null($apelos)){
+            return view('pages.criarapelo',[
+                'nomeUtilizador' => $nomeUtilizador,
+            ]);
+        }
+        return view('pages.perfil.apelos',[
+            'nomeUtilizador' => $nomeUtilizador,
+            'apelos' => $apelos,
+        ]);
+    }
 }
