@@ -11,9 +11,28 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\Questao;
 use App\Models\Utilizador;
+use App\Models\Notificacao;
+use App\Notifications\VotoQuestaoNotification;
 
 class QuestaoController extends Controller
 {
+    private function notificaVoto($questao, $autorVoto) {
+        $notificacaoVoto = $questao
+            ->criador
+            ->unreadnotifications
+            ->first(function($notificacao) use($questao, $autorVoto) {
+                return (
+                    ($notificacao->data['idQuestao'] == $questao->id) && 
+                    ($notificacao->data['idAutorVoto'] == $autorVoto->id)
+                );
+            });
+        if (is_null($notificacaoVoto)) {
+            $questao->criador->notify(new VotoQuestaoNotification($questao, Auth::user()));
+        } else {
+            $notificacaoVoto->touch();
+        }
+    }
+
     /**
      * Mostra o formulário para criar uma questão
      * @return Response
@@ -117,7 +136,6 @@ class QuestaoController extends Controller
         $this->authorize('editar',$questao);
         $questao->delete();
         return redirect()->route('home');
-
     }
 
     /**
@@ -133,22 +151,22 @@ class QuestaoController extends Controller
     public function votar(Request $request, $idQuestao) {
         $questao = Questao::find($idQuestao);
         if (is_null($questao)) {
-            return response('Questao nao encontrada', 404)
-                ->header('Content-type', 'text/plain');
+            return response(view('errors.404'), 404)
+                ->header('Content-type', 'text/html');
         }
         if (!Auth::check()) {
-            return response('Nao esta autenticado', 403)
-                ->header('Content-type', 'text/plain');
+            return response(view('errors.403'), 403)
+                ->header('Content-type', 'text/html');
         }
         $utilizador = Auth::user()->ativo;
-        $voto = $utilizador->votaQuestao($questao);
-
+        $voto = $utilizador->questoesAvaliadas()->where('id_questao', $questao->id)->exists();
         if ($voto) {
             DB::table('questao_avaliada')
                 ->where('id_utilizador', $utilizador->id)
                 ->where('id_questao', $questao->id)
                 ->delete();
         } else {
+            $this->notificaVoto($questao, Auth::user());
             DB::table('questao_avaliada')->insert([
                 'id_utilizador' => $utilizador->id,
                 'id_questao' => $idQuestao

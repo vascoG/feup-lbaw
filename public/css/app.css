@@ -828,10 +828,6 @@ Página estáticas
 /*
 	Votos
 */
-.voto-ativo {
-	background-color:#DAA520;
-}
-
 .voto-acao-espera {
 	display: none;
 }

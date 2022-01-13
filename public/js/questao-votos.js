@@ -17,16 +17,13 @@ let conexaoToast = document.getElementById('homepage-etiqueta-conexao-erro');
             })
             .then((response) => response.json())
             .then((jsonData) => {
-                console.log(jsonData);
                 esperaResposta.style.display = 'none';
                 submete.style.display = 'block';
                 if (jsonData.novoEstado == "VOTO") {
-                    submete.classList.add("voto-ativo");
                     submete.classList.remove("bi-hand-thumbs-up");
                     submete.classList.add("bi-hand-thumbs-down");
                     submete.innerText = ' Não Gosto';
                 } else if (jsonData.novoEstado == "NAO_VOTO") {
-                    submete.classList.remove("voto-ativo");
                     submete.classList.remove("bi-hand-thumbs-down");
                     submete.classList.add("bi-hand-thumbs-up");
                     submete.innerText = ' Gosto';

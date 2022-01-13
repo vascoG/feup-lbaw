@@ -6,21 +6,22 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\Resposta;
 
-class RespostaQuestaoNotification extends Notification
+class VotoQuestaoNotification extends Notification
 {
     use Queueable;
 
-    private $resposta;
+    private $questao;
+    private $idAutorVoto;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Resposta $resposta) {
-        $this->resposta = $resposta;
+    public function __construct($questao, $autorVoto) {
+        $this->questao = $questao;
+        $this->idAutorVoto = $autorVoto->id;
     }
 
     /**
@@ -40,10 +41,12 @@ class RespostaQuestaoNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable) {
+    public function toArray($notifiable)
+    {
         return [
-            'idQuestao' => $this->resposta->questao->id,
-            'idAutorResposta' => $this->resposta->criador->utilizador->id
+            'idQuestao' => $this->questao->id,
+            'idAutorQuestao' => $this->questao->autor,
+            'idAutorVoto' => $this->idAutorVoto
         ];
     }
 }
