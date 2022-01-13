@@ -23,9 +23,6 @@ class PerfilController extends Controller {
         if (is_null($utilizador)) {
             return $this->viewNaoEncontrada();
         }
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
         return view('pages.perfil.perfil', [
             'usr' => $utilizador, 
             'colecaoQuestoes' => $this->questoesMaisRecentes($utilizador->ativo->id),

@@ -186,7 +186,7 @@ paths:
     get:
       operationId: R108
       summary: 'R108: Perfil do utilizador'
-      description: 'Mostra a informação do perfil de um utilizador. Acesso: USR, OWN'
+      description: 'Mostra a informação do perfil de um utilizador. Acesso: PUB'
       tags:
         - 'M01: Autenticação e perfil individual'
       

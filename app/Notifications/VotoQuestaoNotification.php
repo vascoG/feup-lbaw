@@ -45,7 +45,6 @@ class VotoQuestaoNotification extends Notification
     {
         return [
             'idQuestao' => $this->questao->id,
-            'idAutorQuestao' => $this->questao->autor,
             'idAutorVoto' => $this->idAutorVoto
         ];
     }

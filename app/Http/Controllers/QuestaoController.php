@@ -16,16 +16,29 @@ use App\Notifications\VotoQuestaoNotification;
 
 class QuestaoController extends Controller
 {
-    private function notificaVoto($questao, $autorVoto) {
-        $notificacaoVoto = $questao
+    private function encontraNotificacao($questao, $autorVoto) {
+        return $questao
             ->criador
-            ->unreadnotifications
+            ->unreadnotifications()
+            ->where('type', 'App\Notifications\VotoQuestaoNotification')
+            ->get()
             ->first(function($notificacao) use($questao, $autorVoto) {
                 return (
                     ($notificacao->data['idQuestao'] == $questao->id) && 
                     ($notificacao->data['idAutorVoto'] == $autorVoto->id)
                 );
             });
+    }
+
+    private function removeNotificacaoVoto($questao, $autorVoto) {
+        $notificacaoVoto = $this->encontraNotificacao($questao, $autorVoto);
+        if (!is_null($notificacaoVoto)) {
+            $notificacaoVoto->delete();
+        }
+    }
+
+    private function notificaVoto($questao, $autorVoto) {
+        $notificacaoVoto = $this->encontraNotificacao;
         if (is_null($notificacaoVoto)) {
             $questao->criador->notify(new VotoQuestaoNotification($questao, Auth::user()));
         } else {
@@ -161,6 +174,7 @@ class QuestaoController extends Controller
         $utilizador = Auth::user()->ativo;
         $voto = $utilizador->questoesAvaliadas()->where('id_questao', $questao->id)->exists();
         if ($voto) {
+            $this->removeNotificacaoVoto($questao, Auth::user());
             DB::table('questao_avaliada')
                 ->where('id_utilizador', $utilizador->id)
                 ->where('id_questao', $questao->id)
