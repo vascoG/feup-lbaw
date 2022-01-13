@@ -10,4 +10,8 @@ class ApeloDesbloqueio extends Model {
     public $table = 'apelo_desbloqueio';
 
     protected $fillable = ['motivo', 'id_utilizador'];
+
+    public function criador() {
+        return $this->belongsTo('App\Models\UtilizadorBanido', 'id_utilizador', 'id');
+    }
 }

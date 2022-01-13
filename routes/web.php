@@ -42,6 +42,8 @@ Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mu
 Route::get('/notificacoes', 'NotificacaoController@mostraNotificacoes')->name('notificacoes');
 Route::delete('notificacoes', 'NotificacaoController@marcaTodasLida');
 Route::delete('/notificacao/{idNotificacao}', 'NotificacaoController@marcaLida');
+Route::get('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('perfil-apelos');
+Route::post('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('criar-apelo');
 
 #M02
 Route::view('/sobrenos', 'pages.estaticas.sobrenos')->name('sobre-nos');
