@@ -43,8 +43,8 @@
       @if($user->id == $questao->criador->id_utilizador)
       <a href="{{route('editar-questao',$questao->id)}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
       @else
-      <button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button>
-      <button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button>
+      <a href="#formResposta"><button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button></a>
+      <a href="#formComentario"><button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button></a>
         @auth
           @if (Auth::user()->ativo->questoesAvaliadas()->where('id_questao', $questao->id)->exists())
                 <button type="button" class="bi bi-hand-thumbs-down btn questao-button votar-questao btn-sm float-end m-2" data-id="{{ $questao->id }}"> Não Gosto</button>
