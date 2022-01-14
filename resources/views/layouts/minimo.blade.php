@@ -35,6 +35,15 @@
         </main>
         @include('layouts.footer')
       </div>
+      <div id="erro-conexao" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-warning text-dark">
+          <strong class="me-auto">Ocorreu um erro ao submeter as alterações</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          Verifique a sua ligação com a internet e tente novamente. 
+        </div>
+      </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
       @stack('scripts')
   </body>

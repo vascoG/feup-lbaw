@@ -3,7 +3,7 @@ let fnRetomaSubmissao = new Map();
 let criaModal = document.getElementById('admin-cria-etiqueta-modal');
 let editaModal = document.getElementById('admin-edita-etiqueta-modal');
 let apagaModal = document.getElementById('admin-elimina-etiqueta-modal');
-let conexaoToast = document.getElementById('admin-etiqueta-conexao-erro');
+let conexaoToast = document.getElementById('erro-conexao');
 
 function apagaErrosInput(e) {
   let erros = e.target.getElementsByClassName('invalid-feedback');
