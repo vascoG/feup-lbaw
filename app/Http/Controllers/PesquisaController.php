@@ -48,8 +48,6 @@ class PesquisaController extends Controller {
                 }
             }
         }
-        //dump(request('query'));
-        //dd($questoes->toSql());
         return $questoes->paginate(10)->withQueryString();
     }
 
