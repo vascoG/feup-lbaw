@@ -56,6 +56,16 @@ lable {
 	user-select: none;
 }
 
+div > img {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	min-height: 100%;
+	min-width: 100%;
+	transform: translate(-50%, -50%);
+  }
+
 .nao-selecionavel {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -677,6 +687,31 @@ Criaçao e ediçao de questao
 
 #admin-etiqueta-card-container {
 	gap: 2vw;
+}
+
+/*
+	Admin - Moderadores
+*/
+.admin-moderador-img-wrap {
+	min-width: 150px;
+  	height: 150px;
+  	position: relative;
+  	display: inline-block;
+  	overflow: hidden;
+  	margin: 0;
+}
+
+.card-body {
+	word-break: break-all;
+}
+
+.admin-moderador-acao-espera {
+	display: none;
+}
+
+.admin-moderador-img-placeholder {
+	width: 150px;
+	height: 150px;
 }
 
 /*
