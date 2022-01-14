@@ -65,6 +65,14 @@ lable {
     user-select: none;
 }
 
+#erro-conexao {
+	position: fixed !important;
+	bottom: 10px !important;
+	left: 50% !important;
+	transform: translate(-50%, 0) !important;
+	z-index: 10000;
+}
+
 .btn-primary, .btn-primary:visited, .btn-primary:active, .btn-primary:enabled {
 	border: 1px solid #B88F27 !important;
 	background-color: #DAA520 !important;
@@ -202,12 +210,6 @@ lable {
 
 #botoes-login {
 	text-align: end;
-}
-
-.erro-input {
-	font-weight: bold;
-	color: #ff0033;
-	margin-left: 20px;
 }
 
 /*
@@ -629,11 +631,6 @@ Criaçao e ediçao de questao
 /*
 	Admin - Etiquetas
 */
-#admin-etiqueta-conexao-erro {
-	bottom: 10px;
-	z-index: 2000;
-}
-
 #admin-etiquetas {
 	margin: 20px 40px;
 }
