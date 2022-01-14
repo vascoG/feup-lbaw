@@ -426,12 +426,17 @@ Criaçao e ediçao de questao
 	border-style: outset;
 	border-color: #2F2D2E;
 	border-width: 1px;
-	margin-left: 80%;
+	margin-left: 90%;
 }
 .publicar-button:hover
 {
 	background-color: #2F2D2E;
 	color:#EAEAEA;
+}
+
+.label-publicar
+{
+	margin-top:15px;
 }
 .eliminar-button
 {

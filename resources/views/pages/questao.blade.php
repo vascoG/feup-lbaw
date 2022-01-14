@@ -69,10 +69,13 @@
         @include('partials.lista-comentario',['comentario'=>$comentario,'user'=>$user])
       @endforeach
     @endforeach
-</div>
+  
   <div>
     <form method = "POST" action="{{route('criar-resposta',$questao->id)}}"  id="formResposta"  class="hidden">
     {{ csrf_field() }}
+      <div class="label-publicar">
+      <label>Resposta à questão: </label>
+      </div>
       <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
       <div>
       <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
@@ -82,6 +85,9 @@
   <div>
     <form method = "POST" action="{{route('criar-comentario',$questao->id)}}"  id="formComentario"  class="hidden">
     {{ csrf_field() }}
+    <div class="label-publicar">
+      <label>Comentário à questão: </label>
+      </div>
       <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
       <div>
       <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
@@ -91,11 +97,15 @@
   <div>
     <form method = "POST" action="{{route('criar-comentario-resposta', [$questao->id,0])}}"  id="formComentarioResposta"  class="hidden">
     {{ csrf_field() }}
+    <div class="label-publicar">
+      <label>Comentário à resposta: </label>
+      </div>
       <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
       <div>
       <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
       </div>
     </form>
+  </div>
   </div>
 
 
