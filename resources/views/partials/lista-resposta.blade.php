@@ -20,16 +20,27 @@
         </button>
         </form>
         @endif
-        @endif<div class="texto-interacoes">{{$resposta->texto}}
+        @endif
+      <div class="texto-interacoes">{{$resposta->texto}}</div>
       <hr>
       @if($user!=null)
       @if($user->id == $resposta->criador->id_utilizador)
       <a href="{{route('editar-resposta',[$questao->id,$resposta->id])}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
       @else
       <button type="button" class="btn questao-button btn-sm float-end m-2 comentar-resposta" data-id="{{$resposta->id}}">Comentar</button>
+      @auth
+          @if (Auth::user()->ativo->respostasAvaliadas()->where('id_resposta', $resposta->id)->exists())
+                <button type="button" class="bi bi-hand-thumbs-down btn questao-button votar-resposta btn-sm float-end m-2" data-id="{{ $reposta->id }}"> Não Gosto</button>
+          @else
+                <button type="button" class="bi bi-hand-thumbs-up btn votar-resposta questao-button btn-sm float-end m-2" data-id="{{ $resposta->id }}"> Gosto</button>
+          @endif
+                <button type="button" class="btn votar-resposta btn-sm voto-acao-espera questao-button float-end m-2" data-id="{{ $resposta->id }}" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      A processar
+                </button>
+        @endauth
       @endif
       @endif
-      </div>
     </div>
   </div> 
 </div>

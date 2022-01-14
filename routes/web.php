@@ -63,6 +63,7 @@ Route::post('questao/{idQuestao}/criar-comentario','ComentarioController@createO
 Route::post('questao/{idQuestao}/criar-comentario-resposta/{idResposta}','ComentarioController@createOnResponse')->name('criar-comentario-resposta');
 Route::post('questao/{idQuestao}/criar-resposta','RespostaController@create')->name('criar-resposta');
 Route::patch('/votar/questao/{idQuestao}','QuestaoController@votar')->name('votar');
+Route::patch('/votar/resposta/{idResposta}','RespostaController@votar')->name('votar-resposta');
 
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm')->name('criarquestao');

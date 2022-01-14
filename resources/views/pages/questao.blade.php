@@ -51,7 +51,7 @@
           @else
                 <button type="button" class="bi bi-hand-thumbs-up btn votar-questao questao-button btn-sm float-end m-2" data-id="{{ $questao->id }}"> Gosto</button>
           @endif
-                <button type="button" class="btn votar-questao btn-sm voto-acao-espera questao-button float-end m-2" data-id="{{ $etiqueta->id }}" disabled>
+                <button type="button" class="btn votar-questao btn-sm voto-acao-espera questao-button float-end m-2" data-id="{{ $questao->id }}" disabled>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                       A processar
                 </button>
