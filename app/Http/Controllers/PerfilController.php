@@ -205,10 +205,10 @@ class PerfilController extends Controller {
         if (is_null($utilizador)) {
             return $this->viewNaoEncontrada();
         }
-        if (!Auth::check()) {
-            return redirect()->route('login');
+       /* //if (!Auth::check()) {
+          //  return redirect()->route('login');
        }
-        $this->authorize('verApelo',Utilizador::class);
+        $this->authorize('verApelo',Utilizador::class);*/
         if(is_null($apelos)){
             return view('pages.criarapelo',[
                 'nomeUtilizador' => $nomeUtilizador,
@@ -221,8 +221,8 @@ class PerfilController extends Controller {
     }
     public function create(Request $request)
     {
-        if(!Auth::check()) return redirect('/login');
-        $this->authorize('verApelo',Utilizador::class);
+        //if(!Auth::check()) return redirect('/login');
+        //$this->authorize('verApelo',Utilizador::class);
         $utilizador=Auth::user();
         $validator = Validator::make($request->all(),
             [

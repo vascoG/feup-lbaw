@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class HomepageController extends Controller {
     public function mostraHomepage() {
-        if (!Auth::check()) {
+        if (Auth::check()) {
             if(Auth::user()->banido!=null){
                 return(redirect()->route('perfil-apelos'));
             }
