@@ -1,4 +1,4 @@
-<article class="d-flex flex-column flex-nowrap etiqueta-card" data-id={{ $etiqueta->id }}>
+<article class="d-flex flex-column flex-nowrap etiqueta-card clicavel" data-href="{{ route('pesquisa', ['etiquetas' => $etiqueta->id]) }}">
     <p class="flex-grow-1">{{ $etiqueta->nome }}</p>
     @auth
         <div class="d-flex flex-row flex-nowrap">

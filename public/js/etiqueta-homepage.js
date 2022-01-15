@@ -36,9 +36,3 @@ Array.from(etiquetas).forEach((etiqueta) => {
         });
     }
 });
-
-for(let i = 0; i < etiquetas.length; i++) {
-    etiquetas[i].addEventListener('click', (_) => {
-        window.location.href = `${window.location.origin}/questoes?etiqueta=${etiquetas[i].dataset.id}`;
-    })
-}

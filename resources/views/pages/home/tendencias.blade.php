@@ -1,7 +1,7 @@
 @extends('layouts.homepage')
 
 @push('scripts')
-    <script src={{ asset('js/lista-questoes.js') }}></script>
+    <script src="{{ asset('js/clicavel.js') }}"></script>
 @endpush
 
 @section('titulo')
