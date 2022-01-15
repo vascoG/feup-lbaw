@@ -3,6 +3,7 @@
 @push('scripts')
     <script src="{{ asset('js/questao.js') }}"></script>
     <script src="{{ asset('js/questao-votos.js') }}"></script>
+    <script src="{{ asset('js/resposta-voto.js') }}"></script>
 @endpush
 
 @section('titulo')

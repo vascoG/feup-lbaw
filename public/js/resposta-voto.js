@@ -1,13 +1,12 @@
-let conexaoToast = document.getElementById('homepage-etiqueta-conexao-erro');
-    let submete = document.getElementsByClassName('votar-reposta')[0];
-    let esperaResposta = document.getElementsByClassName('voto-acao-espera')[0];
-    if (submete && esperaResposta) {
-        submete.addEventListener('click', (e) => {
+let conexaoToastresposta = document.getElementById('homepage-etiqueta-conexao-erro');
+    let submeteResposta = document.getElementsByClassName('votar-resposta')[0];
+    let esperarResposta = document.getElementsByClassName('voto-resposta-acao-espera')[0];
+    if (submeteResposta && esperarResposta) {
+        submeteResposta.addEventListener('click', (e) => {
             e.stopPropagation();
-            submete.style.display = 'none';
-            esperaResposta.style.display = "block";
-            console.log(submete.dataset.id);
-            fetch(`${window.location.origin}/votar/resposta/${submete.dataset.id}`, {
+            submeteResposta.style.display = 'none';
+            esperarResposta.style.display = "block";
+            fetch(`${window.location.origin}/votar/resposta/${submeteResposta.dataset.id}`, {
                 method: 'PATCH',
                 credentials: "same-origin",
                 headers: {
@@ -17,22 +16,22 @@ let conexaoToast = document.getElementById('homepage-etiqueta-conexao-erro');
             })
             .then((response) => response.json())
             .then((jsonData) => {
-                esperaResposta.style.display = 'none';
-                submete.style.display = 'block';
+                esperarResposta.style.display = 'none';
+                submeteResposta.style.display = 'block';
                 if (jsonData.novoEstado == "VOTO") {
-                    submete.classList.remove("bi-hand-thumbs-up");
-                    submete.classList.add("bi-hand-thumbs-down");
-                    submete.innerText = ' Não Gosto';
+                    submeteResposta.classList.remove("bi-hand-thumbs-up");
+                    submeteResposta.classList.add("bi-hand-thumbs-down");
+                    submeteResposta.innerText = ' Não Gosto';
                 } else if (jsonData.novoEstado == "NAO_VOTO") {
-                    submete.classList.remove("bi-hand-thumbs-down");
-                    submete.classList.add("bi-hand-thumbs-up");
-                    submete.innerText = ' Gosto';
+                    submeteResposta.classList.remove("bi-hand-thumbs-down");
+                    submeteResposta.classList.add("bi-hand-thumbs-up");
+                    submeteResposta.innerText = ' Gosto';
                 }
             })
             .catch((_) => {
-                esperaResposta.style.display = 'none';
-                submete.style.display = 'block';
-                bootstrap.Toast.getOrCreateInstance(conexaoToast).show();
+                esperarResposta.style.display = 'none';
+                submeteResposta.style.display = 'block';
+                bootstrap.Toast.getOrCreateInstance(conexaoToastreposta).show();
             })
         });
     };

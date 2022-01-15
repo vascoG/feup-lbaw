@@ -6,7 +6,6 @@ let conexaoToast = document.getElementById('homepage-etiqueta-conexao-erro');
             e.stopPropagation();
             submete.style.display = 'none';
             esperaResposta.style.display = "block";
-            console.log(submete.dataset.id);
             fetch(`${window.location.origin}/votar/questao/${submete.dataset.id}`, {
                 method: 'PATCH',
                 credentials: "same-origin",
