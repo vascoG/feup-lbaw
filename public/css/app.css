@@ -56,16 +56,6 @@ lable {
 	user-select: none;
 }
 
-div > img {
-	display: block;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	min-height: 100%;
-	min-width: 100%;
-	transform: translate(-50%, -50%);
-  }
-
 .nao-selecionavel {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -766,6 +756,17 @@ Criaçao e ediçao de questao
 .homepage-etiqueta-acao-espera {
 	display: none;
 }
+
+.admin-moderador-img-wrap > .admin-moderador-img {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	min-height: 100%;
+	min-width: 100%;
+	transform: translate(-50%, -50%);
+}
+
 /*
 Página estáticas
 */

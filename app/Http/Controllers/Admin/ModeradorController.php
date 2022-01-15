@@ -14,8 +14,8 @@ class ModeradorController extends Controller
 {
     private function pesquisaUtilizador($nomeUtilizadorSubstr) {
         return Utilizador::query()
-            ->whereRaw("(POSITION(LOWER(:query) in nome) > 0) OR (POSITION(LOWER(:query) IN nome_utilizador) > 0)", [
-                'query' => $nomeUtilizadorSubstr
+            ->whereRaw("(POSITION(LOWER(:query) in LOWER(nome)) > 0) OR (POSITION(LOWER(:query) IN LOWER(nome_utilizador)) > 0)", [
+                ':query' => $nomeUtilizadorSubstr
             ]);
     }
 

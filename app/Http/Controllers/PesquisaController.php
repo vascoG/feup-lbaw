@@ -15,7 +15,8 @@ class PesquisaController extends Controller {
             $ordem = request('ordenar-ordem');
         }
         if(request('query')) {
-            $questoes->whereRaw("tsvectors @@ to_tsquery('portuguese', ?)", "'".request('query')."'");
+            $questoes->whereRaw("tsvectors @@ plainto_tsquery('portuguese', ?)", request('query'));
+            //dd($questoes->getBindings());
         }
         if(request('etiqueta')) {
             $etiquetasSelecionadas = explode(',', request('etiqueta'));
