@@ -3,6 +3,7 @@ services:
 
   postgres:
     image: postgres:11.13
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
     restart: always
     environment:
       POSTGRES_USER: postgres
