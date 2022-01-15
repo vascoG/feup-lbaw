@@ -1,4 +1,4 @@
-<div class="admin-moderador-card card d-inline-flex flex-row flex-nowrap">
+<div class="admin-moderador-card card d-inline-flex flex-row flex-nowrap clicavel" data-href="{{ route('perfil', $usr->utilizador->nome_utilizador) }}">
     <div class="placeholder-glow admin-moderador-img-wrap">
         <img data-src="{{ asset($usr->utilizador->imagem_perfil) }}" class="d-none card-img-top admin-moderador-img" alt="Imagem de perfil de {{ $usr->utilizador->nome_utilizador }}">
         <div class="card-img-top placeholder col-12 h-100"></div>

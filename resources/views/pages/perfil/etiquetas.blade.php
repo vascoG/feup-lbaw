@@ -5,7 +5,7 @@ Etiquetas de {{ $nomeUtilizador }}
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/perfil-etiquetas.js') }}"></script>
+    <script src="{{ asset('js/clicavel.js') }}"></script>
 @endpush
 
 @section('conteudo')

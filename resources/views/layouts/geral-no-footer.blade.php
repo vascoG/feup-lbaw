@@ -42,14 +42,14 @@
           @if (Auth::check())
             <div class="btn-group" role="group" aria-label="Dados do utilizador">
               <div class="dropdown btn-group">
-                <button id="botao-mostra-notificacao" class="btn btn-secondary" type="button" id="navbar-notificacoes-utilizador" data-bs-toggle="dropdown" aria-expanded="false">
+                <button id="botao-mostra-notificacao" class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     @if(Auth::user()->ativo->unreadNotifications->count())
                       <i class="bi bi-bell-fill"></i>
                     @else
                       <i class="bi bi-bell"></i>
                     @endif
                 </button>
-                <ul id="lista-notificacoes" class="dropdown-menu p-3" aria-labelledby="navbar-notificacoes-utilizador">
+                <ul id="lista-notificacoes" class="dropdown-menu p-3" aria-labelledby="botao-mostra-notificacao">
                   @include('partials.notificacoes.lista-notificacoes')
                 </ul>
               </div>

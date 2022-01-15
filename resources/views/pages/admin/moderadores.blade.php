@@ -3,6 +3,7 @@
 ])
 
 @push('scripts')
+    <script src="{{ asset('js/clicavel.js') }}"></script>
     <script src="{{ asset('js/admin-moderadores.js') }}"></script>
 @endpush
 

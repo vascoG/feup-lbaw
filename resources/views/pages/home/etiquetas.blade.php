@@ -1,6 +1,7 @@
 @extends('layouts.homepage')
 
 @push('scripts')
+    <script src="{{ asset('js/clicavel.js') }}"></script>
     <script src="{{ asset('js/etiqueta-homepage.js') }}"></script>
 @endpush
 
