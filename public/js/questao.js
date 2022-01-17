@@ -10,6 +10,8 @@ function showFormResposta()
 {   
     form = document.getElementById("formResposta");
     form.classList.remove("hidden");
+    document.getElementById("formComentario").classList.add("hidden");
+    document.getElementById("formComentarioResposta").classList.add("hidden");
     
 }
 
@@ -20,6 +22,8 @@ function showFormComentario()
 {   
     form = document.getElementById("formComentario");
     form.classList.remove("hidden");
+    document.getElementById("formComentarioResposta").classList.add("hidden");
+    document.getElementById("formResposta").classList.add("hidden");
     
 }
 
@@ -31,6 +35,8 @@ function showFormComentarioResposta()
     let id=this.getAttribute('data-id');
     form = document.getElementById("formComentarioResposta");
     form.classList.remove("hidden");
+    document.getElementById("formResposta").classList.add("hidden");
+    document.getElementById("formComentario").classList.add("hidden");
     let oldAction = form.action;
     id = "criar-comentario-resposta/" + id;
     let newAction = oldAction.replace("criar-comentario-resposta/0", id);

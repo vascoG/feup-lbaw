@@ -43,8 +43,8 @@
       @if($user->id == $questao->criador->id_utilizador)
       <a href="{{route('editar-questao',$questao->id)}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
       @else
-      <button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button>
-      <button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button>
+      <a href="#formResposta"><button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button></a>
+      <a href="#formComentario"><button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button></a>
         @auth
           @if (Auth::user()->ativo->questoesAvaliadas()->where('id_questao', $questao->id)->exists())
                 <button type="button" class="bi bi-hand-thumbs-down btn questao-button votar-questao btn-sm float-end m-2" data-id="{{ $questao->id }}"> Não Gosto</button>
@@ -69,11 +69,14 @@
         @include('partials.lista-comentario',['comentario'=>$comentario,'user'=>$user])
       @endforeach
     @endforeach
-</div>
+  <hr class="interacoes-questao">
   <div>
     <form method = "POST" action="{{route('criar-resposta',$questao->id)}}"  id="formResposta"  class="hidden">
     {{ csrf_field() }}
-      <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
+      <div class="label-publicar">
+      <label>Resposta à questão: </label>
+      </div>
+      <textarea class="form-group questao-interacao" name="texto"></textarea>
       <div>
       <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
       </div>
@@ -82,7 +85,10 @@
   <div>
     <form method = "POST" action="{{route('criar-comentario',$questao->id)}}"  id="formComentario"  class="hidden">
     {{ csrf_field() }}
-      <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
+    <div class="label-publicar">
+      <label>Comentário à questão: </label>
+      </div>
+      <textarea class="form-group questao-interacao" name="texto"></textarea>
       <div>
       <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
       </div>
@@ -91,11 +97,15 @@
   <div>
     <form method = "POST" action="{{route('criar-comentario-resposta', [$questao->id,0])}}"  id="formComentarioResposta"  class="hidden">
     {{ csrf_field() }}
-      <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
+    <div class="label-publicar">
+      <label>Comentário à resposta: </label>
+      </div>
+      <textarea class="form-group questao-interacao" name="texto"></textarea>
       <div>
       <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
       </div>
     </form>
+  </div>
   </div>
 
 

@@ -428,13 +428,38 @@ Criaçao e ediçao de questao
 	border-style: outset;
 	border-color: #2F2D2E;
 	border-width: 1px;
-	margin-left: 80%;
+	margin-left: 90%;
 }
 .publicar-button:hover
 {
 	background-color: #2F2D2E;
 	color:#EAEAEA;
 }
+
+.label-publicar
+{
+	margin-top:15px;
+}
+
+.questao-interacao
+{
+	width: 50vw;
+	height: 20vw;
+	margin-top:10px;
+	margin-bottom:10px;
+	text-align: left;
+	position: relative;
+	resize: none;
+	left: 10vw;
+
+}
+
+
+.interacoes-questao
+{
+	margin-top:30px;
+}
+
 .eliminar-button
 {
 	border-style: outset;

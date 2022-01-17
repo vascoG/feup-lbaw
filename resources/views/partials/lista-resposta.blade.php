@@ -26,7 +26,7 @@
       @if($user->id == $resposta->criador->id_utilizador)
       <a href="{{route('editar-resposta',[$questao->id,$resposta->id])}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
       @else
-      <button type="button" class="btn questao-button btn-sm float-end m-2 comentar-resposta" data-id="{{$resposta->id}}">Comentar</button>
+      <a href="#formComentarioResposta"><button type="button" class="btn questao-button btn-sm float-end m-2 comentar-resposta" data-id="{{$resposta->id}}">Comentar</button></a>
       @endif
       @endif
       </div>
