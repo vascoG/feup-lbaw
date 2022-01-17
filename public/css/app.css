@@ -438,6 +438,26 @@ Criaçao e ediçao de questao
 {
 	margin-top:15px;
 }
+
+.questao-interacao
+{
+	width: 50vw;
+	height: 20vw;
+	margin-top:10px;
+	margin-bottom:10px;
+	text-align: left;
+	position: relative;
+	resize: none;
+	left: 10vw;
+
+}
+
+
+.interacoes-questao
+{
+	margin-top:30px;
+}
+
 .eliminar-button
 {
 	border-style: outset;

@@ -69,14 +69,14 @@
         @include('partials.lista-comentario',['comentario'=>$comentario,'user'=>$user])
       @endforeach
     @endforeach
-  
+  <hr class="interacoes-questao">
   <div>
     <form method = "POST" action="{{route('criar-resposta',$questao->id)}}"  id="formResposta"  class="hidden">
     {{ csrf_field() }}
       <div class="label-publicar">
       <label>Resposta à questão: </label>
       </div>
-      <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
+      <textarea class="form-group questao-interacao" name="texto"></textarea>
       <div>
       <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
       </div>
@@ -88,7 +88,7 @@
     <div class="label-publicar">
       <label>Comentário à questão: </label>
       </div>
-      <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
+      <textarea class="form-group questao-interacao" name="texto"></textarea>
       <div>
       <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
       </div>
@@ -100,7 +100,7 @@
     <div class="label-publicar">
       <label>Comentário à resposta: </label>
       </div>
-      <textarea class="form-group questao-texto questao-titulo" name="texto"></textarea>
+      <textarea class="form-group questao-interacao" name="texto"></textarea>
       <div>
       <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
       </div>
