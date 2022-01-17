@@ -21,11 +21,11 @@ let conexaoToast = document.getElementById('homepage-etiqueta-conexao-erro');
                 if (jsonData.novoEstado == "VOTO") {
                     submete.classList.remove("bi-hand-thumbs-up");
                     submete.classList.add("bi-hand-thumbs-down");
-                    submete.innerText = ' Não Gosto';
+                    submete.innerText = jsonData.numVotos;
                 } else if (jsonData.novoEstado == "NAO_VOTO") {
                     submete.classList.remove("bi-hand-thumbs-down");
                     submete.classList.add("bi-hand-thumbs-up");
-                    submete.innerText = ' Gosto';
+                    submete.innerText = jsonData.numVotos;
                 }
             })
             .catch((_) => {

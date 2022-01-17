@@ -188,7 +188,8 @@ class QuestaoController extends Controller
         }
         $voto = !$voto;
         return response()->json([
-            'novoEstado' => $voto ? 'VOTO' : 'NAO_VOTO'
+            'novoEstado' => $voto ? 'VOTO' : 'NAO_VOTO',
+            'numVotos' => $questao->numero_votos
         ]);
     }
 

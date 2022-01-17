@@ -162,7 +162,8 @@ class RespostaController extends Controller
         }
         $voto = !$voto;
         return response()->json([
-            'novoEstado' => $voto ? 'VOTO' : 'NAO_VOTO'
+            'novoEstado' => $voto ? 'VOTO' : 'NAO_VOTO',
+            'numVotos' => $resposta->numero_votos
         ]);
     }
 }

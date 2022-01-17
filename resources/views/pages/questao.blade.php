@@ -48,9 +48,9 @@
       <button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button>
         @auth
           @if (Auth::user()->ativo->questoesAvaliadas()->where('id_questao', $questao->id)->exists())
-                <button type="button" class="bi bi-hand-thumbs-down btn questao-button votar-questao btn-sm float-end m-2" data-id="{{ $questao->id }}"> Não Gosto</button>
+                <button type="button" class="bi bi-hand-thumbs-down btn questao-button votar-questao btn-sm float-end m-2" data-id="{{ $questao->id }}"> {{$questao->numero_votos}}</button>
           @else
-                <button type="button" class="bi bi-hand-thumbs-up btn votar-questao questao-button btn-sm float-end m-2" data-id="{{ $questao->id }}"> Gosto</button>
+                <button type="button" class="bi bi-hand-thumbs-up btn votar-questao questao-button btn-sm float-end m-2" data-id="{{ $questao->id }}"> {{$questao->numero_votos}}</button>
           @endif
                 <button type="button" class="btn votar-questao btn-sm voto-acao-espera questao-button float-end m-2" data-id="{{ $questao->id }}" disabled>
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

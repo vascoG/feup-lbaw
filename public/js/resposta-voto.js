@@ -21,11 +21,11 @@ let conexaoToastresposta = document.getElementById('homepage-etiqueta-conexao-er
                 if (jsonData.novoEstado == "VOTO") {
                     submeteResposta.classList.remove("bi-hand-thumbs-up");
                     submeteResposta.classList.add("bi-hand-thumbs-down");
-                    submeteResposta.innerText = ' Não Gosto';
+                    submeteResposta.innerText = jsonData.numVotos;
                 } else if (jsonData.novoEstado == "NAO_VOTO") {
                     submeteResposta.classList.remove("bi-hand-thumbs-down");
                     submeteResposta.classList.add("bi-hand-thumbs-up");
-                    submeteResposta.innerText = ' Gosto';
+                    submeteResposta.innerText = jsonData.numVotos;
                 }
             })
             .catch((_) => {
