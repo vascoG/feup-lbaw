@@ -7,9 +7,13 @@
         <p class="text-muted">{{date('d/m/y H:i:s',strtotime($resposta->data_publicacao))}}</p>
       </div>
     </div>
+    @if(!$resposta->resposta_aceite)
     <div class="col-9 corpo-questao">
+    @else
+    <div class= "col-9 corpo-resposta-aceite">
+    @endif
     @if($user!=null)
-    @if($user->moderador)
+      @if($user->moderador)
       <form method = "POST" action="{{route('eliminar-resposta',[$questao->id,$resposta->id])}}" id="questao-eliminar-form">
         {{ csrf_field() }}
         @method('DELETE')
@@ -19,8 +23,19 @@
             </b>
         </button>
         </form>
-        @endif
-        @endif
+      @endif
+    @if($user->id == $resposta->questao->criador->id_utilizador)
+      <form method = "POST" action="{{route('resposta-correta',[$questao->id,$resposta->id])}}" id="questao-correta-form">
+        {{ csrf_field() }}
+        @method('POST')
+        <button class="btn clearfix btn-sm correta-button float-end" type="submit" id="submit_button">
+            <b>
+                RESPOSTA CORRETA
+            </b>
+        </button>
+        </form>
+      @endif
+      @endif
       <div class="texto-interacoes">{{$resposta->texto}}</div>
       <hr>
       @if($user!=null)

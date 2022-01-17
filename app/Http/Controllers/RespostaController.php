@@ -166,4 +166,18 @@ class RespostaController extends Controller
             'numVotos' => $resposta->numero_votos
         ]);
     }
+
+    public function respostaCorreta(Request $request, $idQuestao, $idResposta)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $questao = Questao::findOrFail($idQuestao);
+        $resposta = Resposta::findOrFail($idResposta);
+        $this->authorize('editar',$questao);
+        if($questao->temRespostaCorreta())
+            return redirect()->route('questao',[$questao]);
+        $resposta->update([
+            'resposta_aceite' => true]);
+            
+        return redirect()->route('questao',[$questao]);
+    }
 }

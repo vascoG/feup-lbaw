@@ -64,7 +64,7 @@
   @foreach ($questao->comentarios as $comentario)
       @include('partials.lista-comentario',['comentario'=>$comentario, 'user'=>$user])
   @endforeach
-    @foreach ($questao->respostas as $resposta)
+    @foreach ($respostas as $resposta)
       @include('partials.lista-resposta',['resposta'=>$resposta,'user'=>$user])
       @foreach ($resposta->comentarios as $comentario)
         @include('partials.lista-comentario',['comentario'=>$comentario,'user'=>$user])

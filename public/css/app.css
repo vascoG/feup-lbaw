@@ -451,6 +451,24 @@ Criaçao e ediçao de questao
 	color: white;
 }
 
+.correta-button
+{
+	border-style: outset;
+	border-color: #2F2D2E;
+	border-width: 1px;
+
+	margin-right: 10px;
+	margin-left: 10px;
+
+	left: 75vw;
+}
+
+.correta-button:hover
+{
+	background-color: green;
+	color: white;
+}
+
 .questao-button:hover
 {
 	background-color: #2F2D2E;
@@ -470,6 +488,17 @@ Criaçao e ediçao de questao
 	border-left: #DAA520;
 	border-width: 5px;
 	border-left-style: solid;
+}
+
+.corpo-resposta-aceite{
+	margin-top: 10px;
+	padding-bottom: 10px;
+	border: #DAA520;
+	border-left-width: 5px;
+	border-right-width: 3px;
+	border-top-width: 3px;
+	border-bottom-width: 3px;
+	border-style: solid;
 }
 
 .badge-tag{
