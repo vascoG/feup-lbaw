@@ -12,16 +12,26 @@ class ComentarioPolicy{
     
     use HandlesAuthorization;
 
-
-    public function editar(Utilizador $user, Comentario $comentario)
-    {   
-        $user_banned = UtilizadorBanido::find($user->id);
-        if($user_banned!=null)
+    public function valido(?Utilizador $user) {
+        if (is_null($user)) {
             return false;
-        return $user->id == $comentario->autor || $user->administrador || $user->moderador;
+        }
+        $user_banned = UtilizadorBanido::find($user->id);
+        if(!is_null($user_banned)) {
+            return false;
+        }
+        return true;
     }
-    public function notBanned(?Utilizador $user)
-    {   
+
+    public function editar(?Utilizador $user, Comentario $comentario) {
+        return $this->valido($user) && ($user->id == $comentario->autor);
+    }
+
+    public function eliminar(?Utilizador $user, Comentario $comentario) {
+        return $this->valido($user) && !$this->editar($user, $comentario) && ($user->moderador || $user->administrador);
+    }
+
+    public function notBanned(?Utilizador $user) {   
         if ($user==null)
             return true;
         $user_banned = UtilizadorBanido::find($user->id);

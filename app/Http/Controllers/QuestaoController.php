@@ -170,7 +170,7 @@ class QuestaoController extends Controller
         $criador = $questao->criador ? $questao->criador->utilizador : null;
         $respostas = $questao->respostas;
         $respostas = $respostas->sortByDesc('resposta_aceite');
-        return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'user'=>Auth::user(),'respostas'=>$respostas]);
+        return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'respostas'=>$respostas]);
     }
 
     public function votar(Request $request, $idQuestao) {

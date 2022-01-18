@@ -12,14 +12,25 @@ class RespostaPolicy{
     
     use HandlesAuthorization;
 
-
-    public function editar(Utilizador $user, Resposta $resposta)
-    {   
-        $user_banned = UtilizadorBanido::find($user->id);
-        if($user_banned!=null)
+    public function valido(?Utilizador $user) {
+        if (is_null($user)) {
             return false;
-        return $user->id == $resposta->autor || $user->administrador || $user->moderador;
+        }
+        $user_banned = UtilizadorBanido::find($user->id);
+        if(!is_null($user_banned)) {
+            return false;
+        }
+        return true;
     }
+
+    public function editar(?Utilizador $user, Resposta $resposta) {   
+        return $this->valido($user) && ($user->ativo->id == $resposta->autor);
+    }
+
+    public function eliminar(?Utilizador $user, Resposta $resposta) {
+        return $this->valido($user) && !$this->editar($user, $resposta) && ($user->moderador || $user->administrador);
+    }
+
     public function notBanned(?Utilizador $user)
     {   
         if ($user==null)
@@ -28,7 +39,7 @@ class RespostaPolicy{
         return ($user_banned==null);
     }
 
-    public function notOwner(Utilizador $user, Resposta $resposta)
+    public function notOwner(?Utilizador $user, Resposta $resposta)
     {
         return $user->id != $resposta->autor;
     }

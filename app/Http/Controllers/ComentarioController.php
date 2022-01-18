@@ -74,7 +74,7 @@ class ComentarioController extends Controller
         if(!Auth::check()) return redirect('/login');
         $questao = Questao::findOrFail($idQuestao);
         $comentario = Comentario::findOrFail($idComentario);
-        $this->authorize('editar',$comentario);
+        $this->authorize('eliminar',$comentario);
         $resposta = $comentario->resposta;
         if($resposta!=null){
             if(!$questao->respostas->contains($resposta))

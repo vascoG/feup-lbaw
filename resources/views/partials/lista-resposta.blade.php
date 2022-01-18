@@ -12,19 +12,19 @@
     @else
     <div class= "col-9 corpo-resposta-aceite">
     @endif
-    @if($user!=null)
-      @if($user->moderador)
-      <form method = "POST" action="{{route('eliminar-resposta',[$questao->id,$resposta->id])}}" id="questao-eliminar-form">
-        {{ csrf_field() }}
-        @method('DELETE')
-        <button class="btn clearfix btn-sm eliminar-button float-end" type="submit" id="submit_button">
-            <b>
-                ELIMINAR RESPOSTA
-            </b>
-        </button>
+    @if(Auth::user()!=null)
+      @can('eliminar', $resposta)
+        <form method = "POST" action="{{route('eliminar-resposta',[$questao->id,$resposta->id])}}" id="questao-eliminar-form">
+          {{ csrf_field() }}
+          @method('DELETE')
+          <button class="btn clearfix btn-sm eliminar-button float-end" type="submit" id="submit_button">
+              <b>
+                  ELIMINAR RESPOSTA
+              </b>
+          </button>
         </form>
-      @endif
-    @if($user->id == $resposta->questao->criador->id_utilizador && !$questao->temRespostaCorreta()) 
+      @endcan
+    @if(Auth::user()->id == $resposta->questao->criador->id_utilizador && !$questao->temRespostaCorreta()) 
       <form method = "POST" action="{{route('resposta-correta',[$questao->id,$resposta->id])}}" id="questao-correta-form">
         {{ csrf_field() }}
         @method('POST')
@@ -35,7 +35,7 @@
         </button>
         </form>
       @endif
-      @if($user->id == $resposta->questao->criador->id_utilizador && $resposta->resposta_aceite) 
+      @if(Auth::user()->id == $resposta->questao->criador->id_utilizador && $resposta->resposta_aceite) 
       <form method = "POST" action="{{route('retirar-resposta-correta',[$questao->id,$resposta->id])}}" id="questao-correta-form">
         {{ csrf_field() }}
         @method('DELETE')
@@ -50,8 +50,8 @@
       @endif
       <div class="texto-interacoes">{{$resposta->texto}}</div>
       <hr>
-      @if($user!=null)
-      @if($resposta->criador && $user->id == $resposta->criador->id_utilizador)
+      @if(Auth::user()!=null)
+      @if($resposta->criador && Auth::user()->id == $resposta->criador->id_utilizador)
       <a href="{{route('editar-resposta',[$questao->id,$resposta->id])}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
       @else
       <button type="button" class="btn questao-button btn-sm float-end m-2 comentar-resposta" data-id="{{$resposta->id}}">Comentar</button>
