@@ -180,4 +180,17 @@ class RespostaController extends Controller
             
         return redirect()->route('questao',[$questao]);
     }
+
+    public function retirarRespostaCorreta(Request $request, $idQuestao, $idResposta)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $questao = Questao::findOrFail($idQuestao);
+        $resposta = Resposta::findOrFail($idResposta);
+        $this->authorize('editar',$questao);
+        $resposta->update([
+            'resposta_aceite' => false]);
+            
+        return redirect()->route('questao',[$questao]);
+    }
+
 }

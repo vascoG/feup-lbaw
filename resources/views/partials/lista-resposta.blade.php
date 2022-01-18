@@ -24,7 +24,7 @@
         </button>
         </form>
       @endif
-    @if($user->id == $resposta->questao->criador->id_utilizador)
+    @if($user->id == $resposta->questao->criador->id_utilizador && !$questao->temRespostaCorreta()) 
       <form method = "POST" action="{{route('resposta-correta',[$questao->id,$resposta->id])}}" id="questao-correta-form">
         {{ csrf_field() }}
         @method('POST')
@@ -35,6 +35,18 @@
         </button>
         </form>
       @endif
+      @if($user->id == $resposta->questao->criador->id_utilizador && $resposta->resposta_aceite) 
+      <form method = "POST" action="{{route('retirar-resposta-correta',[$questao->id,$resposta->id])}}" id="questao-correta-form">
+        {{ csrf_field() }}
+        @method('DELETE')
+        <button class="btn clearfix btn-sm correta-button float-end" type="submit" id="submit_button">
+            <b>
+                RETIRAR RESPOSTA CORRETA
+            </b>
+        </button>
+        </form>
+      @endif
+
       @endif
       <div class="texto-interacoes">{{$resposta->texto}}</div>
       <hr>

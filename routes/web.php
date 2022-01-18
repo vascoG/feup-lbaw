@@ -65,6 +65,8 @@ Route::post('questao/{idQuestao}/criar-resposta','RespostaController@create')->n
 Route::patch('/votar/questao/{idQuestao}','QuestaoController@votar')->name('votar');
 Route::patch('/votar/resposta/{idResposta}','RespostaController@votar')->name('votar-resposta');
 Route::post('/questao/{idQuestao}/resposta-correta/{idResposta}', 'RespostaController@respostaCorreta')->name('resposta-correta');
+Route::delete('/questao/{idQuestao}/resposta-correta/{idResposta}', 'RespostaController@retirarRespostaCorreta')->name('retirar-resposta-correta');
+
 
 #M04
 Route::get('/criarquestao','QuestaoController@showCreateForm')->name('criarquestao');
