@@ -29,4 +29,9 @@ class QuestaoPolicy{
         return $user->id == $questao->autor || $user->administrador || $user->moderador;
     }
 
+    public function notOwner(Utilizador $user, Questao $questao)
+    {
+        return $user->id != $questao->autor;
+    }
+
 }

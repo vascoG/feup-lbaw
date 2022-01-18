@@ -136,7 +136,7 @@ class RespostaController extends Controller
         return redirect()->route('questao',[$idQuestao]);
     }
     public function votar(Request $request, $idResposta) {
-        $resposta = Resposta::find($idResposta);
+        $resposta = Resposta::findOrFail($idResposta);
         if (is_null($resposta)) {
             return response(view('errors.404'), 404)
                 ->header('Content-type', 'text/html');
@@ -145,6 +145,7 @@ class RespostaController extends Controller
             return response(view('errors.403'), 403)
                 ->header('Content-type', 'text/html');
         }
+        $this->authorize('notOwner',$resposta);
         $utilizador = Auth::user()->ativo;
         $voto = $utilizador->respostasAvaliadas()->where('id_resposta', $resposta->id)->exists();
         if ($voto) {

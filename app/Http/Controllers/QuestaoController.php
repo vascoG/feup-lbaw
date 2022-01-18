@@ -164,7 +164,7 @@ class QuestaoController extends Controller
     }
 
     public function votar(Request $request, $idQuestao) {
-        $questao = Questao::find($idQuestao);
+        $questao = Questao::findOrFail($idQuestao);
         if (is_null($questao)) {
             return response(view('errors.404'), 404)
                 ->header('Content-type', 'text/html');
@@ -173,6 +173,7 @@ class QuestaoController extends Controller
             return response(view('errors.403'), 403)
                 ->header('Content-type', 'text/html');
         }
+        $this->authorize('notOwner',$questao);
         $utilizador = Auth::user()->ativo;
         $voto = $utilizador->questoesAvaliadas()->where('id_questao', $questao->id)->exists();
         if ($voto) {

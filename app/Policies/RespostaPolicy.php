@@ -27,4 +27,9 @@ class RespostaPolicy{
         $user_banned = UtilizadorBanido::find($user->id);
         return ($user_banned==null);
     }
+
+    public function notOwner(Utilizador $user, Resposta $resposta)
+    {
+        return $user->id != $resposta->autor;
+    }
 }

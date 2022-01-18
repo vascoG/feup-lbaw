@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container card-resposta">
   <div class="row">
     <div class="col-3">
       <div class="media">

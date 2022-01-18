@@ -383,7 +383,7 @@ END $$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER atualiza_vista_gosto_questoes
-  AFTER INSERT ON questao_avaliada
+  AFTER INSERT OR DELETE ON questao_avaliada
   FOR EACH STATEMENT
   EXECUTE PROCEDURE atualiza_vista_gosto_questoes();
 
@@ -399,7 +399,7 @@ END $$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER atualiza_vista_gosto_respostas
-  AFTER INSERT ON resposta_avaliada
+  AFTER INSERT OR DELETE ON resposta_avaliada
   FOR EACH STATEMENT
   EXECUTE PROCEDURE atualiza_vista_gosto_respostas();
 

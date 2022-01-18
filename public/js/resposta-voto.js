@@ -1,6 +1,12 @@
 let conexaoToastresposta = document.getElementById('homepage-etiqueta-conexao-erro');
-    let submeteResposta = document.getElementsByClassName('votar-resposta')[0];
-    let esperarResposta = document.getElementsByClassName('voto-resposta-acao-espera')[0];
+
+
+let respostas = document.getElementsByClassName('card-resposta');
+
+
+Array.from(respostas).forEach((resposta) =>{
+    let submeteResposta = resposta.getElementsByClassName('votar-resposta')[0];
+    let esperarResposta = resposta.getElementsByClassName('voto-resposta-acao-espera')[0];
     if (submeteResposta && esperarResposta) {
         submeteResposta.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -31,9 +37,9 @@ let conexaoToastresposta = document.getElementById('homepage-etiqueta-conexao-er
             .catch((_) => {
                 esperarResposta.style.display = 'none';
                 submeteResposta.style.display = 'block';
-                bootstrap.Toast.getOrCreateInstance(conexaoToastreposta).show();
+                bootstrap.Toast.getOrCreateInstance(conexaoToastresposta).show();
             })
         });
     };
 
-
+});
