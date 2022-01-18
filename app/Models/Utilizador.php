@@ -10,12 +10,15 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RecuperaConta;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
 class Utilizador extends Authenticable implements CanResetPassword{
     use Notifiable;
 
-    private static $imagemPadrao = 'storage/avatar-default.png';
+    public static $imagemPadrao = 'storage/avatar-default.png';
+
+    public static $nomePadrao = '[Apagado]';
 
     public $timestamps = false;
 
@@ -39,6 +42,30 @@ class Utilizador extends Authenticable implements CanResetPassword{
     protected $hidden = [
         'palavra_passe', 'imagem_perfil'
     ];
+
+    protected static function booted() {
+        static::deleted(function ($utilizador) {
+            foreach($utilizador->notificacoesRelacionadas() as $notificacao) {
+                $notificacao->delete();
+            }
+        });
+    }
+
+    public function notificacoesRelacionadas() {
+        $votoResposta = DatabaseNotification::query()
+            ->where('type', 'App\Notifications\VotoRespostaNotification')
+            ->where('data->idAutorVoto', $this->id)
+            ->get();
+        $votoQuestao = DatabaseNotification::query()
+            ->where('type', 'App\Notifications\VotoQuestaoNotification')
+            ->where('data->idAutorVoto', $this->id)
+            ->get();
+        $respostaQuestao = DatabaseNotification::query()
+            ->where('type', 'App\Notifications\RespostaQuestaoNotification')
+            ->where('data->idAutorResposta', $this->id)
+            ->get();
+        return $votoQuestao->concat($votoResposta)->concat($respostaQuestao);
+    }
 
     public function getAuthPassword() {
         return $this->palavra_passe;
@@ -70,13 +97,5 @@ class Utilizador extends Authenticable implements CanResetPassword{
 
     public function sendPasswordResetNotification($token) {
         Mail::to($this->e_mail)->send(new RecuperaConta($this, $token));
-    }
-
-    public static function apagado() {
-        $utilizador = collect(new Utilizador);
-        $utilizador->nome_utilizador = '[apagado]';
-        $utilizador->nome = '[apagado]';
-        $utilizador->imagem_perfil = self::$imagemPadrao;
-        return $utilizador;
     }
 }

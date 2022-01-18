@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Etiqueta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\DatabaseNotification;
 use DB;
 
 class UtilizadorAtivo extends Model {
@@ -15,6 +16,14 @@ class UtilizadorAtivo extends Model {
     public $table = 'utilizador_ativo';
 
     protected $fillable = ['id_utilizador'];
+    
+    protected static function booted() {
+        static::deleted(function ($utilizador) {
+            foreach($utilizador->notifications as $notificacao) {
+                $notificacao->delete();
+            }
+        });
+    }
 
     public function utilizador() {
         return $this->belongsTo('App\Models\Utilizador', 'id_utilizador', 'id');

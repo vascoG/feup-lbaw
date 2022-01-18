@@ -17,7 +17,7 @@
                 {{ $questao->criador->utilizador->nome_utilizador }}
             </a>
         @else
-            <p>[apagado]</p>
+            <p>{{ App\Models\Utilizador::$nomePadrao }}</p>
         @endif
         <div class="vr mx-1"></div>
         <p>{{ $questao->data_publicacao->setTimezone('Europe/Lisbon')->format('d/m/Y H:i') }}</p>

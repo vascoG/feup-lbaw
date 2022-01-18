@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\DatabaseNotification;
+use App\Models\UtilizadorAtivo;
 use DB;
 
 class Resposta extends Model {
@@ -11,6 +13,14 @@ class Resposta extends Model {
     public $table = 'resposta';
 
     protected $fillable = ['texto', 'autor', 'id_questao', 'resposta_aceite'];
+
+    protected static function booted() {
+        static::deleted(function ($resposta) {
+            foreach($resposta->notificacoes as $notificacao) {
+                $notificacao->delete();
+            }
+        });
+    }
 
     public function criador() {
         return $this->belongsTo('App\Models\UtilizadorAtivo', 'autor', 'id');
@@ -32,11 +42,14 @@ class Resposta extends Model {
             ->n_gosto;
     }
 
-    public function notificacoes() {
-        return $this->hasMany('App\Models\Notificacao', 'id_resposta', 'id');
-    }
-
     public function historicos() {
         return $this->hasMany('App\Models\HistoricoInteracao', 'id_resposta', 'id');
+    }
+
+    public function getNotificacoesAttribute() {
+        return DatabaseNotification::query()
+            ->where('type', 'App\Notifications\VotoRespostaNotification')
+            ->where('data->idResposta', $this->id)
+            ->get();
     }
 }
