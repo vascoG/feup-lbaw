@@ -18,6 +18,10 @@ time, mark, audio, video {
 	border: 0;
 }
 
+html {
+	min-width: 700px;
+}
+
 html, body {
 	height: 100%;
 }
@@ -395,6 +399,11 @@ lable {
 /*
 Criaçao e ediçao de questao
 */
+#form-questao-etiquetas-container h5 {
+	font-size: 1rem;
+	margin-bottom: 0.5rem;
+}
+
 .questao-titulo
 {
 	width: 70vw;
@@ -641,7 +650,7 @@ Criaçao e ediçao de questao
 /*
 	Estilos do filtro de pesquisa
 */
-.pesquisa-header-filtro {
+#pesquisa-contentor-etiquetas h5 {
 	margin: 0 auto;
 	padding-bottom: 10px;
 }
