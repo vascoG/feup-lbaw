@@ -9,14 +9,13 @@
 @section('titulo')
 {{ $questao->titulo }}
 @endsection
-
 @section('conteudo')
 <div class="container ">
   <div class="row">
     <div class="col-3">
       <div class="media">
-        <img class="mr-3 rounded-circle" src="{{ asset($criador->imagem_perfil) }}"></img>
-        <p class="nome">{{ $criador->nome }}</p>
+        <img class="mr-3 rounded-circle" src="{{ asset(is_null($criador) ? App\Models\Utilizador::$imagemPadrao : $criador->imagem_perfil) }}"></img>
+        <p class="nome">{{ is_null($criador) ? App\Models\Utilizador::$nomePadrao : $criador->nome }}</p>
         <p class="text-muted">{{ date('d/m/y H:i:s',strtotime($questao->data_publicacao)) }}</p>
       </div>
     </div>
@@ -41,7 +40,7 @@
       </span>
       @endforeach
       @if($user!=null)
-      @if($user->id == $questao->criador->id_utilizador)
+      @if(!is_null($questao->criador) && $user->id == $questao->criador->id_utilizador)
       <a href="{{route('editar-questao',$questao->id)}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
       @else
       <a href="#formResposta"><button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button></a>

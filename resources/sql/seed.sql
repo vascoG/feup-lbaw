@@ -254,16 +254,15 @@ CREATE VIEW reputacao AS
 DROP TRIGGER IF EXISTS auto_interacao_resposta ON resposta;
 DROP TRIGGER IF EXISTS auto_interacao_comentario ON comentario;
 DROP TRIGGER IF EXISTS pesquisa_questao ON questao;
---DROP TRIGGER IF EXISTS notifica_utilizador ON notificacao;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_questoes ON questao_avaliada;
 DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta_avaliada;
+DROP TRIGGER IF EXISTS atualiza_vista_gosto_questoes ON questao;
+DROP TRIGGER IF EXISTS atualiza_vista_gosto_respostas ON resposta;
 DROP TRIGGER IF EXISTS verifica_data_resposta ON resposta;
 DROP TRIGGER IF EXISTS verifica_data_comentario_resposta ON comentario;
 DROP TRIGGER IF EXISTS verifica_data_comentario_questao ON comentario;
 DROP TRIGGER IF EXISTS apenas_um_tipo_interacao ON historico_interacao;
---DROP TRIGGER IF EXISTS apenas_um_tipo_interacao ON notificacao;
 DROP TRIGGER IF EXISTS valor_autor_insere ON questao;
---DROP TRIGGER IF EXISTS valor_autor_insere ON notificacao;
 DROP TRIGGER IF EXISTS valor_autor_insere ON comentario;
 DROP TRIGGER IF EXISTS valor_questao_atualiza ON questao;
 DROP TRIGGER IF EXISTS valor_resposta_atualiza ON resposta;
@@ -387,6 +386,11 @@ CREATE TRIGGER atualiza_vista_gosto_questoes
   FOR EACH STATEMENT
   EXECUTE PROCEDURE atualiza_vista_gosto_questoes();
 
+CREATE TRIGGER atualiza_vista_gosto_questoes
+  AFTER INSERT OR DELETE ON questao
+  FOR EACH STATEMENT
+  EXECUTE PROCEDURE atualiza_vista_gosto_questoes();
+
 /*
   TRIGGER PARA ATUALIZAR VIEW MATERIALIZADA DOS LIKES EM RESPOSTAS
 */
@@ -400,6 +404,11 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER atualiza_vista_gosto_respostas
   AFTER INSERT OR DELETE ON resposta_avaliada
+  FOR EACH STATEMENT
+  EXECUTE PROCEDURE atualiza_vista_gosto_respostas();
+
+CREATE TRIGGER atualiza_vista_gosto_respostas
+  AFTER INSERT OR DELETE ON resposta
   FOR EACH STATEMENT
   EXECUTE PROCEDURE atualiza_vista_gosto_respostas();
 
@@ -856,7 +865,7 @@ CREATE TABLE notifications (
   type VARCHAR(255),
   notifiable_type VARCHAR(255),
   notifiable_id BIGINT,
-  data TEXT,
+  data JSON,
   read_at TIMESTAMP WITHOUT TIME ZONE,
   created_at TIMESTAMP WITHOUT TIME ZONE,
   updated_at TIMESTAMP WITHOUT TIME ZONE

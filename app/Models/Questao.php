@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\UtilizadorAtivo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\DatabaseNotification;
 use DB;
 
 class Questao extends Model {
@@ -18,6 +19,14 @@ class Questao extends Model {
         'data_publicacao',
     ];
 
+    protected static function booted() {
+        static::deleted(function ($questao) {
+            foreach($questao->notificacoes as $notificacao) {
+                $notificacao->delete();
+            }
+        });
+    }
+
     public function criador() {
         return $this->belongsTo('App\Models\UtilizadorAtivo', 'autor', 'id');
     }
@@ -28,10 +37,6 @@ class Questao extends Model {
 
     public function comentarios() {
         return $this->hasMany('App\Models\Comentario', 'id_questao', 'id');
-    }
-
-    public function notificacoes() {
-        return $this->hasMany('App\Models\Notificacao', 'id_questao', 'id');
     }
 
     public function historicos() {
@@ -77,9 +82,19 @@ class Questao extends Model {
             ->orderByDesc('questao.data_publicacao');
     }
 
-    public function temRespostaCorreta()
-    {
+    public function temRespostaCorreta() {
         return $this->respostas->contains('resposta_aceite', true);
     }
 
+    public function getNotificacoesAttribute() {
+        $votosQuestao = DatabaseNotification::query()
+            ->where('type', 'App\Notifications\VotoQuestaoNotification')
+            ->where('data->idQuestao', $this->id)
+            ->get();
+        $respostaQuestao = DatabaseNotification::query()
+            ->where('type', 'App\Notifications\RespostaQuestaoNotification')
+            ->where('data->idQuestao', $this->id)
+            ->get();
+        return $votosQuestao->concat($respostaQuestao);
+    }
 }

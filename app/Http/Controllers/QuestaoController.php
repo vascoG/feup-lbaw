@@ -167,7 +167,7 @@ class QuestaoController extends Controller
     public function show(Request $request, $idQuestao){
         $this->authorize('notBanned',Questao::class);
         $questao = Questao::findOrFail($idQuestao);
-        $criador = $questao->criador ? $questao->criador->utilizador : Utilizador::apagado();
+        $criador = $questao->criador ? $questao->criador->utilizador : null;
         $respostas = $questao->respostas;
         $respostas = $respostas->sortByDesc('resposta_aceite');
         return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'user'=>Auth::user(),'respostas'=>$respostas]);

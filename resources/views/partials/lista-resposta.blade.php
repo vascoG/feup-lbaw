@@ -2,8 +2,8 @@
   <div class="row">
     <div class="col-3">
       <div class="media">
-        <img class="mr-3 rounded-circle" src="{{ asset($resposta->criador->utilizador->imagem_perfil) }}"></img>
-        <p class="nome">{{$resposta->criador->utilizador->nome}}</p>
+        <img class="mr-3 rounded-circle" src="{{ asset(is_null($resposta->criador) ? App\Models\Utilizador::$imagemPadrao : $resposta->criador->utilizador->imagem_perfil) }}"></img>
+        <p class="nome">{{is_null($resposta->criador) ? App\Models\Utilizador::$nomePadrao : $resposta->criador->utilizador->nome}}</p>
         <p class="text-muted">{{date('d/m/y H:i:s',strtotime($resposta->data_publicacao))}}</p>
       </div>
     </div>
@@ -51,7 +51,7 @@
       <div class="texto-interacoes">{{$resposta->texto}}</div>
       <hr>
       @if($user!=null)
-      @if($user->id == $resposta->criador->id_utilizador)
+      @if($resposta->criador && $user->id == $resposta->criador->id_utilizador)
       <a href="{{route('editar-resposta',[$questao->id,$resposta->id])}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
       @else
       <button type="button" class="btn questao-button btn-sm float-end m-2 comentar-resposta" data-id="{{$resposta->id}}">Comentar</button>
