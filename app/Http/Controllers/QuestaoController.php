@@ -38,7 +38,7 @@ class QuestaoController extends Controller
     }
 
     private function notificaVoto($questao, $autorVoto) {
-        $notificacaoVoto = $this->encontraNotificacao($questao,$autorVoto);
+        $notificacaoVoto = $this->encontraNotificacao($questao, $autorVoto);
         if (is_null($notificacaoVoto)) {
             $questao->criador->notify(new VotoQuestaoNotification($questao, Auth::user()));
         } else {

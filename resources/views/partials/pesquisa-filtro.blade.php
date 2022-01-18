@@ -5,7 +5,7 @@
 <div class="pt-4">
     <form method="GET" action={{ route('pesquisa') }}>
         <div id="pesquisa-query" class="input-group">
-            <input class="form-control" name="query" value="{{ $query }}" placeholder="Procurar questões..."></input>
+            <input class="form-control" name="query" value="{{ $query }}" placeholder="Procurar questões...">
             <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filtros-avancados" aria-expanded="false" aria-controls="filtros-avancados">
                 <i class="bi bi-funnel"></i>
             </button>
@@ -21,7 +21,7 @@
                         <div id="mostrador-etiquetas" class="form-control"></div>
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                         <ul id="lista-etiquetas" class="dropdown-menu dropdown-menu-end">
-                            <input id="filtro-etiquetas" type="text" class="form-control" autocomplete="off">
+                            <li><input id="filtro-etiquetas" type="text" class="form-control" autocomplete="off"></li>
                             <li><hr class="dropdown-divider"></li>
                             @foreach (\App\Models\Etiqueta::all() as $etiqueta)
                                 <li class="pesquisa-etiqueta">

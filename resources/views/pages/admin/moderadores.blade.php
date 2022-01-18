@@ -3,6 +3,7 @@
 ])
 
 @push('scripts')
+    <script src="{{ asset('js/clicavel.js') }}"></script>
     <script src="{{ asset('js/admin-moderadores.js') }}"></script>
 @endpush
 
@@ -11,21 +12,21 @@ Administração de moderadores
 @endsection
 
 
-@section('conteudo') 
+@section('conteudo')
+<div class="mx-3">
+    <div class="d-flex justify-content-end my-3">
+        @include('partials.barra-pesquisa', [
+            'acaoPesquisa' => route('admin-moderadores'),
+            'placeholder' => 'Introduza o nome do utilizador',
+            'query' => $query
+        ])
+    </div>
 
-<div class="d-flex flex-wrap justify-content-start gap-3 ps-4">
-        @each('partials.moderador-completo', $users, 'users')
-    </div>
-    <div id="homepage-etiqueta-conexao-erro" class="toast position-absolute start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header bg-warning text-dark">
-          <strong class="me-auto">Ocorreu um erro ao submeter as alterações</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    <div class="d-flex flex-column flex-nowrap justify-content-start ">
+            @each('partials.cards.admin.moderador', $users, 'usr')
         </div>
-        <div class="toast-body">
-          Verifique a sua ligação com a internet e tente novamente. 
-        </div>
+        <div class="d-flex justify-content-center my-3">
+        {{ $users->links() }}
     </div>
-    <div class="d-flex justify-content-center my-3">
-    {{ $users->links() }}
 </div>
 @endsection

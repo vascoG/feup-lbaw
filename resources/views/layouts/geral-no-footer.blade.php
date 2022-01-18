@@ -42,14 +42,14 @@
           @if (Auth::check())
             <div class="btn-group" role="group" aria-label="Dados do utilizador">
               <div class="dropdown btn-group">
-                <button id="botao-mostra-notificacao" class="btn btn-secondary" type="button" id="navbar-notificacoes-utilizador" data-bs-toggle="dropdown" aria-expanded="false">
+                <button id="botao-mostra-notificacao" class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     @if(Auth::user()->ativo->unreadNotifications->count())
                       <i class="bi bi-bell-fill"></i>
                     @else
                       <i class="bi bi-bell"></i>
                     @endif
                 </button>
-                <ul id="lista-notificacoes" class="dropdown-menu p-3" aria-labelledby="navbar-notificacoes-utilizador">
+                <ul id="lista-notificacoes" class="dropdown-menu p-3" aria-labelledby="botao-mostra-notificacao">
                   @include('partials.notificacoes.lista-notificacoes')
                 </ul>
               </div>
@@ -77,6 +77,15 @@
       @yield('conteudo')
     </main>
     @stack('footer')
+  </div>
+  <div id="erro-conexao" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-warning text-dark">
+      <strong class="me-auto">Ocorreu um erro ao submeter as alterações</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Verifique a sua ligação com a internet e tente novamente. 
+    </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

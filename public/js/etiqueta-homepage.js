@@ -1,5 +1,5 @@
 let etiquetas = document.getElementsByClassName('etiqueta-card');
-let conexaoToast = document.getElementById('homepage-etiqueta-conexao-erro');
+let conexaoToast = document.getElementById('erro-conexao');
 Array.from(etiquetas).forEach((etiqueta) => {
     let submete = etiqueta.getElementsByClassName('homepage-etiqueta-acao')[0];
     let esperaResposta = etiqueta.getElementsByClassName('homepage-etiqueta-acao-espera')[0];
@@ -30,14 +30,9 @@ Array.from(etiquetas).forEach((etiqueta) => {
             .catch((_) => {
                 esperaResposta.style.display = 'none';
                 submete.style.display = 'block';
+                console.log(conexaoToast);
                 bootstrap.Toast.getOrCreateInstance(conexaoToast).show();
             })
         });
     }
 });
-
-for(let i = 0; i < etiquetas.length; i++) {
-    etiquetas[i].addEventListener('click', (_) => {
-        window.location.href = `${window.location.origin}/questoes?etiqueta=${etiquetas[i].dataset.id}`;
-    })
-}

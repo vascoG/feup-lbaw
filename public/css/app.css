@@ -65,6 +65,14 @@ lable {
     user-select: none;
 }
 
+#erro-conexao {
+	position: fixed !important;
+	bottom: 10px !important;
+	left: 50% !important;
+	transform: translate(-50%, 0) !important;
+	z-index: 10000;
+}
+
 .btn-primary, .btn-primary:visited, .btn-primary:active, .btn-primary:enabled {
 	border: 1px solid #B88F27 !important;
 	background-color: #DAA520 !important;
@@ -202,12 +210,6 @@ lable {
 
 #botoes-login {
 	text-align: end;
-}
-
-.erro-input {
-	font-weight: bold;
-	color: #ff0033;
-	margin-left: 20px;
 }
 
 /*
@@ -426,13 +428,38 @@ Criaçao e ediçao de questao
 	border-style: outset;
 	border-color: #2F2D2E;
 	border-width: 1px;
-	margin-left: 80%;
+	margin-left: 90%;
 }
 .publicar-button:hover
 {
 	background-color: #2F2D2E;
 	color:#EAEAEA;
 }
+
+.label-publicar
+{
+	margin-top:15px;
+}
+
+.questao-interacao
+{
+	width: 50vw;
+	height: 20vw;
+	margin-top:10px;
+	margin-bottom:10px;
+	text-align: left;
+	position: relative;
+	resize: none;
+	left: 10vw;
+
+}
+
+
+.interacoes-questao
+{
+	margin-top:30px;
+}
+
 .eliminar-button
 {
 	border-style: outset;
@@ -658,11 +685,6 @@ Criaçao e ediçao de questao
 /*
 	Admin - Etiquetas
 */
-#admin-etiqueta-conexao-erro {
-	bottom: 10px;
-	z-index: 2000;
-}
-
 #admin-etiquetas {
 	margin: 20px 40px;
 }
@@ -709,6 +731,31 @@ Criaçao e ediçao de questao
 
 #admin-etiqueta-card-container {
 	gap: 2vw;
+}
+
+/*
+	Admin - Moderadores
+*/
+.admin-moderador-img-wrap {
+	min-width: 150px;
+  	height: 150px;
+  	position: relative;
+  	display: inline-block;
+  	overflow: hidden;
+  	margin: 0;
+}
+
+.card-body {
+	word-break: break-all;
+}
+
+.admin-moderador-acao-espera {
+	display: none;
+}
+
+.admin-moderador-img-placeholder {
+	width: 150px;
+	height: 150px;
 }
 
 /*
@@ -763,6 +810,17 @@ Criaçao e ediçao de questao
 .homepage-etiqueta-acao-espera {
 	display: none;
 }
+
+.admin-moderador-img-wrap > .admin-moderador-img {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	min-height: 100%;
+	min-width: 100%;
+	transform: translate(-50%, -50%);
+}
+
 /*
 Página estáticas
 */
