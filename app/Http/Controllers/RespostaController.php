@@ -10,9 +10,41 @@ use Illuminate\Support\Facades\Validator;
 use App\Notifications\RespostaQuestaoNotification;
 use App\Models\Resposta;
 use App\Models\Questao;
+use App\Notifications\VotoRespostaNotification;
 
 class RespostaController extends Controller
 {
+
+    private function encontraNotificacao($resposta, $autorVoto) {
+        return $resposta
+            ->criador
+            ->unreadnotifications()
+            ->where('type', 'App\Notifications\VotoRespostaNotification')
+            ->get()
+            ->first(function($notificacao) use($resposta, $autorVoto) {
+                return (
+                    ($notificacao->data['idResposta'] == $resposta->id) && 
+                    ($notificacao->data['idAutorVoto'] == $autorVoto->id)
+                );
+            });
+    }
+
+    private function removeNotificacaoVoto($resposta, $autorVoto) {
+        $notificacaoVoto = $this->encontraNotificacao($resposta, $autorVoto);
+        if (!is_null($notificacaoVoto)) {
+            $notificacaoVoto->delete();
+        }
+    }
+
+    private function notificaVoto($resposta, $autorVoto) {
+        $notificacaoVoto = $this->encontraNotificacao($resposta,$autorVoto);
+        if (is_null($notificacaoVoto)) {
+            $resposta->criador->notify(new VotoRespostaNotification($resposta, Auth::user()));
+        } else {
+            $notificacaoVoto->touch();
+        }
+    }
+
     /**
      * Mostra o formulário para editar uma resposta
      * @return Response
@@ -103,4 +135,62 @@ class RespostaController extends Controller
         Questao::find($idQuestao)->criador->notify(new RespostaQuestaoNotification($resposta));
         return redirect()->route('questao',[$idQuestao]);
     }
+    public function votar(Request $request, $idResposta) {
+        $resposta = Resposta::find($idResposta);
+        if (is_null($resposta)) {
+            return response(view('errors.404'), 404)
+                ->header('Content-type', 'text/html');
+        }
+        if (!Auth::check()) {
+            return response(view('errors.403'), 403)
+                ->header('Content-type', 'text/html');
+        }
+        $utilizador = Auth::user()->ativo;
+        $voto = $utilizador->respostasAvaliadas()->where('id_resposta', $resposta->id)->exists();
+        if ($voto) {
+            $this->removeNotificacaoVoto($resposta, Auth::user());
+            DB::table('resposta_avaliada')
+                ->where('id_utilizador', $utilizador->id)
+                ->where('id_resposta', $resposta->id)
+                ->delete();
+        } else {
+            $this->notificaVoto($resposta, Auth::user());
+            DB::table('resposta_avaliada')->insert([
+                'id_utilizador' => $utilizador->id,
+                'id_resposta' => $idResposta
+            ]);
+        }
+        $voto = !$voto;
+        return response()->json([
+            'novoEstado' => $voto ? 'VOTO' : 'NAO_VOTO',
+            'numVotos' => $resposta->numero_votos
+        ]);
+    }
+
+    public function respostaCorreta(Request $request, $idQuestao, $idResposta)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $questao = Questao::findOrFail($idQuestao);
+        $resposta = Resposta::findOrFail($idResposta);
+        $this->authorize('editar',$questao);
+        if($questao->temRespostaCorreta())
+            return redirect()->route('questao',[$questao]);
+        $resposta->update([
+            'resposta_aceite' => true]);
+            
+        return redirect()->route('questao',[$questao]);
+    }
+
+    public function retirarRespostaCorreta(Request $request, $idQuestao, $idResposta)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $questao = Questao::findOrFail($idQuestao);
+        $resposta = Resposta::findOrFail($idResposta);
+        $this->authorize('editar',$questao);
+        $resposta->update([
+            'resposta_aceite' => false]);
+            
+        return redirect()->route('questao',[$questao]);
+    }
+
 }

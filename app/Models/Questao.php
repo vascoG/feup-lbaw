@@ -77,4 +77,9 @@ class Questao extends Model {
             ->orderByDesc('questao.data_publicacao');
     }
 
+    public function temRespostaCorreta()
+    {
+        return $this->respostas->contains('resposta_aceite', true);
+    }
+
 }

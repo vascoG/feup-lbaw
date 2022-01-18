@@ -158,7 +158,9 @@ class QuestaoController extends Controller
         $this->authorize('notBanned',Questao::class);
         $questao = Questao::findOrFail($idQuestao);
         $criador = $questao->criador ? $questao->criador->utilizador : Utilizador::apagado();
-        return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'user'=>Auth::user()]);
+        $respostas = $questao->respostas;
+        $respostas = $respostas->sortByDesc('resposta_aceite');
+        return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'user'=>Auth::user(),'respostas'=>$respostas]);
     }
 
     public function votar(Request $request, $idQuestao) {
@@ -188,7 +190,8 @@ class QuestaoController extends Controller
         }
         $voto = !$voto;
         return response()->json([
-            'novoEstado' => $voto ? 'VOTO' : 'NAO_VOTO'
+            'novoEstado' => $voto ? 'VOTO' : 'NAO_VOTO',
+            'numVotos' => $questao->numero_votos
         ]);
     }
 

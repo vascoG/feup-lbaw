@@ -45,7 +45,7 @@ class UtilizadorAtivo extends Model {
     }
 
     public function respostasAvaliadas() {
-        return $this->belongsToMany('App\Models\Respostas', 'resposta_avaliada', 'id_utilizador', 'id_resposta');
+        return $this->belongsToMany('App\Models\Resposta', 'resposta_avaliada', 'id_utilizador', 'id_resposta');
     }
 
     public function etiquetasSeguidas() {
