@@ -68,6 +68,6 @@ for(let i = 0; i < botoes.length; i++) {
 inicializaMostrador();
 document.getElementById('filtro-etiquetas').addEventListener('keyup', atualizaLista);
 document.getElementById('lista-etiquetas').addEventListener('click', (e) => e.stopPropagation());
-document.getElementById('botao-pesquisa').addEventListener('click', (_) => {
+document.getElementsByClassName('submete-etiquetas')[0].addEventListener('click', (_) => {
     document.getElementById('etiqueta-secreta').value = Array.from(etiquetasMostradas.keys()).join(',');
 })

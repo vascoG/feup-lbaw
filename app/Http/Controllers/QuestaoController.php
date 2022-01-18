@@ -54,8 +54,9 @@ class QuestaoController extends Controller
     {
         if(!Auth::check()) return redirect('/login');
         $this->authorize('notBanned',Questao::class);
-        $tags = Etiqueta::all();
-        return view('pages.criarquestao', ['tags'=>$tags]);
+        return view('pages.criarquestao', [
+            'etiquetas' => []
+        ]);
     }
 
     /**
@@ -83,9 +84,11 @@ class QuestaoController extends Controller
         ]);
         $questao->save();
         $etiquetas = $request->get('etiqueta');
-        if($etiquetas!=null){
-        foreach($etiquetas as $tag)
-            $questao->etiquetas()->attach($tag);
+        if(!is_null($etiquetas)) {
+            $etiquetas = explode(',', $etiquetas);
+            foreach($etiquetas as $tag) {
+                $questao->etiquetas()->attach($tag);
+            }
         }
         return redirect()->route('questao',[$questao]);
     }
@@ -100,8 +103,13 @@ class QuestaoController extends Controller
         $questao = Questao::findOrFail($idQuestao);
         $this->authorize('editar',$questao);
         $tags = Etiqueta::all();
-
-        return view('pages.editarquestao',['questao'=>$questao, 'tags'=>$tags]);
+        $etiquetasQuestao = $questao->etiquetas->map(function ($etiqueta) {
+            return $etiqueta->id;
+        })->toArray();
+        return view('pages.editarquestao',[
+            'questao'=> $questao,
+            'etiquetas'=> is_null($questao->etiquetas) ? [] : $etiquetasQuestao
+        ]);
     }
     /**
      * Edita uma questão
@@ -131,10 +139,12 @@ class QuestaoController extends Controller
 
         $questao->etiquetas()->detach();
         $etiquetas = $request->get('etiqueta');
-        if($etiquetas!=null)
-        {
-        foreach($etiquetas as $tag)
-            $questao->etiquetas()->attach($tag);
+        $etiquetas = $request->get('etiqueta');
+        if(!is_null($etiquetas)) {
+            $etiquetas = explode(',', $etiquetas);
+            foreach($etiquetas as $tag) {
+                $questao->etiquetas()->attach($tag);
+            }
         }
         return redirect()->route('questao',[$questao]);
     }
