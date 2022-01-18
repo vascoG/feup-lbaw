@@ -6,17 +6,16 @@ SET search_path TO lbaw2191;*/
   TABLE CREATION START HERE
 */
 
+DROP TABLE IF EXISTS notifications CASCADE;
 DROP TABLE IF EXISTS utilizador CASCADE;
 DROP TABLE IF EXISTS utilizador_ativo CASCADE;
 DROP TABLE IF EXISTS utilizador_banido CASCADE;
 DROP TABLE IF EXISTS apelo_desbloqueio CASCADE;
 DROP TABLE IF EXISTS medalha CASCADE;
---DROP TABLE IF EXISTS notificacao CASCADE;
 DROP TABLE IF EXISTS historico_interacao CASCADE;
 DROP TABLE IF EXISTS resposta CASCADE;
 DROP TABLE IF EXISTS comentario CASCADE;
 DROP TABLE IF EXISTS questao CASCADE;
---DROP TABLE IF EXISTS utilizador_ativo_notificacao CASCADE;
 DROP TABLE IF EXISTS utilizador_ativo_medalha CASCADE;
 DROP TABLE IF EXISTS questao_seguida CASCADE;
 DROP TABLE IF EXISTS questao_avaliada CASCADE;
@@ -851,6 +850,17 @@ $$
 LANGUAGE plpgsql; 
 
 SELECT atualiza_ids();
+
+CREATE TABLE notifications (
+  id UUID PRIMARY KEY,
+  type VARCHAR(255),
+  notifiable_type VARCHAR(255),
+  notifiable_id BIGINT,
+  data TEXT,
+  read_at TIMESTAMP WITHOUT TIME ZONE,
+  created_at TIMESTAMP WITHOUT TIME ZONE,
+  updated_at TIMESTAMP WITHOUT TIME ZONE
+);
 
 INSERT INTO utilizador(nome, nome_utilizador, e_mail, data_nascimento, palavra_passe, moderador, administrador, descricao) VALUES (
   'John Doe',
