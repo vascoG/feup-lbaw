@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\DatabaseNotification;
 use App\Models\UtilizadorAtivo;
+use App\Scopes\RespostaVisivelScope;
 use DB;
 
 class Resposta extends Model {
@@ -15,6 +16,7 @@ class Resposta extends Model {
     protected $fillable = ['texto', 'autor', 'id_questao', 'resposta_aceite'];
 
     protected static function booted() {
+        static::addGlobalScope(new RespostaVisivelScope);
         static::deleted(function ($resposta) {
             foreach($resposta->notificacoes as $notificacao) {
                 $notificacao->delete();

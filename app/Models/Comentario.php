@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\ComentarioVisivelScope;
 
 class Comentario extends Model {
     public $timestamps = false;
@@ -10,6 +11,10 @@ class Comentario extends Model {
     public $table = 'comentario';
 
     protected $fillable = ['texto', 'autor', 'id_questao', 'id_resposta'];
+
+    protected static function booted() {
+        static::addGlobalScope(new ComentarioVisivelScope);
+    }
 
     public function criador() {
         return $this->belongsTo('App\Models\UtilizadorAtivo', 'autor', 'id');

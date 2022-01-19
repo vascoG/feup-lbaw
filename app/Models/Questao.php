@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\UtilizadorAtivo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\DatabaseNotification;
+use App\Scopes\QuestaoVisivelScope;
 use DB;
 
 class Questao extends Model {
@@ -20,6 +21,7 @@ class Questao extends Model {
     ];
 
     protected static function booted() {
+        static::addGlobalScope(new QuestaoVisivelScope);
         static::deleted(function ($questao) {
             foreach($questao->notificacoes as $notificacao) {
                 $notificacao->delete();

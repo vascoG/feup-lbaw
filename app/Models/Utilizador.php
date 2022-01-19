@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RecuperaConta;
+use App\Scopes\BanidoScope;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
@@ -44,6 +45,7 @@ class Utilizador extends Authenticable implements CanResetPassword{
     ];
 
     protected static function booted() {
+        static::addGlobalScope(new BanidoScope);
         static::deleted(function ($utilizador) {
             foreach($utilizador->notificacoesRelacionadas() as $notificacao) {
                 $notificacao->delete();
