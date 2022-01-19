@@ -13,24 +13,36 @@ class QuestaoPolicy{
     
     use HandlesAuthorization;
 
-    public function notBanned(?Utilizador $user)
-    {   
+    public function notBanned(?Utilizador $user) {   
         if ($user==null)
             return true;
         $user_banned = UtilizadorBanido::find($user->id);
-        return ($user_banned==null);
+        return ($user_banned == null);
     }
 
-    public function editar(Utilizador $user, Questao $questao)
-    {   
-        $user_banned = UtilizadorBanido::find($user->id);
-        if($user_banned!=null)
+    public function valid(?Utilizador $user) {
+        if (is_null($user)) {
             return false;
-        return $user->id == $questao->autor || $user->administrador || $user->moderador;
+        }
+        $user_banned = UtilizadorBanido::find($user->id);
+        if($user_banned != null)
+            return false;
+        return true;
     }
 
-    public function notOwner(Utilizador $user, Questao $questao)
-    {
+    public function editar(?Utilizador $user, Questao $questao) {  
+        return $this->valid($user) && ($user->ativo->id == $questao->autor || $user->administrador || $user->moderador);
+    }
+
+    public function interagir(?Utilizador $user, Questao $questao) {
+        return $this->valid($user) && ($user->ativo->id != $questao->autor);
+    }
+
+    public function editarConteudo(?Utilizador $user, Questao $questao) {
+        return $this->valid($user) && ($user->ativo->id != $questao->autor);
+    }
+
+    public function notOwner(Utilizador $user, Questao $questao) {
         return $user->id != $questao->autor;
     }
 

@@ -1,4 +1,4 @@
-@extends('layouts.minimo')
+@extends('layouts.geral')
 
 @push('scripts')
     <script src="{{ asset('js/questao.js') }}"></script>
@@ -20,17 +20,6 @@
       </div>
     </div>
     <div class="col-9 corpo-questao">
-    @if($user != null && $user->moderador)
-      <form method = "POST" action="{{route('eliminar-questao',$questao->id)}}" id="questao-eliminar-form">
-        @csrf
-        @method('DELETE')
-        <button class="btn clearfix btn-sm eliminar-button float-end" type="submit" id="submit_button">
-            <b>
-                ELIMINAR QUESTÃO
-            </b>
-        </button>
-      </form>
-    @endif
       <h3>{{$questao->titulo}}</h3>
       <div class= "texto-interacoes">{{$questao->texto}}</div>
       <hr>
@@ -39,34 +28,31 @@
       {{$etiqueta->nome}}
       </span>
       @endforeach
-      @if($user!=null)
-      @if(!is_null($questao->criador) && $user->id == $questao->criador->id_utilizador)
-      <a href="{{route('editar-questao',$questao->id)}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
-      @else
-      <a href="#formResposta"><button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button></a>
-      <a href="#formComentario"><button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button></a>
-        @auth
-          @if (Auth::user()->ativo->questoesAvaliadas()->where('id_questao', $questao->id)->exists())
-                <button type="button" class="bi bi-hand-thumbs-down btn questao-button votar-questao btn-sm float-end m-2" data-id="{{ $questao->id }}"> {{$questao->numero_votos}}</button>
-          @else
-                <button type="button" class="bi bi-hand-thumbs-up btn votar-questao questao-button btn-sm float-end m-2" data-id="{{ $questao->id }}"> {{$questao->numero_votos}}</button>
-          @endif
-                <button type="button" class="btn votar-questao btn-sm voto-acao-espera questao-button float-end m-2" data-id="{{ $questao->id }}" disabled>
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                      A processar
-                </button>
-        @endauth
-      @endif
-      @endif
+      @can('editar', $questao)
+        <a href="{{route('editar-questao',$questao->id)}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
+      @endcan
+      @can('interagir', $questao)
+        <a href="#formResposta"><button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button></a>
+        <a href="#formComentario"><button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button></a>
+        @if (Auth::user()->ativo->questoesAvaliadas()->where('id_questao', $questao->id)->exists())
+          <button type="button" class="bi bi-hand-thumbs-down btn questao-button votar-questao btn-sm float-end m-2" data-id="{{ $questao->id }}"> {{$questao->numero_votos}}</button>
+        @else
+          <button type="button" class="bi bi-hand-thumbs-up btn votar-questao questao-button btn-sm float-end m-2" data-id="{{ $questao->id }}"> {{$questao->numero_votos}}</button>
+        @endif
+          <button type="button" class="btn votar-questao btn-sm voto-acao-espera questao-button float-end m-2" data-id="{{ $questao->id }}" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              A processar
+          </button>
+      @endcan
     </div>
   </div> 
   @foreach ($questao->comentarios as $comentario)
-      @include('partials.lista-comentario',['comentario'=>$comentario, 'user'=>$user])
+      @include('partials.lista-comentario',['comentario'=>$comentario])
   @endforeach
     @foreach ($respostas as $resposta)
-      @include('partials.lista-resposta',['resposta'=>$resposta,'user'=>$user])
+      @include('partials.lista-resposta',['resposta'=>$resposta])
       @foreach ($resposta->comentarios as $comentario)
-        @include('partials.lista-comentario',['comentario'=>$comentario,'user'=>$user])
+        @include('partials.lista-comentario',['comentario'=>$comentario])
       @endforeach
     @endforeach
   <hr class="interacoes-questao">
