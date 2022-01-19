@@ -60,37 +60,38 @@
   <hr class="interacoes-questao">
   <div>
     <form method = "POST" action="{{route('criar-resposta',$questao->id)}}"  id="formResposta"  class="hidden">
-    {{ csrf_field() }}
-      <div class="label-publicar">
-      <label>Resposta à questão: </label>
-      </div>
-      <textarea class="form-group questao-interacao" name="texto"></textarea>
-      <div>
-      <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
+      @csrf
+      <div class="form-group d-flex flex-column w-75 mx-auto">
+        <label for="textarea-resposta">Resposta à questão: </label>
+        <textarea id="textarea-resposta" class="form-control textarea-questao" name="texto"></textarea>
+        <div class="text-end mt-3">
+          <button type="submit" class="btn btn-outline-secondary py-1" >Publicar</button>
+        </div>
       </div>
     </form>
   </div>
   <div>
     <form method = "POST" action="{{route('criar-comentario',$questao->id)}}"  id="formComentario"  class="hidden">
-    {{ csrf_field() }}
-    <div class="label-publicar">
-      <label>Comentário à questão: </label>
-      </div>
-      <textarea class="form-group questao-interacao" name="texto"></textarea>
-      <div>
-      <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
+      @csrf
+        <div class="form-group d-flex flex-column w-75 mx-auto">
+          <label for="textarea-comentario">Comentário à questão: </label>
+          <textarea id="textarea-comentario" class="form-control textarea-questao" name="texto"></textarea>
+          <div class="text-end mt-3">
+            <button type="submit" class="btn btn-outline-secondary py-1" >Publicar</button>
+          </div>
+        </div>
       </div>
     </form>
   </div>
   <div>
     <form method = "POST" action="{{route('criar-comentario-resposta', [$questao->id,0])}}"  id="formComentarioResposta"  class="hidden">
-    {{ csrf_field() }}
-    <div class="label-publicar">
-      <label>Comentário à resposta: </label>
-      </div>
-      <textarea class="form-group questao-interacao" name="texto"></textarea>
-      <div>
-      <button type="submit" class="btn publicar-button btn-sm" >Publicar</button>
+      @csrf
+      <div class="form-group d-flex flex-column w-75 mx-auto">
+        <label for="textarea-resposta">Comentário à resposta: </label>
+        <textarea id="textarea-resposta" class="form-control textarea-questao" name="texto"></textarea>
+        <div class="text-end mt-3">
+          <button type="submit" class="btn btn-outline-secondary py-1" >Publicar</button>
+        </div>
       </div>
     </form>
   </div>

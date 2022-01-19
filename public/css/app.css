@@ -36,6 +36,10 @@ a, abbr, acronym, address, big, cite, label, input, button {
     font-family: 'Nunito', sans-serif;
 }
 
+textarea {
+	resize: none;
+}
+
 a {
     text-decoration: none;
 }
@@ -404,8 +408,7 @@ Criaçao e ediçao de questao
 	margin-bottom: 0.5rem;
 }
 
-.questao-titulo
-{
+.questao-titulo {
 	width: 70vw;
 	margin-top:10px;
 	text-align: left;
@@ -420,8 +423,7 @@ Criaçao e ediçao de questao
 	margin-bottom:10px;
 }
 
-.questao-button
-{
+.questao-button {
 	border-style: outset;
 	border-color: #2F2D2E;
 	border-width: 1px;
@@ -447,6 +449,7 @@ Criaçao e ediçao de questao
 	border-width: 1px;
 	margin-left: 90%;
 }
+
 .publicar-button:hover
 {
 	background-color: #2F2D2E;
@@ -458,8 +461,7 @@ Criaçao e ediçao de questao
 	margin-top:15px;
 }
 
-.questao-interacao
-{
+.questao-interacao {
 	width: 50vw;
 	height: 20vw;
 	margin-top:10px;
@@ -471,9 +473,7 @@ Criaçao e ediçao de questao
 
 }
 
-
-.interacoes-questao
-{
+.interacoes-questao {
 	margin-top:30px;
 }
 
@@ -567,9 +567,15 @@ Criaçao e ediçao de questao
     margin-left: auto;
     margin-right: auto;
 }
+
+.textarea-questao {
+	height: 20vh;
+}
+
 .media-comentario{
 	font-size: small;	
 }
+
 .nome{
 	overflow:hidden;
 }

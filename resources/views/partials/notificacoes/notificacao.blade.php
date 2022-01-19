@@ -13,6 +13,13 @@
             'tituloQuestao' => App\Models\Questao::find($notificacao->data['idQuestao'])->titulo
         ])
         @break
+    @case('App\Notifications\VotoRespostaNotification')
+        @include('partials.notificacoes.voto-resposta', [
+            'nomeUtilizador' =>App\Models\Utilizador::find($notificacao->data['idAutorVoto'])->nome_utilizador,
+            'idQuestao' => $notificacao->data['idQuestao'],
+            'tituloQuestao' => App\Models\Questao::find($notificacao->data['idQuestao'])->titulo
+        ])
+        @break
     @default
         <li>Notificação inválida</li>
 @endswitch

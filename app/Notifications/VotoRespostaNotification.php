@@ -44,7 +44,7 @@ class VotoRespostaNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'idResposta' => $this->resposta->id,
+            'idQuestao' => $this->resposta->questao->id,
             'idAutorVoto' => $this->idAutorVoto
         ];
     }
