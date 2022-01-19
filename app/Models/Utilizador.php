@@ -45,7 +45,6 @@ class Utilizador extends Authenticable implements CanResetPassword{
     ];
 
     protected static function booted() {
-        static::addGlobalScope(new BanidoScope);
         static::deleted(function ($utilizador) {
             foreach($utilizador->notificacoesRelacionadas() as $notificacao) {
                 $notificacao->delete();
