@@ -10,7 +10,7 @@
 {{ $questao->titulo }}
 @endsection
 @section('conteudo')
-<div class="container ">
+<div class="container mt-4">
   <div class="row">
     <div class="col-3">
       <div class="media">
@@ -43,6 +43,8 @@
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
               A processar
           </button>
+      @else
+        <div class="btn btn-sm bi bi-hand-thumbs-up float-end m-2 mostrador-votos"> {{$questao->numero_votos}}</div>
       @endcan
     </div>
   </div> 

@@ -425,9 +425,17 @@ Criaçao e ediçao de questao
 	border-style: outset;
 	border-color: #2F2D2E;
 	border-width: 1px;
-
 	left: 75vw;
 }
+
+.mostrador-votos {
+	cursor: default;
+	border-style: outset;
+	border-color: #2F2D2E;
+	border-width: 1px;
+	left: 75vw;
+}
+
 .hidden{
 	display:none;
 }
