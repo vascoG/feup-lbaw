@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Resposta;
 use App\Models\Utilizador;
 use App\Models\UtilizadorBanido;
+use App\Models\Questao;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,18 @@ class RespostaPolicy{
 
     public function eliminar(?Utilizador $user, Resposta $resposta) {
         return $this->valido($user) && !$this->editar($user, $resposta) && ($user->moderador || $user->administrador);
+    }
+
+    public function marcarCorreta(?Utilizador $user, Resposta $resposta) {
+        return $this->valido($user) && ($user->ativo->id == $resposta->questao->autor) && !$resposta->questao->temRespostaCorreta();
+    }
+
+    public function desmarcarCorreta(?Utilizador $user, Resposta $resposta) {
+        return $this->valido($user) && ($user->ativo->id == $resposta->questao->autor) && $resposta->questao->temRespostaCorreta();
+    }
+
+    public function interagir(?Utilizador $user, Resposta $resposta) {
+        return $this->valido($user) && $resposta->autor != $user->ativo->id;
     }
 
     public function notBanned(?Utilizador $user)

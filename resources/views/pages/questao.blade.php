@@ -1,4 +1,4 @@
-@extends('layouts.minimo')
+@extends('layouts.geral')
 
 @push('scripts')
     <script src="{{ asset('js/questao.js') }}"></script>
