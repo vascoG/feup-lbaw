@@ -39,12 +39,9 @@ Route::get('/perfil/{nomeUtilizador}/questoes', 'PerfilController@mostraQuestoes
 Route::get('/perfil/{nomeUtilizador}/respostas', 'PerfilController@mostraRespostas')->name('perfil-respostas');
 Route::delete('/perfil/{nomeUtilizador}/imagem', 'PerfilController@apagaImagem');
 Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mudaEstado');
-<<<<<<< HEAD
 Route::get('/notificacoes', 'NotificacaoController@mostraNotificacoes')->name('notificacoes');
 Route::delete('notificacoes', 'NotificacaoController@marcaTodasLida');
 Route::delete('/notificacao/{idNotificacao}', 'NotificacaoController@marcaLida');
-=======
->>>>>>> 3a463ddbee0aad1043a807dafdeecaece8f05f34
 Route::get('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('perfil-apelos');
 Route::post('/perfil/{nomeUtilizador}/apelos','PerfilController@create')->name('criar-apelo');
 
