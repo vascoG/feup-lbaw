@@ -43,7 +43,8 @@ Route::get('/notificacoes', 'NotificacaoController@mostraNotificacoes')->name('n
 Route::delete('notificacoes', 'NotificacaoController@marcaTodasLida');
 Route::delete('/notificacao/{idNotificacao}', 'NotificacaoController@marcaLida');
 Route::get('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('perfil-apelos');
-Route::post('/perfil/{nomeUtilizador}/apelos','PerfilController@create')->name('criar-apelo');
+Route::get('/perfil/{nomeUtilizador}/criarapelos','PerfilController@showApeloForm')->name('formulario-apelo');
+Route::post('/perfil/{nomeUtilizador}/criarapelos','PerfilController@create')->name('criar-apelo');
 
 #M02
 Route::view('/sobrenos', 'pages.estaticas.sobrenos')->name('sobre-nos');
@@ -57,6 +58,7 @@ Route::delete('/admin/etiqueta/{id}', 'Admin\EtiquetaController@apagaEtiqueta');
 Route::get('/admin/moderadores','AdminController@showModerador')->name('admin-moderadores');
 Route::patch('/admin/moderadores/editar/{idUtilizador}','AdminController@alteraModerador');
 Route::get('/admin/banimento','AdminController@showApelo')->name('admin-apelo');
+Route::post('/admin/banir/{idUtilzador}','AdminController@bane')->name('admin-bane');
 Route::post('/admin/bloqueio/{idUtilizador}','AdminController@bloqueia')->name('admin-bloqueia');
 Route::delete('/admin/bloqueio/{idUtilizador}','AdminController@desbloqueia')->name('admin-desbloqueia');
 

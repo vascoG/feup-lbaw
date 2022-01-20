@@ -198,7 +198,6 @@ class PerfilController extends Controller {
     }
     public function mostraApelos(Request $request, String $nomeUtilizador){
         $utilizador = Utilizador::procuraNomeUtilizador($nomeUtilizador);
-        $apelos=$utilizador->banido->apelos;
         if (is_null($utilizador)) {
             return $this->viewNaoEncontrada();
         }
@@ -206,14 +205,24 @@ class PerfilController extends Controller {
            return redirect()->route('login');
         }
         $this->authorize('verApelo',Utilizador::class);
-        if(is_null($apelos)){
-            return view('pages.criarapelo',[
-                'nomeUtilizador' => $nomeUtilizador,
-            ]);
+        $apelos=$utilizador->banido->apelos;
+        
+        if(!$utilizador->banido->apelos()->exists()){
+            return redirect()->route('formulario-apelo',[$nomeUtilizador]);
         }
         return view('pages.perfil.apelos',[
             'nomeUtilizador' => $nomeUtilizador,
             'apelos' => $apelos,
+        ]);
+    }
+    public function showApeloForm(Request $request)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('verApelo',Utilizador::class);
+        $utilizador=Auth::user();
+       
+        return view('pages.criarapelo',[
+            'nomeUtilizador' => $utilizador->nome_utilizador,
         ]);
     }
     public function create(Request $request)
@@ -231,7 +240,7 @@ class PerfilController extends Controller {
         }
 
         $apelo = new ApeloDesbloqueio([
-            'id_utilizador' => Auth::id(),
+            'id_utilizador' => $utilizador->banido->id,
             'motivo' => $request->get('motivo'),
         ]);
         $apelo->save();

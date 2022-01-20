@@ -97,6 +97,34 @@ class AdminController extends Controller
         $utilizador->delete();
         return redirect()->route('admin-apelo');
     }
+    public function bane(Request $request, $id_utilizador)
+    {
+        $utilizador= Utilizador::find($id_utilizador);
+        if (is_null($utilizador)) {
+            return response('Utilizador nao encontrado', 404)
+                ->header('Content-type', 'text/plain');
+        }
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('admin',Utilizador::class);
+        $utilizadorBanido = new UtilizadorBanido([
+            'id_utilizador' => $id_utilizador,
+        ]);
+        $utilizadorBanido->save();
+        return redirect('/admin');
+    }
+    public function desbloqueia(Request $request, $id_utilizador)
+    {
+        $utilizador= Utilizador::find($id_utilizador);
+        if (is_null($utilizador)) {
+            return response('Utilizador nao encontrado', 404)
+                ->header('Content-type', 'text/plain');
+        }
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('admin',Utilizador::class);
+        $utilizador->banido->delete();
+        return redirect('/');
+    }
+
 }
 
 
