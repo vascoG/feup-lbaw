@@ -206,9 +206,9 @@ class PerfilController extends Controller {
             return $this->viewNaoEncontrada();
         }
         if (!Auth::check()) {
-            return redirect()->route('login');
+           return redirect()->route('login');
         }
-        $this->authorize('verApelo',Utilizador::class);*/
+        $this->authorize('verApelo',Utilizador::class);
         if(is_null($apelos)){
             return view('pages.criarapelo',[
                 'nomeUtilizador' => $nomeUtilizador,

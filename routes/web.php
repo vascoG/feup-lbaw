@@ -54,6 +54,8 @@ Route::delete('/admin/etiqueta/{id}', 'Admin\EtiquetaController@apagaEtiqueta');
 Route::get('/admin/moderadores','AdminController@showModerador')->name('admin-moderadores');
 Route::patch('/admin/moderadores/editar/{idUtilizador}','AdminController@alteraModerador');
 Route::get('/admin/banimento','AdminController@showApelo')->name('admin-apelo');
+Route::post('/admin/bloqueio/{idUtilizador}','AdminController@bloqueia')->name('admin-bloqueia');
+Route::delete('/admin/bloqueio/{idUtilizador}','AdminController@desbloqueia')->name('admin-desbloqueia');
 
 #M03
 Route::get('/questao/{idQuestao}','QuestaoController@show')->name('questao');
