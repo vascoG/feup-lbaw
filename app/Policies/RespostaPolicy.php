@@ -29,7 +29,11 @@ class RespostaPolicy{
     }
 
     public function eliminar(?Utilizador $user, Resposta $resposta) {
-        return $this->valido($user) && !$this->editar($user, $resposta) && ($user->moderador || $user->administrador);
+        return $this->valido($user) && ($this->editar($user, $resposta) || $user->moderador || $user->administrador);
+    }
+
+    public function verEliminar(?Utilizador $user, Resposta $resposta) {
+        return $this->eliminar($user, $resposta) && !$this->editar($user, $resposta);
     }
 
     public function marcarCorreta(?Utilizador $user, Resposta $resposta) {

@@ -28,7 +28,11 @@ class ComentarioPolicy{
     }
 
     public function eliminar(?Utilizador $user, Comentario $comentario) {
-        return $this->valido($user) && !$this->editar($user, $comentario) && ($user->moderador || $user->administrador);
+        return $this->valido($user) && ($this->editar($user, $comentario) || $user->moderador || $user->administrador);
+    }
+
+    public function verEliminar(?Utilizador $user, Comentario $comentario) {
+        return $this->eliminar($user, $comentario) && !$this->editar($user, $comentario);
     }
 
     public function notBanned(?Utilizador $user) {   

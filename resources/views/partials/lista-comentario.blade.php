@@ -9,7 +9,7 @@
         </div>
         </div>
         <div class="col-7 corpo-comentario ">
-          @can('eliminar', $comentario)
+          @can('verEliminar', $comentario)
             <form method = "POST" action="{{route('eliminar-comentario',[$questao->id,$comentario->id])}}" id="questao-eliminar-form">
               @csrf
               @method('DELETE')

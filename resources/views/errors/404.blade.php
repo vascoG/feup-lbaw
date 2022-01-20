@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@section('titulo')
+    Não Encontrado
+@endsection
+
 @section('conteudo')
 <div id="nao-encontrado-corpo">
     <img src="{{ asset('img/perdido.png') }}" alt="Rosa dos ventos. Dá a sensação de perda de orientação.">

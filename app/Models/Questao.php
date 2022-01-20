@@ -89,6 +89,10 @@ class Questao extends Model {
     }
 
     public function getNotificacoesAttribute() {
+        $votosRespostaQuestao = DatabaseNotification::query()
+            ->where('type', 'App\Notifications\VotoRespostaNotification')
+            ->where('data->idQuestao', $this->id)
+            ->get();
         $votosQuestao = DatabaseNotification::query()
             ->where('type', 'App\Notifications\VotoQuestaoNotification')
             ->where('data->idQuestao', $this->id)
@@ -97,6 +101,6 @@ class Questao extends Model {
             ->where('type', 'App\Notifications\RespostaQuestaoNotification')
             ->where('data->idQuestao', $this->id)
             ->get();
-        return $votosQuestao->concat($respostaQuestao);
+        return $votosQuestao->concat($respostaQuestao)->concat($votosRespostaQuestao);
     }
 }

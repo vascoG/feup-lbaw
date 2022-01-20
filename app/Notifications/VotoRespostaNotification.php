@@ -45,7 +45,8 @@ class VotoRespostaNotification extends Notification
     {
         return [
             'idQuestao' => $this->resposta->questao->id,
-            'idAutorVoto' => $this->idAutorVoto
+            'idAutorVoto' => $this->idAutorVoto,
+            'idResposta' => $this->resposta->id
         ];
     }
 }

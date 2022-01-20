@@ -49,9 +49,14 @@ class Resposta extends Model {
     }
 
     public function getNotificacoesAttribute() {
-        return DatabaseNotification::query()
+        $repostasQuestao = DatabaseNotification::query()
+            ->where('type', 'App\Notifications\RespostaQuestaoNotification')
+            ->where('data->idResposta', $this->id)
+            ->get();
+        $votosResposta = DatabaseNotification::query()
             ->where('type', 'App\Notifications\VotoRespostaNotification')
             ->where('data->idResposta', $this->id)
             ->get();
+        return $votosResposta->concat($repostasQuestao);
     }
 }

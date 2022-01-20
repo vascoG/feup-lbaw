@@ -9,7 +9,7 @@ Editar questão
     <form method = "POST" action="{{route('edit-questao',$questao->id)}}" id="questao-editar-form">
         @csrf
         @method('PUT')
-        @can('editarConteudo')
+        @can('editarConteudo', $questao)
             <div class="form-group mb-3">
                 <label for="tituloQuestao" class="form-label">Título da questão</label>
                 <input required type="text" class="form-control" id="tituloQuestao" name="titulo" value="{{$questao->titulo}}">

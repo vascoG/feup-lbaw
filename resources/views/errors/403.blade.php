@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@section('titulo')
+    Permissão Negada
+@endsection
+
 @section('conteudo')
 <div id="sem-permissoes-corpo">
     <img src="{{ asset('img/sem-permissao.png') }}" alt="Sinal de paragem obrigatória para dar a sensação de proibição de acesso à página.">

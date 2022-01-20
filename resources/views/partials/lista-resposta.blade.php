@@ -12,9 +12,9 @@
     @else
       <div class= "col-9 corpo-resposta-aceite">
     @endif
-    @can('eliminar', $resposta, $questao)
+    @can('verEliminar', $resposta)
       <form method = "POST" action="{{route('eliminar-resposta',[$questao->id,$resposta->id])}}" id="questao-eliminar-form">
-        {{ csrf_field() }}
+        @csrf
         @method('DELETE')
         <button class="btn clearfix btn-sm eliminar-button float-end" type="submit" id="submit_button">
             <b>

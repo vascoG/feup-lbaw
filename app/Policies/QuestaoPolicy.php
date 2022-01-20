@@ -39,7 +39,7 @@ class QuestaoPolicy{
     }
 
     public function editarConteudo(?Utilizador $user, Questao $questao) {
-        return $this->valid($user) && ($user->ativo->id != $questao->autor);
+        return $this->valid($user) && ($user->ativo->id == $questao->autor);
     }
 
     public function notOwner(Utilizador $user, Questao $questao) {

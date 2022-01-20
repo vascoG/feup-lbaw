@@ -97,7 +97,7 @@ class RespostaController extends Controller
         if(!Auth::check()) return redirect('/login');
         $questao = Questao::findOrFail($idQuestao);
         $resposta = Resposta::findOrFail($idResposta);
-        $this->authorize('editar',$resposta);
+        $this->authorize('eliminar', $resposta);
         if(!$questao->respostas->contains($resposta))
             return abort(404);
         if($resposta->comentarios!=null)
