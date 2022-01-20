@@ -16,7 +16,7 @@ class QuestaoPolicy{
     public function notBanned(?Utilizador $user) {   
         if ($user==null)
             return true;
-        $user_banned = UtilizadorBanido::find($user->id);
+        $user_banned =$user->banido;
         return ($user_banned == null);
     }
 
@@ -24,7 +24,7 @@ class QuestaoPolicy{
         if (is_null($user)) {
             return false;
         }
-        $user_banned = UtilizadorBanido::find($user->id);
+        $user_banned =$user->banido;
         if($user_banned != null)
             return false;
         return true;
