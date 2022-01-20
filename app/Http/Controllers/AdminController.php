@@ -12,33 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    public function showModerador()
-    {
-        if(!Auth::check()) return redirect('/login');
-        $this->authorize('admin',Utilizador::class);
-        $users = UtilizadorAtivo::paginate(40);
-        return view('pages.admin.moderadores',['users'=>$users]);
-    }
-    public function alteraModerador(Request $request, $id_utilizador) 
-    {
-        $utilizador= Utilizador::find($id_utilizador);
-        if (is_null($utilizador)) {
-            return response('Utilizador nao encontrado', 404)
-                ->header('Content-type', 'text/plain');
-        }
-        if(!Auth::check()) return redirect('/login');
-        $this->authorize('admin', Utilizador::class);
-        $moderador = $utilizador->moderador;
-        
-        if ($moderador) {
-            $utilizador->moderador=false; $utilizador->save();
-        } else {
-            $utilizador->moderador=true; $utilizador->save();
-        }
-        return response()->json([
-            'novoEstado' => $utilizador->moderador ?  'MODERADOR' : 'NAO_MODERADOR'
-        ]);
-    }
     public function showApelo()
     {
         if(!Auth::check()) return redirect('/login');
@@ -55,28 +28,40 @@ class AdminController extends Controller
         }
         if(!Auth::check()) return redirect('/login');
         $this->authorize('admin',Utilizador::class);
-
-
-        $questoes=$utilizador->ativo->questoes;
+        $questoes=$utilizador
+            ->ativo
+            ->questoes()
+            ->withoutGlobalScopes()
+            ->get();
         if($questoes!=null)
         {
         foreach($questoes as $questao)
             $questao->delete();
         }
 
-        $notificacoes=$utilizador->ativo->notificacoes;
+        $notificacoes=$utilizador
+            ->ativo
+            ->notificacoes;
         if($notificacoes!=null)
         {
         foreach($notificacoes as $notificacao)
             $notificacao->delete();
         }
-        $respostas=$utilizador->ativo->respostas;
+        $respostas=$utilizador
+            ->ativo
+            ->respostas()
+            ->withoutGlobalScopes()
+            ->get();
         if($respostas!=null)
         {
         foreach($respostas as $resposta)
             $resposta->delete();
         }
-        $comentarios=$utilizador->ativo->comentarios;
+        $comentarios=$utilizador
+            ->ativo
+            ->comentarios()
+            ->withoutGlobalScopes()
+            ->get();
         if($comentarios!=null)
         {
         foreach($comentarios as $comentario)

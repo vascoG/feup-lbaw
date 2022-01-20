@@ -29,7 +29,7 @@
       </span>
       @endforeach
       @can('editar', $questao)
-        <a href="{{route('editar-questao',$questao->id)}}">Editar</a>
+        <a class="btn questao-button btn-sm float-end m-2" href="{{route('editar-questao',$questao->id)}}">Editar</a>
       @endcan
       @can('interagir', $questao)
         <a class="btn questao-button responder btn-sm float-end m-2" href="#formResposta">Responder</a>
