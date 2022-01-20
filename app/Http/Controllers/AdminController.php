@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Scopes\QuestaoVisivelScope;
 
 class AdminController extends Controller
 {
@@ -28,6 +29,7 @@ class AdminController extends Controller
         }
         if(!Auth::check()) return redirect('/login');
         $this->authorize('admin',Utilizador::class);
+
         $questoes=$utilizador
             ->ativo
             ->questoes()
@@ -38,7 +40,7 @@ class AdminController extends Controller
         foreach($questoes as $questao)
             $questao->delete();
         }
-
+        
         $notificacoes=$utilizador
             ->ativo
             ->notificacoes;

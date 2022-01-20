@@ -16,7 +16,7 @@ class ComentarioPolicy{
         if (is_null($user)) {
             return false;
         }
-        $user_banned = UtilizadorBanido::find($user->id);
+        $user_banned =$user->banido;
         if(!is_null($user_banned)) {
             return false;
         }
@@ -38,7 +38,7 @@ class ComentarioPolicy{
     public function notBanned(?Utilizador $user) {   
         if ($user==null)
             return true;
-        $user_banned = UtilizadorBanido::find($user->id);
+            $user_banned =$user->banido;
         return ($user_banned==null);
     }
 
