@@ -580,9 +580,9 @@ Criaçao e ediçao de questao
 	overflow:hidden;
 }
 
-.texto-interacoes
-{
-	white-space:pre;
+.texto-interacoes {
+	text-align: justify;
+	white-space: normal;
 }
 
 .publicacao
