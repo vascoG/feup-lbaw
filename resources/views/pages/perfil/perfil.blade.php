@@ -34,6 +34,21 @@ Perfil de {{ $usr->nome_utilizador }}
                         </div>
                     </div>
                 @endcan
+                @can ('admin',App\Utilizador::class)
+                @if(!$usr->administrador)
+                <div class="dropdown">
+                    <button type="button" class="btn btn-outline-dark" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <form method = "POST" action="{{route('admin-bane',$usr->id)}}" id="bane-utilizador-form">
+                        {{ csrf_field() }}
+                        <button type="submit" class="dropdown-item">Banir Perfil</button>
+                    </form>
+                    </div>
+                </div>
+                @endif
+                @endcan
             </div>
             @if (!is_null($usr->descricao))
                 <hr>

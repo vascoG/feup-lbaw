@@ -21,4 +21,7 @@ class UtilizadorPolicy extends AdminDashboardPolicy {
         }
         return ($utilizador->id === $perfil->id);
     }
+    public function verApelo(Utilizador $utilizador) {
+        return $utilizador->banido;
+    }
 }

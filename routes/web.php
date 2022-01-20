@@ -42,6 +42,9 @@ Route::patch('/seguidos/etiqueta/{idEtiqueta}', 'Homepage\EtiquetasController@mu
 Route::get('/notificacoes', 'NotificacaoController@mostraNotificacoes')->name('notificacoes');
 Route::delete('notificacoes', 'NotificacaoController@marcaTodasLida');
 Route::delete('/notificacao/{idNotificacao}', 'NotificacaoController@marcaLida');
+Route::get('/perfil/{nomeUtilizador}/apelos','PerfilController@mostraApelos')->name('perfil-apelos');
+Route::get('/perfil/{nomeUtilizador}/criarapelos','PerfilController@showApeloForm')->name('formulario-apelo');
+Route::post('/perfil/{nomeUtilizador}/criarapelos','PerfilController@create')->name('criar-apelo');
 
 #M02
 Route::view('/sobrenos', 'pages.estaticas.sobrenos')->name('sobre-nos');
@@ -52,9 +55,12 @@ Route::get('/admin/etiquetas', 'Admin\EtiquetaController@mostraEtiquetas')->name
 Route::post('/admin/etiquetas', 'Admin\EtiquetaController@criaEtiqueta');
 Route::patch('/admin/etiqueta/{id}', 'Admin\EtiquetaController@alteraEtiqueta');
 Route::delete('/admin/etiqueta/{id}', 'Admin\EtiquetaController@apagaEtiqueta');
-Route::get('/admin/moderadores','Admin\ModeradorController@showModerador')->name('admin-moderadores');
-Route::get('/admin/banimento','AdminController@showApelo');
-Route::patch('/admin/moderadores/editar/{idUtilizador}','Admin\ModeradorController@alteraModerador');
+Route::get('/admin/moderadores','AdminController@showModerador')->name('admin-moderadores');
+Route::patch('/admin/moderadores/editar/{idUtilizador}','AdminController@alteraModerador');
+Route::get('/admin/banimento','AdminController@showApelo')->name('admin-apelo');
+Route::post('/admin/banir/{idUtilzador}','AdminController@bane')->name('admin-bane');
+Route::post('/admin/bloqueio/{idUtilizador}','AdminController@bloqueia')->name('admin-bloqueia');
+Route::delete('/admin/bloqueio/{idUtilizador}','AdminController@desbloqueia')->name('admin-desbloqueia');
 
 #M03
 Route::get('/questao/{idQuestao}','QuestaoController@show')->name('questao');
