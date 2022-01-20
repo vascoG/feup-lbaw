@@ -41,7 +41,7 @@ class RespostaPolicy{
     }
 
     public function desmarcarCorreta(?Utilizador $user, Resposta $resposta) {
-        return $this->valido($user) && ($user->ativo->id == $resposta->questao->autor) && $resposta->questao->temRespostaCorreta();
+        return $this->valido($user) && ($user->ativo->id == $resposta->questao->autor) && $resposta->resposta_aceite;
     }
 
     public function interagir(?Utilizador $user, Resposta $resposta) {
