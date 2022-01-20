@@ -1,6 +1,6 @@
-/*CREATE SCHEMA IF NOT EXISTS lbaw2191;
+CREATE SCHEMA IF NOT EXISTS lbaw2191;
 
-SET search_path TO lbaw2191;*/
+SET search_path TO lbaw2191;
 
 /*
   TABLE CREATION START HERE
@@ -784,7 +784,7 @@ CREATE INDEX password_resets_token_index ON password_resets USING BTREE(token);
   POPULAÇÃO DA BASE DE DADOS
 */
 
-INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,palavra_passe,moderador,administrador)
+/*INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,palavra_passe,moderador,administrador)
 VALUES (generate_series(1,1000),md5(random()::text),md5(random()::text),md5(random()::text), (timestamp '1972-01-01 00:00:00' + random() * (now() - timestamp '1972-01-01 00:00:00')) :: DATE, md5(random()::text),FALSE,FALSE);
 INSERT INTO utilizador(id,nome_utilizador,nome,e_mail,data_nascimento,palavra_passe,moderador,administrador)
 VALUES
@@ -816,8 +816,8 @@ INSERT INTO comentario (id,texto,autor,id_questao)
 VALUES (generate_series(1,500),md5(random()::text),random()*500+401,random()*999+1);
 INSERT INTO comentario (id,texto,autor,id_resposta)
 VALUES (generate_series(501,1000),md5(random()::text),random()*500+401,random()*999+1);
-/*INSERT INTO notificacao(id,texto,id_questao)
-VALUES (generate_series(1,1010),md5(random()::text),random()*999+1);*/
+INSERT INTO notificacao(id,texto,id_questao)
+VALUES (generate_series(1,1010),md5(random()::text),random()*999+1);
 INSERT INTO etiqueta(id,nome)
 VALUES (generate_series(1,10),md5(random()::text));
 INSERT INTO questao_etiqueta(id_etiqueta, id_questao)
@@ -833,9 +833,9 @@ VALUES (generate_series(1,100),md5(random()::text),random()*999+1);
 INSERT INTO historico_interacao(id,texto,id_questao)
 VALUES (generate_series(101,200),md5(random()::text),random()*999+1);
 INSERT INTO historico_interacao(id,texto,id_comentario)
-VALUES (generate_series(201,300),md5(random()::text),random()*999+1);
+VALUES (generate_series(201,300),md5(random()::text),random()*999+1);*/
 
-CREATE OR REPLACE FUNCTION atualiza_ids() RETURNS void AS $$
+/*CREATE OR REPLACE FUNCTION atualiza_ids() RETURNS void AS $$
 DECLARE
   tabelas record;
   id_max BIGINT;
@@ -858,7 +858,7 @@ END
 $$ 
 LANGUAGE plpgsql; 
 
-SELECT atualiza_ids();
+SELECT atualiza_ids();*/
 
 CREATE TABLE notifications (
   id UUID PRIMARY KEY,
