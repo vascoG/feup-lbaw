@@ -2,10 +2,6 @@
     'selecionado' => 'ban'
 ])
 
-@push('scripts')
-    <script src="{{ asset('js/admin-apelos.js') }}"></script>
-@endpush
-
 @section('titulo')
 Administração de apelos 
 @endsection
