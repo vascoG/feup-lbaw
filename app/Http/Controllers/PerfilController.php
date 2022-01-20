@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApeloDesbloqueio;
 use App\Models\Utilizador;
 use Illuminate\Http\Request;
 use DB;
@@ -10,6 +11,7 @@ use Image;
 use Storage;
 use Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class PerfilController extends Controller {
     private function viewNaoEncontrada() {
@@ -193,5 +195,55 @@ class PerfilController extends Controller {
                     return $resposta->questao;
                 })
         ]);
+    }
+    public function mostraApelos(Request $request, String $nomeUtilizador){
+        $utilizador = Utilizador::procuraNomeUtilizador($nomeUtilizador);
+        if (is_null($utilizador)) {
+            return $this->viewNaoEncontrada();
+        }
+        if (!Auth::check()) {
+           return redirect()->route('login');
+        }
+        $this->authorize('verApelo',Utilizador::class);
+        $apelos=$utilizador->banido->apelos;
+        
+        if(!$utilizador->banido->apelos()->exists()){
+            return redirect()->route('formulario-apelo',[$nomeUtilizador]);
+        }
+        return view('pages.perfil.apelos',[
+            'nomeUtilizador' => $nomeUtilizador,
+            'apelos' => $apelos,
+        ]);
+    }
+    public function showApeloForm(Request $request)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('verApelo',Utilizador::class);
+        $utilizador=Auth::user();
+       
+        return view('pages.criarapelo',[
+            'nomeUtilizador' => $utilizador->nome_utilizador,
+        ]);
+    }
+    public function create(Request $request)
+    {
+        if(!Auth::check()) return redirect('/login');
+        $this->authorize('verApelo',Utilizador::class);
+        $utilizador=Auth::user();
+        $validator = Validator::make($request->all(),
+            [
+                'motivo' => 'required',
+            ]);
+        if($validator->fails())
+        {
+            return redirect()->route('criar-apelo',[$utilizador->nome_utilizador])->withErrors($validator);
+        }
+
+        $apelo = new ApeloDesbloqueio([
+            'id_utilizador' => $utilizador->banido->id,
+            'motivo' => $request->get('motivo'),
+        ]);
+        $apelo->save();
+        return redirect()->route('perfil-apelos',[$utilizador->nome_utilizador]);
     }
 }
