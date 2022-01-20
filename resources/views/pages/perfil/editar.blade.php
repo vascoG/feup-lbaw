@@ -1,6 +1,7 @@
 @extends('layouts.minimo')
 
 @push('scripts')
+    <script src="{{ asset('js/tooltip.js') }}"></script>
     <script src="{{ asset('js/editar-perfil.js') }}"></script>
 @endpush
 
@@ -62,7 +63,7 @@ Editar perfil de {{ $nomeUtilizador }}
 
     <div class="form-group">
         <label for="palavra_passe" class="form-label">Palavra-passe</label>
-        <input id="palavra_passe" class="form-control {{ $errors->has('palavra_passe') ? "is-invalid" : "" }}" type="password" name="palavra_passe">
+        <input id="palavra_passe" class="ajuda form-control {{ $errors->has('palavra_passe') ? "is-invalid" : "" }}" type="password" name="palavra_passe" data-bs-toggle="tooltip" data-bs-placement="right" title="Deve ter pelo menos 8 caracteres">
         @if ($errors->has('palavra_passe'))
             <div class="invalid-feedback d-block">
                 {{ $errors->first('palavra_passe') }}

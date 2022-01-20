@@ -1,5 +1,9 @@
 @extends('layouts.minimo')
 
+@push('scripts')
+  <script src="{{ asset('js/tooltip.js') }}"></script>
+@endpush
+
 @section('titulo')
 Registar
 @endsection
@@ -11,7 +15,7 @@ Registar
 
     <div class="campo-form-autenticacao">
       <label for="nome-utilizador" class="form-label">Nome de utilizador</label>
-      <input id="nome-utilizador" class="form-control {{ $errors->has('nome_utilizador') ? "is-invalid" : "" }}" type="text" name="nome_utilizador" value="{{ old('nome_utilizador') }}" required autofocus>
+      <input id="nome-utilizador" class="ajuda form-control {{ $errors->has('nome_utilizador') ? "is-invalid" : "" }}" type="text" name="nome_utilizador" value="{{ old('nome_utilizador') }}" required autofocus data-bs-toggle="tooltip" data-bs-placement="right" title="Pode conter letras ou números. Como separador utilizar '-'">
       @if ($errors->has('nome_utilizador'))
         <div class="invalid-feedback d-block">
           {{ $errors->first('nome_utilizador') }}
@@ -51,7 +55,7 @@ Registar
 
     <div class="campo-form-autenticacao">
       <label for="palavra_passe" class="form-label">Palavra-passe</label>
-      <input id="palavra_passe" class="form-control {{ $errors->has('palavra_passe') ? "is-invalid" : "" }}" type="password" name="palavra_passe" required>
+      <input id="palavra_passe" class="ajuda form-control {{ $errors->has('palavra_passe') ? "is-invalid" : "" }}" type="password" name="palavra_passe" required data-bs-toggle="tooltip" data-bs-placement="right" title="Deve ter pelo menos 8 caracteres">
     </div>
 
     <div class="campo-form-autenticacao">
