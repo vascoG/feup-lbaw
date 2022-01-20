@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-3">
       <div class="media">
-        <img class="mr-3 rounded-circle" src="{{ asset(is_null($criador) ? App\Models\Utilizador::$imagemPadrao : $criador->imagem_perfil) }}"></img>
+        <img class="mr-3 rounded-circle" src="{{ asset(is_null($criador) ? App\Models\Utilizador::$imagemPadrao : $criador->imagem_perfil) }}" alt="Avatar do criador da questão">
         <p class="nome">{{ is_null($criador) ? App\Models\Utilizador::$nomePadrao : $criador->nome }}</p>
         <p class="text-muted">{{ date('d/m/y H:i:s',strtotime($questao->data_publicacao)) }}</p>
       </div>
@@ -29,15 +29,15 @@
       </span>
       @endforeach
       @can('editar', $questao)
-        <a href="{{route('editar-questao',$questao->id)}}"><button type="button" class="btn questao-button btn-sm float-end m-2">Editar</button></a>
+        <a href="{{route('editar-questao',$questao->id)}}">Editar</a>
       @endcan
       @can('interagir', $questao)
-        <a href="#formResposta"><button type="button" class="btn questao-button responder btn-sm float-end m-2">Responder</button></a>
-        <a href="#formComentario"><button type="button" class="btn questao-button comentar-questao btn-sm float-end m-2">Comentar</button></a>
+        <a class="btn questao-button responder btn-sm float-end m-2" href="#formResposta">Responder</a>
+        <a class="btn questao-button comentar-questao btn-sm float-end m-2" href="#formComentario">Comentar</a>
         @if (Auth::user()->ativo->questoesAvaliadas()->where('id_questao', $questao->id)->exists())
-          <button type="button" class="bi bi-hand-thumbs-down btn questao-button votar-questao btn-sm float-end m-2" data-id="{{ $questao->id }}"> {{$questao->numero_votos}}</button>
+          <button type="button" class="bi bi-hand-thumbs-down btn questao-button votar-questao btn-sm float-end m-2" data-id="{{ $questao->id }}">{{$questao->numero_votos}}</button>
         @else
-          <button type="button" class="bi bi-hand-thumbs-up btn votar-questao questao-button btn-sm float-end m-2" data-id="{{ $questao->id }}"> {{$questao->numero_votos}}</button>
+          <button type="button" class="bi bi-hand-thumbs-up btn votar-questao questao-button btn-sm float-end m-2" data-id="{{ $questao->id }}">{{$questao->numero_votos}}</button>
         @endif
           <button type="button" class="btn votar-questao btn-sm voto-acao-espera questao-button float-end m-2" data-id="{{ $questao->id }}" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -74,21 +74,20 @@
     <form method = "POST" action="{{route('criar-comentario',$questao->id)}}"  id="formComentario"  class="hidden">
       @csrf
         <div class="form-group d-flex flex-column w-75 mx-auto">
-          <label for="textarea-comentario">Comentário à questão: </label>
-          <textarea id="textarea-comentario" class="form-control textarea-questao" name="texto"></textarea>
+          <label for="textarea-comentario-questao">Comentário à questão: </label>
+          <textarea id="textarea-comentario-questao" class="form-control textarea-questao" name="texto"></textarea>
           <div class="text-end mt-3">
             <button type="submit" class="btn btn-outline-secondary py-1" >Publicar</button>
           </div>
         </div>
-      </div>
     </form>
   </div>
   <div>
     <form method = "POST" action="{{route('criar-comentario-resposta', [$questao->id,0])}}"  id="formComentarioResposta"  class="hidden">
       @csrf
       <div class="form-group d-flex flex-column w-75 mx-auto">
-        <label for="textarea-resposta">Comentário à resposta: </label>
-        <textarea id="textarea-resposta" class="form-control textarea-questao" name="texto"></textarea>
+        <label for="textarea-comentario-resposta">Comentário à resposta: </label>
+        <textarea id="textarea-comentario-resposta" class="form-control textarea-questao" name="texto"></textarea>
         <div class="text-end mt-3">
           <button type="submit" class="btn btn-outline-secondary py-1" >Publicar</button>
         </div>
