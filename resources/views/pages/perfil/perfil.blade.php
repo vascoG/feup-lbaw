@@ -56,7 +56,7 @@ Perfil de {{ $usr->nome_utilizador }}
             @endif
         </div>
     </div>
-    @if ($usr->ativo->questoes->count() || $usr->ativo->etiquetasSeguidas->count())
+    @if ($usr->ativo->questoes->count() || $usr->ativo->etiquetasSeguidas->count() || $usr->ativo->respostas->count())
         <hr>
         <div id="perfil-listagens">
             @if ($usr->ativo->questoes->count())
