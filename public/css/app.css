@@ -403,6 +403,15 @@ lable {
 /*
 Criaçao e ediçao de questao
 */
+.link-questao-nome-utilizador {
+	color: black;
+}
+
+.link-questao-nome-utilizador:hover, .link-questao-utilizador:focus {
+	color: black;
+	text-decoration: underline;
+}
+
 #form-questao-etiquetas-container h5 {
 	font-size: 1rem;
 	margin-bottom: 0.5rem;

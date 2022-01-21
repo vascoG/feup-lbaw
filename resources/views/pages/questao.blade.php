@@ -15,7 +15,11 @@
     <div class="col-3">
       <div class="media">
         <img class="mr-3 rounded-circle" src="{{ asset(is_null($criador) ? App\Models\Utilizador::$imagemPadrao : $criador->imagem_perfil) }}" alt="Avatar do criador da questão">
-        <p class="nome">{{ is_null($criador) ? App\Models\Utilizador::$nomePadrao : $criador->nome }}</p>
+        @if(!is_null($criador))
+          <a class="link-questao-nome-utilizador" href="{{ route('perfil', $criador->nome_utilizador) }}">{{ $criador->nome }}</a>
+        @else
+          <p>{{ App\Models\Utilizador::$nomePadrao }}</p>
+        @endif
         <p class="text-muted">{{ date('d/m/y H:i:s',strtotime($questao->data_publicacao)) }}</p>
       </div>
     </div>

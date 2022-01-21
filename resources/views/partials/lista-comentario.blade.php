@@ -4,7 +4,11 @@
         <div class="col-2">
         <div class="media-comentario">
             <img class="mr-3 rounded-circle nome" src="{{ asset(is_null($comentario->criador) ? App\Models\Utilizador::$imagemPadrao : $comentario->criador->utilizador->imagem_perfil) }}" alt="Avatar do criador do comentário">
-            <p class="nome">{{is_null($comentario->criador) ? App\Models\Utilizador::$nomePadrao : $comentario->criador->utilizador->nome}}</p>
+            @if(!is_null($comentario->criador))
+              <a class="link-questao-nome-utilizador" href="{{ route('perfil', $comentario->criador->utilizador->nome_utilizador) }}">{{ $comentario->criador->utilizador->nome }}</a>
+            @else
+              <p>{{ App\Models\Utilizador::$nomePadrao }}</p>
+            @endif
             <p class="text-muted">{{date('d/m/y H:i:s',strtotime($comentario->data_publicacao))}}</p>
         </div>
         </div>
