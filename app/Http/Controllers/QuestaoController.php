@@ -121,24 +121,18 @@ class QuestaoController extends Controller
         $questao = Questao::findOrFail($idQuestao);
         $this->authorize('editar',$questao);
 
-        $validator = Validator::make($request->all(),
-            [
-                'titulo' => 'required',
-                'texto' => 'required',
-            ]);
-
-        if($validator->fails())
-        {
-            return redirect()->route('editar-questao',[$idQuestao])->withErrors($validator);
-        }
-
+        $titulo = $request->get('titulo');
+        if(is_null($titulo))
+            $titulo = $questao->titulo;
+        $texto = $request->get('texto');
+        if(is_null($texto))
+            $texto = $questao->texto;
 
         Questao::where('id',$idQuestao)->update([
-            'titulo'=>$request->get('titulo'),
-            'texto' => $request->get('texto')]);
+            'titulo'=>$titulo,
+            'texto' => $texto]);
 
         $questao->etiquetas()->detach();
-        $etiquetas = $request->get('etiqueta');
         $etiquetas = $request->get('etiqueta');
         if(!is_null($etiquetas)) {
             $etiquetas = explode(',', $etiquetas);
