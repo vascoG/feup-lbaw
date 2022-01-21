@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Etiqueta;
+use App\Models\Questao;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\DatabaseNotification;
@@ -66,5 +67,22 @@ class UtilizadorAtivo extends Model {
             ->where('id_utilizador', $this->id)
             ->where('id_etiqueta', $etiqueta->id)
             ->exists();
+    }
+
+    public function unreadNotifications() {
+        $idQuestoes = Questao::all()->map(function($questao) {
+            return $questao->id;
+        })->toArray();
+        $notificacoesInvalidas = DatabaseNotification::query()
+            ->select('notifications.id as id')
+            ->where('type', 'App\Notifications\VotoRespostaNotification')
+            ->whereNotIn('data->idQuestao', $idQuestoes)
+            ->get()
+            ->map(function($notificacao) {
+                return $notificacao->id;
+            })->toArray();
+        return $this->notifications()
+            ->whereNull('read_at')
+            ->whereNotIn('id', $notificacoesInvalidas);
     }
 }
