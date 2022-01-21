@@ -8,7 +8,7 @@ Administração de apelos
 
 
 @section('conteudo') 
-<div class="d-flex flex-wrap justify-content-start mt-4"> 
+<div class="d-flex flex-wrap flex-column justify-content-start mt-4"> 
         @each('partials.cards.admin.apelo', $apelos, 'apelo')
     </div>
     <div id="homepage-etiqueta-conexao-erro" class="toast position-absolute start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true">
