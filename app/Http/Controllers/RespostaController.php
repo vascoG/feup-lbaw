@@ -30,14 +30,16 @@ class RespostaController extends Controller
     }
 
     private function removeNotificacaoVoto($resposta, $autorVoto) {
+        if(!is_null($resposta->autor)){
         $notificacaoVoto = $this->encontraNotificacao($resposta, $autorVoto);
         if (!is_null($notificacaoVoto)) {
             $notificacaoVoto->delete();
         }
     }
+    }
 
     private function notificaVoto($resposta, $autorVoto) {
-        if (!is_null($questao->autor)) {
+        if (!is_null($resposta->autor)) {
             $notificacaoVoto = $this->encontraNotificacao($resposta,$autorVoto);
             if (is_null($notificacaoVoto)) {
                 $resposta->criador->notify(new VotoRespostaNotification($resposta, Auth::user()));

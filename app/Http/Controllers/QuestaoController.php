@@ -31,9 +31,11 @@ class QuestaoController extends Controller
     }
 
     private function removeNotificacaoVoto($questao, $autorVoto) {
-        $notificacaoVoto = $this->encontraNotificacao($questao, $autorVoto);
-        if (!is_null($notificacaoVoto)) {
-            $notificacaoVoto->delete();
+        if(!is_null($questao->autor)){
+            $notificacaoVoto = $this->encontraNotificacao($questao, $autorVoto);
+            if (!is_null($notificacaoVoto)) {
+                $notificacaoVoto->delete();
+            }
         }
     }
 
