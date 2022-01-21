@@ -38,7 +38,7 @@ class RespostaController extends Controller
 
     private function notificaVoto($resposta, $autorVoto) {
         $notificacaoVoto = $this->encontraNotificacao($resposta,$autorVoto);
-        if (is_null($notificacaoVoto)) {
+        if (is_null($notificacaoVoto) && !is_null($questao->autor)) {
             $resposta->criador->notify(new VotoRespostaNotification($resposta, Auth::user()));
         } else {
             $notificacaoVoto->touch();
