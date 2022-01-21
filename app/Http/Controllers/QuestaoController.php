@@ -169,7 +169,7 @@ class QuestaoController extends Controller
         $questao = Questao::findOrFail($idQuestao);
         $criador = $questao->criador ? $questao->criador->utilizador : null;
         $respostas = $questao->respostas;
-        $respostas = $respostas->sortByDesc('resposta_aceite');
+        $respostas = $respostas->sortBy('data_publicacao')->sortByDesc('resposta_aceite');
         return view('pages.questao',['questao'=>$questao,'criador'=>$criador,'respostas'=>$respostas]);
     }
 
