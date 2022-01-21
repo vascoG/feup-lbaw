@@ -20,8 +20,8 @@ class ParaSiController extends Controller {
                 'questoes' => $questoes
             ]);
         } else {
-            return response('Nao esta autenticado', 403)
-                ->header('Content-type', 'text/plain');
+            return response(view('errors.403'), 403)
+                ->header('Content-type', 'text/html');
         }
     }
 }
