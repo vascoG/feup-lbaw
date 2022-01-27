@@ -683,41 +683,39 @@ paths:
                         type: integer
         '403':
           description: 'O utilizador autenticado não tem permissões suficientes.'
-    put:
+    post:
       operationId: R207
-      summary: 'R207: Desbloqueia contas'
-      description: 'Desbloqueia contas. Acesso: ADM'
+      summary: 'R207: Bloqueia contas'
+      description: 'Bloqueia contas. Acesso: ADM'
       tags:
         - 'M02: Administração de utilizadores e páginas estáticas'
       requestBody:
         required: true
         content:
-          application/json:
+           application/x-www-form-urlencoded: 
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  idUtilizador: 
-                    type: integer
+              type: object
+              properties:
+                idUtilizador:
+                  type: integer
     
       responses:
         '302':
-          description: 'Redirecionando após bloquear ou desbloquear a conta'
+          description: 'Redirecionando após bloquear a conta'
           headers:
             Location:
               schema:
                 type: string
               examples:
                 302Sucesso:
-                  description: 'Desbloqueio feito com sucesso. Redirecionando para a página de banimento'
+                  description: 'Bloqueio feito com sucesso. Redirecionando para a página de banimento'
                   value: '/admin/banimento'
                 302Erro:
-                  description: 'Desbloqueio de conta rejeitado. Redirecionando para a página de banimento' 
+                  description: 'Bloqueio de conta rejeitado. Redirecionando para a página de banimento' 
                   value: '/admin/banimento'
 
   /bloqueio/{idUtilizador}:
-    put:
+    post:
       operationId: R208
       summary: '208: Bane um utilizador.'
       description: 'Quando é feita com sucesso, o utilizador é banido. Acesso: ADM'
