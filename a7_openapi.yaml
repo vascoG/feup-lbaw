@@ -533,6 +533,49 @@ paths:
           description: 'A requisição foi rejeitada porque o utilizador não está autenticado.'
         404:
           description: 'A etiqueta não foi encontrada.'
+  /notificacoes:
+    get:
+      operationId: R120
+      summary: 'R120: Vista de Notificações'
+      description: 'Retorna código HTML equivalente à colocada no menu de notificações'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      responses:
+        403: 
+          description: 'Utilizador não autenticado, não pode aceder a notificações'
+        200:
+          description: 'Retorna a vista de notificações.'
+    delete:
+      operationId: R121
+      summary: 'R121: Marca todas como lidas'
+      description: 'Marca todas as notificações do utilizador autenticado como lidas'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      responses:
+        403: 
+          description: 'Utilizador não autenticado, não pode marcar notificações como lidas'
+        200:
+          description: 'Retorna a vista de notificações.'
+  /notificacao/{idNotificacao}:
+    delete:
+      operationId: R122
+      summary: 'R122: Marca notificação referida como lida'
+      description: 'Marca a notificação mencionada no path como lida'
+      tags:
+        - 'M01: Autenticação e perfil individual'
+      parameters:
+        - in: path
+          name: idNotificacao
+          schema:
+            type: integer
+          required: true
+      responses:
+        200: 
+          description: 'Notificação marcada como lida'
+        403: 
+          description: 'O utilizador não está autenticado ou não tem permissões sobre a notificação'
+        404:
+          description: 'Notificação referida não encontrada'
 
 #M02 
   /sobrenos:
